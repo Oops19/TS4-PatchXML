@@ -1,0 +1,15 @@
+{
+    'o19:Slower need decay': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'statistic', },
+            'tunings': {'commodity_Motive_*', 'motive_*', },
+        },
+        'actions': {
+            'improve_it': {
+                'xpath': "T[@n='decay_rate']",
+                'text': 'div(100, 4)',
+            },
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    'o19:No autonomous  Jungle Adventures Rumbasim': {
+        'test_file': 'stereo_Dance_LocalCultureSkill.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'stereo_Dance_LocalCultureSkill'},
+        },
+        'actions': {
+            'disable_autonomy': {
+                'xpath': ".",  # add to root
+                'add': [{'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False', 'comment': " Rumbasim is Dead. "}],
+            },
+        }
+    }
+}
