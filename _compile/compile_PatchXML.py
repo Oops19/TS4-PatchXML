@@ -1,4 +1,4 @@
-# compile.sh version 2.0.5
+# compile.sh version 2.0.8
 
 # This file searches from the parent directory for 'modinfo.py' in it or in any sub directory.
 # Make sure to have only one 'modinfo.py' in your project directory. The first found 'modinfo.py' is used and loaded.
@@ -61,6 +61,27 @@ mod_name = mi._name
 mod_directory = mi._base_namespace
 version = mi._version  # All versions 0., x.1, x.3, x.5, x.7, x.9 (also x.1.y, x.1.y.z) will be considered beta and the 'beta_appendix' gets appended.
 
+file_readme = os.path.join('..', '.private', 'README.md')
+file_footer = os.path.join('..', '..', 'FOOTER.md')
+gitignore = os.path.join('..', '.gitignore')
+file_readme_1 = os.path.join('..', 'README.md')
+file_readme_2 = os.path.join('..', '_TS4', 'mod_documentation', mod_directory, 'README.md')
+if os.path.exists(file_readme) and os.path.exists(file_footer) and os.path.exists(gitignore):
+    for file_w in [file_readme_1, file_readme_2]:
+        os.makedirs(os.path.dirname(file_w), exist_ok=True)
+        with open(file_w, 'wb') as fp_w:
+            for file_r in [file_readme, file_footer]:
+                with open(file_r, 'rb') as fp_r:
+                    fp_w.write(fp_r.read())
+    with open(gitignore, 'rt') as fp:
+        if not ".private" in fp.read():
+            fp.close()
+            with open(gitignore, 'at', newline='\n') as fp:
+                fp.write('\n#Private data\n.private\n')
+else:
+    print(f"Files missing: {file_readme} or {gitignore} or {file_footer}")
+    exit(1)
+
 release_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(os.getcwd()))), 'Release')
 mod_base_directory = os.path.join(release_directory, mod_name)
 ts4_directory = os.path.join(mod_base_directory, 'Mods', f"_{author}_")
@@ -107,6 +128,12 @@ shutil.make_archive(os.path.join(release_directory, f"{zip_file_name}"), 'zip', 
 print(f'Created {os.path.join(release_directory, f"{zip_file_name}.zip")}')
 
 '''
+v2.0.8
+    Merge '../.private/README.md' and '../../FOOTER.md' to '../README.md' and  '../_TS4/mod_documentation/{mod_directory}/README.md'
+v2.0.7
+    Fix mkdir vs. mkdirs
+v2.0.6
+    Copy ~/README.md to _T$4/mod_documentation/mod_directory/
 v2.0.5
     Moved modinfo.dict to _compile/compile.ini
 v2.0.4

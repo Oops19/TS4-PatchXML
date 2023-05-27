@@ -34,14 +34,17 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '0.0.8'
+        return '0.0.11'
 
 
 """
 TODO:
-    Add 'inspect' from Live XML so one can verify the modifications.
     Save tunings to patched/ and load them from there
-    
+v0.0.11
+    Updated README and compile script
+v0.0.10
+    Provided 'Tuning Inspector' as a standalone mod
+    Updated README and compile
 v0.0.9
     Add documentation.
 v0.0.8
