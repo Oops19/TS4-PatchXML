@@ -109,6 +109,11 @@ Elements can be added or deleted, e.g. `<E>TEEN</E>` with `{'tag': 'E', 'text': 
 * `'delete': [{'tag': 'E', 'text': 'TEEN'}]`
 * `'add': [{'tag': 'E', 'text': 'TEEN'}]`
 
+To delete empty tags add `'empty': True, `.
+This allows to remove empty (list) elements from the XML which can confuse TS4.
+* `'delete': [{'tag': 'E', 'empty': True}}]`
+* `'delete': [{'tag': 'E', 'attrib': {'n': 'go'}, 'empty': True}}]`
+
 The element attributes and the element text can also be modified:
 * `'attrib': {'n': 'something_else'}`
 * `'text': 'NewText'`
@@ -122,20 +127,20 @@ The element attributes and the element text can also be modified:
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4` 1.97.62 (2023-05) and S4CL v2.6 (2023-04).
-It is expected to work with many older and upcoming releases of TS4 and S4CL.
+This mod has been tested with `The Sims 4` 1.98.127, S4CL 2.6, TS4Lib 0.0.23
+It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
-* S4CL https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest
-* TS4Lib https://github.com/Oops19/TS4-Library/releases/latest
+* [S4CL](https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest)
+* [TS4Lib](https://github.com/Oops19/TS4-Library/releases/latest)
 
 If not installed download and install these mods.
 
 ## Installation
-* Locate the `The Sims 4` folder which contains the 'Mods' folder.
-* Extract the ZIP file into the `The Sims 4` folder.
-* It will create the directories/files `Mods/_o19_/*.ts4script`, `mod_data/$mod_name/*`
-* 'mod_logs' will be created as soon as data is logged.
+* Locate the localized `The Sims 4` folder which contains the `Mods` folder.
+* Extract the ZIP file into this `The Sims 4` folder.
+* It will create the directories/files `Mods/_o19_/$mod_name.ts4script`, `Mods/_o19_/$mod_name.package`, `mod_data/$mod_name/*` and/or `mod_documentation/$mod_name/*`
+* `mod_logs/$mod_name.txt` will be created as soon as data is logged.
 
 ### Manual Installation
 If you don't want to extract the ZIP file into `The Sims 4` folder you might want to read this. 
@@ -149,22 +154,23 @@ This mod does not send any data to tracking servers. The code is open source, no
 Some log entries in the log file ('mod_logs' folder) may contain the local username, especially if files are not found (WARN, ERROR).
 
 ## External Links
-Sources: https://github.com/Oops19/
-Support: https://discord.gg/d8X9aQ3jbm
-Donations: https://www.patreon.com/o19
+[Sources](https://github.com/Oops19/)
+[Support](https://discord.gg/d8X9aQ3jbm)
+[Donations](https://www.patreon.com/o19)
 
 ## Copyright and License
-© 2023 https://github.com/Oops19
-Unless specified differently: https://creativecommons.org/licenses/by/4.0/ unless the Electronic Arts TOS for UGC overrides it.
+* © 2023 [Oops19](https://github.com/Oops19)
+* License for '.package' files: [Electronic Arts TOS for UGC](https://tos.ea.com/legalapp/WEBTERMS/US/en/PC/)  
+* License for other media unless specified differently: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless the Electronic Arts TOS for UGC overrides it.
 This allows you to use this mod and re-use the code even if you don't own The Sims 4.
 Have fun extending this mod and/or integrating it with your mods.
 
-Oops19 is not endorsed by or affiliated with Electronic Arts, or its licensors.
+Oops19 is not endorsed by or affiliated with Electronic Arts or its licensors.
+Game content and materials copyright Electronic Arts Inc. and its licensors. 
 Trademarks are the property of their respective owners.
-Game content and materials copyright Electronic Arts Inc. and its licensors.
 
 ### TOS
 * Please don't put it behind a paywall.
 * Please don't create mods which break with every TS4 update.
-* For simple tuning modifications use Patch-XML https://github.com/Oops19/TS4-PatchXML or LiveXML https://github.com/Oops19/TS4-LiveXML.
-* To check custom tunings use https://github.com/Oops19/TS4-VanillaLogs.
+* For simple tuning modifications use [Patch-XML](https://github.com/Oops19/TS4-PatchXML) or [LiveXML](https://github.com/Oops19/TS4-LiveXML).
+* To check custom tunings use [VanillaLogs](https://github.com/Oops19/TS4-VanillaLogs).

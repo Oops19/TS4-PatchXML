@@ -37,25 +37,33 @@ class Modification:
             if del_elements is None:
                 continue
             for del_element in del_elements:
-                log.debug(f"Checking element '<{del_element.tag} {del_element.attrib}>...</{del_element.tag}>' ...")
+                log.debug(f"Checking element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' ...")
                 if xml_elements is None:
                     element.remove(del_element)
                 else:
                     for xml_element in xml_elements:
-                        if (not xml_element.get('tag') or xml_element.get('tag') == del_element.tag) and \
-                                (not xml_element.get('text') or xml_element.get('text') == del_element.text):
+                        if xml_element.get('empty', False) is True:
+                            if (not list(del_element)) and \
+                                    (xml_element.get('tag', '&entity') == del_element.tag) and \
+                                    (xml_element.get('attrib', None) is None or xml_element.get('attrib') == del_element.attrib) and \
+                                    (xml_element.get('text', None) is None or xml_element.get('text') == del_element.text.strip()):
+                                # Delete this empty tag
+                                element.remove(del_element)
+                            log.info(f"Element '</{del_element.tag}>' deleted.")
+                        elif (xml_element.get('tag', None) is None or xml_element.get('tag') == del_element.tag) and \
+                                (xml_element.get('text', None) is None or xml_element.get('text') == del_element.text.strip()):
                             if not xml_element.get('attrib'):
                                 element.remove(del_element)
-                                log.info(f"Element '<{del_element.tag} {del_element.attrib}>...</{del_element.tag}>' deleted.")
+                                log.info(f"Element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' deleted.")
                             else:
                                 no_match = False
                                 for k, v in xml_element.get('attrib').items():
-                                    if not del_element.get(k) == v:
+                                    if not del_element.get(k).strip() == v:
                                         no_match = True
                                         break
                                 if not no_match:
                                     element.remove(del_element)
-                                    log.info(f"Element '<{del_element.tag} {del_element.attrib}>...</{del_element.tag}>' deleted.")
+                                    log.info(f"Element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' deleted.")
 
     @staticmethod
     def add_element(root: Element, xpath: str, xml_elements: List[Dict]):
@@ -85,7 +93,7 @@ class Modification:
             if text:
                 rv = re.match(r'^(add|sub|x_sub|mul|div|x_div|pow|x_pow)\((-?[0-9]+(?:\.[0-9]*)?) *, *(\d) *\)$', text)
                 if rv:
-                    value = float(element.text)
+                    value = float(element.text.strip())
                     _rv = float(rv[2])
                     if rv[1] == 'mul':
                         value = value * _rv
