@@ -49,7 +49,7 @@ class Modification:
                                     (xml_element.get('text', None) is None or xml_element.get('text') == del_element.text.strip()):
                                 # Delete this empty tag
                                 element.remove(del_element)
-                            log.info(f"Element '</{del_element.tag}>' deleted.")
+                                log.info(f"Element '<{del_element.tag}/>' deleted.")
                         elif (xml_element.get('tag', None) is None or xml_element.get('tag') == del_element.tag) and \
                                 (xml_element.get('text', None) is None or xml_element.get('text') == del_element.text.strip()):
                             if not xml_element.get('attrib'):

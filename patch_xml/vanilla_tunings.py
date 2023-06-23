@@ -216,7 +216,7 @@ class VanillaTunings(object, metaclass=Singleton):
             self.write_tuning(element)
         log.debug(f"Writing completed")
 
-    def write_tuning(self, element: ElementTree):
+    def write_tuning(self, element: ElementTree, file_suffix: str = 'xml'):
         if self._xml_comments:
             t_elements = element.findall('.//T')
             for t_element in t_elements:
@@ -235,7 +235,8 @@ class VanillaTunings(object, metaclass=Singleton):
         s = element.get('s', '0')
         n = element.get('n', 'n')
         os.makedirs(os.path.join(self.tunings_folder, i), exist_ok=True)
-        with open(os.path.join(self.tunings_folder, i, f"{s}.{n}.xml"), 'wt', encoding='UTF-8') as fp:
+        log.debug(f'Writing {os.path.join(self.tunings_folder, i, f"{s}.{n}.{file_suffix}")}')
+        with open(os.path.join(self.tunings_folder, i, f"{s}.{n}.{file_suffix}"), 'wt', encoding='UTF-8') as fp:
             fp.write(f"{ElementTree.tostring(element, encoding='UTF-8').decode('UTF-8')}")
 
     def get_tuning(self, tuning_id: str, tuning_class: str = None) -> ElementTree:

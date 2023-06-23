@@ -123,15 +123,18 @@ class Patch(object, metaclass=Singleton):
             for secret_combination in self.secret_combinations:
                 if val_s in secret_combination[3]:
                     log.debug(f"Tuning {n} ({s}) matches 'tuning_id'")
-                    return self.px.patch(node, secret_combination[4])
-                    # TODO save node
+                    node = self.px.patch(node, secret_combination[4])
+                    VanillaTunings().write_tuning(node, 'patched.xml')
+                    return node
+
             for secret_combination in self.secret_combinations:
                 if tag in secret_combination[0] and i in secret_combination[1]:
                     tuning_id, tuning_search_name = self.tt.is_in(n, s, secret_combination[2])
                     if tuning_id:
                         log.debug(f"Tuning {n} ({tuning_id}) matches '{tuning_search_name}'")
-                        return self.px.patch(node, secret_combination[4])
-                        # TODO save node
+                        node = self.px.patch(node, secret_combination[4])
+                        VanillaTunings().write_tuning(node, 'patched.xml')
+                        return node
 
         except Exception as e:
             log.error(f"{e}", throw=True)

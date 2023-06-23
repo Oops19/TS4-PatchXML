@@ -34,12 +34,16 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '0.0.12'
+        return '0.0.14'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v0.0.14
+    Fix logging problem
+v0.0.13
+    Save tunings as '.patched.xml'
 v0.0.12
     'strip()' tag and text for proper matching and logging.
 v0.0.11
