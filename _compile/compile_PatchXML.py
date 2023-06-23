@@ -1,4 +1,4 @@
-# compile.sh version 2.0.8
+# compile.sh version 2.0.9
 
 # This file searches from the parent directory for 'modinfo.py' in it or in any sub directory.
 # Make sure to have only one 'modinfo.py' in your project directory. The first found 'modinfo.py' is used and loaded.
@@ -25,11 +25,13 @@ from Utilities.unpyc3_compiler import Unpyc3PythonCompiler
 
 additional_directories: Tuple = ()
 include_sources = False
+exclude_folders: Tuple = ()
 try:
     with open('compile.ini', 'rt') as fp:
         cfg: Dict[str, Any] = ast.literal_eval(fp.read())
         additional_directories = cfg.get('additional_directories', additional_directories)
         include_sources = cfg.get('include_sources', include_sources)
+        exclude_folders = cfg.get('exclude_folders', include_sources)
 except:
     pass
 
@@ -91,6 +93,7 @@ src_folder = os.path.join(os.path.dirname(os.path.abspath(os.getcwd())), '_TS4')
 for folder in ['mod_data', 'mod_documentation', 'Mods', 'mod_sources']:
     try:
         if os.path.exists(os.path.join(src_folder, folder)):
+            shutil.rmtree(os.path.join(mod_base_directory, folder))
             shutil.copytree(os.path.join(src_folder, folder), os.path.join(mod_base_directory, folder))
     except:
         print(f"WARNING: Remove the folder {os.path.join(mod_base_directory, folder)} to update the data.")
@@ -101,9 +104,7 @@ if version:
     if re.match(r"^(?:0|(?:0|[1-9][0-9]*)\.[0-9]*[13579])(?:\.[0-9]+)*$", version):
         zip_file_name = f"{zip_file_name}{beta_appendix}"
 
-
 # Add source
-
 if include_sources:
     _mod_src_directory = os.path.dirname(os.path.abspath(os.getcwd()))
     for folder in (mod_directory, ) + additional_directories:
@@ -112,7 +113,6 @@ if include_sources:
         except Exception as e:
             print(f"{e}")
             print(f"WARNING: Remove the folder {os.path.join(mod_base_directory, 'mod_sources', mod_name, folder)} to update the data.")
-
 
 # Compile
 os.makedirs(ts4_directory, exist_ok=True)
@@ -124,10 +124,21 @@ Unpyc3PythonCompiler.compile_mod(
     output_ts4script_name=mod_directory
 )
 
+for exclude_folder in exclude_folders:
+    try:
+        if os.path.exists(os.path.join(mod_base_directory, exclude_folder)):
+            print(f"Excluding (removing) '{exclude_folder}'")
+            shutil.rmtree(os.path.join(mod_base_directory, exclude_folder))
+    except Exception as e:
+        print(f"WARNING: Error {e} deleting the folder")
+
 shutil.make_archive(os.path.join(release_directory, f"{zip_file_name}"), 'zip', mod_base_directory)
 print(f'Created {os.path.join(release_directory, f"{zip_file_name}.zip")}')
 
 '''
+v2.0.9
+    Allow to exclude folders to create smaller zip files.
+    # compile.ini >> 'exclude_folders': ['mod_documentation', 'Mods'],
 v2.0.8
     Merge '../.private/README.md' and '../../FOOTER.md' to '../README.md' and  '../_TS4/mod_documentation/{mod_directory}/README.md'
 v2.0.7

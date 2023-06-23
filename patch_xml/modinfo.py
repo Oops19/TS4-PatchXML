@@ -40,6 +40,8 @@ class ModInfo(CommonModInfo):
 """
 TODO:
     Save tunings to patched/ and load them from there
+v0.0.15
+    Updated documentation and compile script
 v0.0.14
     Fix logging problem
 v0.0.13

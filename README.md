@@ -114,6 +114,9 @@ This allows to remove empty (list) elements from the XML which can confuse TS4.
 * `'delete': [{'tag': 'E', 'empty': True}}]`
 * `'delete': [{'tag': 'E', 'attrib': {'n': 'go'}, 'empty': True}}]`
 
+To delete possible empty tags use:
+* `'delete`: [{'tag': 'U', 'empty': True}]` - A list with all elements removed must be cleaned up properly.
+
 The element attributes and the element text can also be modified:
 * `'attrib': {'n': 'something_else'}`
 * `'text': 'NewText'`
@@ -127,14 +130,16 @@ The element attributes and the element text can also be modified:
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4`  1.98.158, S4CL 2.7, TS4Lib 0.0.24.
+This mod has been tested with `The Sims 4` 1.98.158 (2023-06), S4CL 2.7 (2023-06), TS4Lib 0.0.24 (2023-06).
 It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
+* [The Sims 4](https://www.ea.com/games/the-sims/the-sims-4)
 * [S4CL](https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest)
 * [TS4Lib](https://github.com/Oops19/TS4-Library/releases/latest)
 
-If not installed download and install these mods.
+If not installed download and install TS4 and these mods.
+All are available for free.
 
 ## Installation
 * Locate the localized `The Sims 4` folder which contains the `Mods` folder.
@@ -165,12 +170,13 @@ Some log entries in the log file ('mod_logs' folder) may contain the local usern
 This allows you to use this mod and re-use the code even if you don't own The Sims 4.
 Have fun extending this mod and/or integrating it with your mods.
 
-Oops19 is not endorsed by or affiliated with Electronic Arts or its licensors.
+Oops19 / o19 is not endorsed by or affiliated with Electronic Arts or its licensors.
 Game content and materials copyright Electronic Arts Inc. and its licensors. 
 Trademarks are the property of their respective owners.
 
 ### TOS
 * Please don't put it behind a paywall.
 * Please don't create mods which break with every TS4 update.
-* For simple tuning modifications use [Patch-XML](https://github.com/Oops19/TS4-PatchXML) or [LiveXML](https://github.com/Oops19/TS4-LiveXML).
-* To check custom tunings use [VanillaLogs](https://github.com/Oops19/TS4-VanillaLogs).
+* For simple tuning modifications use [Patch-XML](https://github.com/Oops19/TS4-PatchXML) 
+* or [LiveXML](https://github.com/Oops19/TS4-LiveXML).
+* To check the XML structure of custom tunings use [VanillaLogs](https://github.com/Oops19/TS4-VanillaLogs).
