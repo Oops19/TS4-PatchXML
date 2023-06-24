@@ -34,12 +34,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '0.0.14'
+        return '0.0.16'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v0.0.16
+    Fix tag.strip() exception
 v0.0.15
     Updated documentation and compile script
 v0.0.14

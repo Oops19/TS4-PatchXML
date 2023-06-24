@@ -37,7 +37,7 @@ class Modification:
             if del_elements is None:
                 continue
             for del_element in del_elements:
-                log.debug(f"Checking element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' ...")
+                log.debug(f"Checking element '<{del_element.tag} {del_element.attrib}>...</{del_element.tag}>' ...")
                 if xml_elements is None:
                     element.remove(del_element)
                 else:

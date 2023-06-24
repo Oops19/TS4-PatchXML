@@ -1,4 +1,4 @@
-# compile.sh version 2.0.9
+# compile.sh version 2.0.10
 
 # This file searches from the parent directory for 'modinfo.py' in it or in any sub directory.
 # Make sure to have only one 'modinfo.py' in your project directory. The first found 'modinfo.py' is used and loaded.
@@ -93,7 +93,10 @@ src_folder = os.path.join(os.path.dirname(os.path.abspath(os.getcwd())), '_TS4')
 for folder in ['mod_data', 'mod_documentation', 'Mods', 'mod_sources']:
     try:
         if os.path.exists(os.path.join(src_folder, folder)):
-            shutil.rmtree(os.path.join(mod_base_directory, folder))
+            try:
+                shutil.rmtree(os.path.join(mod_base_directory, folder))
+            except:
+                pass
             shutil.copytree(os.path.join(src_folder, folder), os.path.join(mod_base_directory, folder))
     except:
         print(f"WARNING: Remove the folder {os.path.join(mod_base_directory, folder)} to update the data.")
@@ -136,6 +139,8 @@ shutil.make_archive(os.path.join(release_directory, f"{zip_file_name}"), 'zip', 
 print(f'Created {os.path.join(release_directory, f"{zip_file_name}.zip")}')
 
 '''
+v2.0.10
+    Fix folder-delete issue cause other folders not to be copied
 v2.0.9
     Allow to exclude folders to create smaller zip files.
     # compile.ini >> 'exclude_folders': ['mod_documentation', 'Mods'],
