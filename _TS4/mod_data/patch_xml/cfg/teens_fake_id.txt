@@ -1,0 +1,16 @@
+{
+    'o19:teens_fake_id': {
+        'test_file': 'testSetInstance_YoungAdultOrAbove_YAE.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'snippet', },
+            'tunings': {'testSetInstance_YoungAdultOrAbove_YAE', },
+        },
+        'actions': {
+            'optimize': {
+                'xpath': "L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+                'add': [{'tag': 'E', 'text': 'TEEN', 'comment': " I'm a Teen passing the Adult filter. "}],
+            }
+        }
+    }
+}

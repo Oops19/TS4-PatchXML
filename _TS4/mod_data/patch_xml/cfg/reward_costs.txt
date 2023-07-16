@@ -1,0 +1,17 @@
+{
+    'o19:reward_store_prices': {
+        # <M n="satisfaction.satisfaction_tracker" s="11780257369672543883">
+        'filter': {
+            'loading_tags': {'M', },
+            'instance': {'', },   # ignore the instance
+            'tunings': {'', },  # ignore the name: 'satisfaction.satisfaction_tracker'
+            'tuning_ids': {11780257369672543883, },
+        },
+        'actions': {
+            'increase_costs': {
+                'xpath': "C[@n='SatisfactionTracker']/L[@n='SATISFACTION_STORE_ITEMS']/U/U[@n='value']/T[@n='cost']",
+                'text': 'mul(10, 0)',
+            },
+        }
+    }
+}

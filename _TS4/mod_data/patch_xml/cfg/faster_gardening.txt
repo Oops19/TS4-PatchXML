@@ -1,0 +1,28 @@
+{
+    'o19:faster_gardening': {
+        'test_file': 'Gardening_Water_All_low.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'Gardening_*', },
+        },
+        'actions': {
+            'set_max_duration': {
+                'xpath': "V[@n='basic_content']/U[@n='flexible_length']/L[@n='conditional_actions']/V[@t='literal']/U[@n='literal']/L[@n='conditions']/V[@t='time_based']/U[@n='time_based']/T[@n='max_time']",
+                # 'xpath': "V/U/L/V/U/L/V/U/T[@n='max_time']",  # this works as well
+                'text': 'div(2, 2)',
+            },
+            'set_min_duration': {
+                'xpath': "V[@n='basic_content']/U[@n='flexible_length']/L[@n='conditional_actions']/V[@t='literal']/U[@n='literal']/L[@n='conditions']/V[@t='time_based']/U[@n='time_based']/T[@n='min_time']",
+                # 'xpath': "V/U/L/V/U/L/V/U/T[@n='min_time']",  # this works as well
+                'text': 'div(2, 2)',
+            },
+            'optimize': {
+                'xpath': "V[@n='basic_content']/U[@n='flexible_length']/V[@n='periodic_stat_change']/U[@n='enabled']/U[@n='operation_actions']/L[@n='actions']",
+                'match': '*',  # process all elements while deleting
+                'delete': None,  # deletes everything
+                'add': [{'tag': 'T', 'text': '108520'}],  # loot_Career_Scientist_Breakthrough_Progress_High_Periodic_Likely
+            }
+        }
+    }
+}
