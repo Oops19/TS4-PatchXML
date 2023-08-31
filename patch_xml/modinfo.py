@@ -34,12 +34,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.0'
+        return '1.0.1'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v1.0.1
+    Removed comments from patch files which TS4 can't handle properly
 v1.0.0
     Update docs
 v0.0.16
