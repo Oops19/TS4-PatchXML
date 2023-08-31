@@ -9,7 +9,7 @@
         'actions': {
             'optimize': {
                 'xpath': ".",  # add to root
-                'add': [{'tag': 'T', 'attrib': {'n': 'allow_sims'}, 'text': 'False', 'comment': " Don't affect other sims. "}],
+                'add': [{'tag': 'T', 'attrib': {'n': 'allow_sims'}, 'text': 'False',}],  # 'comment': " Don't affect other sims. "
             }
         }
     }

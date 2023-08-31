@@ -9,7 +9,7 @@
         'actions': {
             'disable_autonomy': {
                 'xpath': ".",  # add to root
-                'add': [{'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False', 'comment': " Rumbasim is Dead. "}],
+                'add': [{'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False', }],  # 'comment': " Rumbasim is Dead. "
             },
         }
     }

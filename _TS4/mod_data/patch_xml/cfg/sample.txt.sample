@@ -69,7 +69,8 @@
             },
             'add_tings': {
                 'xpath': "V/U/L/V/U/L/V/U[@n='time_based']",
-                'add': [{'tag': 'Foo', 'attrib': {'n': 'lax_time', 'm': 'm_time'}, 'text': '33', 'comment': 'My first comment!'}],
+                'add': [{'tag': 'Foo', 'attrib': {'n': 'lax_time', 'm': 'm_time'}, 'text': '33', }],  # 'comment': 'My first comment!'
+                # Technically we can add a comment to the patched tuning. Anyhow TS4 can't handle these comments properly.
             }
         }
     }

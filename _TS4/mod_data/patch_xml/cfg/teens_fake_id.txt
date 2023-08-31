@@ -9,7 +9,7 @@
         'actions': {
             'optimize': {
                 'xpath': "L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
-                'add': [{'tag': 'E', 'text': 'TEEN', 'comment': " I'm a Teen passing the Adult filter. "}],
+                'add': [{'tag': 'E', 'text': 'TEEN', }],  # 'comment': " I'm a Teen passing the Adult filter. "
             }
         }
     }

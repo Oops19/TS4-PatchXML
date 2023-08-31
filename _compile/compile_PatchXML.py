@@ -1,4 +1,4 @@
-# compile.sh version 2.0.11
+# compile.sh version 2.0.12
 
 # This file searches from the parent directory for 'modinfo.py' in it or in any sub directory.
 # Make sure to have only one 'modinfo.py' in your project directory. The first found 'modinfo.py' is used and loaded.
@@ -26,12 +26,16 @@ from Utilities.unpyc3_compiler import Unpyc3PythonCompiler
 additional_directories: Tuple = ()
 include_sources = False
 exclude_folders: Tuple = ()
+add_readme = True
+file_appendix = ''
 try:
     with open('compile.ini', 'rt') as fp:
         cfg: Dict[str, Any] = ast.literal_eval(fp.read())
         additional_directories = cfg.get('additional_directories', additional_directories)
         include_sources = cfg.get('include_sources', include_sources)
         exclude_folders = cfg.get('exclude_folders', exclude_folders)
+        add_readme = cfg.get('add_readme', add_readme)
+        file_appendix = cfg.get('file_appendix', file_appendix)
 except:
     pass
 
@@ -63,26 +67,27 @@ mod_name = mi._name
 mod_directory = mi._base_namespace
 version = mi._version  # All versions 0., x.1, x.3, x.5, x.7, x.9 (also x.1.y, x.1.y.z) will be considered beta and the 'beta_appendix' gets appended.
 
-file_readme = os.path.join('..', '.private', 'README.md')
-file_footer = os.path.join('..', '..', 'FOOTER.md')
-gitignore = os.path.join('..', '.gitignore')
-file_readme_1 = os.path.join('..', 'README.md')
-file_readme_2 = os.path.join('..', '_TS4', 'mod_documentation', mod_directory, 'README.md')
-if os.path.exists(file_readme) and os.path.exists(file_footer) and os.path.exists(gitignore):
-    for file_w in [file_readme_1, file_readme_2]:
-        os.makedirs(os.path.dirname(file_w), exist_ok=True)
-        with open(file_w, 'wb') as fp_w:
-            for file_r in [file_readme, file_footer]:
-                with open(file_r, 'rb') as fp_r:
-                    fp_w.write(fp_r.read())
-    with open(gitignore, 'rt') as fp:
-        if not ".private" in fp.read():
-            fp.close()
-            with open(gitignore, 'at', newline='\n') as fp:
-                fp.write('\n#Private data\n.private\n')
-else:
-    print(f"Files missing: {file_readme} or {gitignore} or {file_footer}")
-    exit(1)
+if add_readme:
+    file_readme = os.path.join('..', '.private', 'README.md')
+    file_footer = os.path.join('..', '..', 'FOOTER.md')
+    gitignore = os.path.join('..', '.gitignore')
+    file_readme_1 = os.path.join('..', 'README.md')
+    file_readme_2 = os.path.join('..', '_TS4', 'mod_documentation', mod_directory, 'README.md')
+    if os.path.exists(file_readme) and os.path.exists(file_footer) and os.path.exists(gitignore):
+        for file_w in [file_readme_1, file_readme_2]:
+            os.makedirs(os.path.dirname(file_w), exist_ok=True)
+            with open(file_w, 'wb') as fp_w:
+                for file_r in [file_readme, file_footer]:
+                    with open(file_r, 'rb') as fp_r:
+                        fp_w.write(fp_r.read())
+        with open(gitignore, 'rt') as fp:
+            if not ".private" in fp.read():
+                fp.close()
+                with open(gitignore, 'at', newline='\n') as fp:
+                    fp.write('\n#Private data\n.private\n')
+    else:
+        print(f"Files missing: {file_readme} or {gitignore} or {file_footer}")
+        exit(1)
 
 release_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(os.getcwd()))), 'Release')
 mod_base_directory = os.path.join(release_directory, mod_name)
@@ -106,6 +111,7 @@ if version:
     zip_file_name = f"{zip_file_name}_v{version}"
     if re.match(r"^(?:0|(?:0|[1-9][0-9]*)\.[0-9]*[13579])(?:\.[0-9]+)*$", version):
         zip_file_name = f"{zip_file_name}{beta_appendix}"
+zip_file_name = f"{zip_file_name}{file_appendix}"
 
 # Add source
 if include_sources:
@@ -139,6 +145,10 @@ shutil.make_archive(os.path.join(release_directory, f"{zip_file_name}"), 'zip', 
 print(f'Created {os.path.join(release_directory, f"{zip_file_name}.zip")}')
 
 '''
+v2.0.12
+    compile.ini options:
+        'add_readme': True,
+        'file_appendix': ''
 v2.0.11
     Fixed exclude_folders
 v2.0.10

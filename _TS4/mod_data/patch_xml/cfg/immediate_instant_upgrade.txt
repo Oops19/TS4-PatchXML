@@ -14,8 +14,8 @@
                     {'tag': 'T', 'attrib': {'n': 'maximum_auto_satisfy_time'}},
                 ],
                 'add': [
-                    {'tag': 'T', 'attrib': {'n': 'max_value_tuning'}, 'text': '0', 'comment': ' Sim waited long enough. '},
-                    {'tag': 'T', 'attrib': {'n': 'maximum_auto_satisfy_time'}, 'text': '0', 'comment': ' Sim waited long enough. '},
+                    {'tag': 'T', 'attrib': {'n': 'max_value_tuning'}, 'text': '0', },  # 'comment': ' Sim waited long enough. ''
+                    {'tag': 'T', 'attrib': {'n': 'maximum_auto_satisfy_time'}, 'text': '0', },  # 'comment': ' Sim waited long enough. '
                 ],
             }
         }
