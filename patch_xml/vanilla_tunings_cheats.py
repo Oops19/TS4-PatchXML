@@ -47,7 +47,7 @@ def o19_tunings_comments(output: CommonConsoleCommandOutput, enable: bool):
     try:
         output(f"Setting 'comments' to '{enable}'")
         VanillaTunings._xml_comments = enable
-        output(f"Use 'o19.pxml.write_all' to write all XML.")
+        output(f"Use 'o19.tunings.write 0' to write all XML.")
     except Exception as e:
         log.error(f"Oops: {e}", None, throw=True)
 
@@ -62,6 +62,6 @@ def o19_tunings_pretty(output: CommonConsoleCommandOutput, enable: bool):
     try:
         output(f"Setting 'pretty' to '{enable}'")
         VanillaTunings._pretty_xml = enable
-        output(f"Use 'o19.pxml.write_all' to write all XML.")
+        output(f"Use 'o19.tunings.write 0' to write all XML.")
     except Exception as e:
         log.error(f"Oops: {e}", None, throw=True)

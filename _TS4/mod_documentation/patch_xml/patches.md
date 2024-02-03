@@ -9,6 +9,10 @@ Each tuning modification alters the game play, in a desired or an unexpected way
 * The patch will add `<T n="allow_autonomous">False</T>` to the tuning.
 * `inspect INTERACTION stereo_Dance_LocalCultureSkill` will display `allow_autonomous: <class 'str'> = False: <class 'bool'>`
 
+## no_autonomous_drinking.txt
+* Like the Rumbasim patch various tunings are listed to hopefully prevent sims from drinking.
+* This mod hasn't been tested too much.
+
 ## suppress_jealousy_broadcaster.txt
 * A very generic patch to disable a broadcaster. It could be applied to many other broadcasters.
 * Basically 'allow_sims' is set to 'False' so the broadcaster affects only objects.
@@ -59,6 +63,7 @@ Each tuning modification alters the game play, in a desired or an unexpected way
 
 # Fails
 Not everything is possible with Patch XML.
+
 ## bladdelhass.txt
 * A tuning for the selfie camera inspired by a small camera company founded in Sweden.
 * `inspect - photography_TakeSelfie_CellPhone basic_extras.photo_mode` will list:

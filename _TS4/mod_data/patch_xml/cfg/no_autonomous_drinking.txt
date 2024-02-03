@@ -1,0 +1,22 @@
+{
+    'o19:No autonomous Drinking': {
+        'test_file': 'none.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'bar_StartCrafting_BabyShowerDrinks_Autonomously', 'bar_StartCrafting_BlackAndWhiteDrinks_Autonomously',
+						'bar_StartCrafting_CostumePartyDrinks_Autonomously', 'bar_StartCraftingAutonomously',
+						'bubbleTea_MakeDrink_Autonomous', 'cafeteriaStation_GetDrink_Autonomous', 'coffeeTea_StartGroupCrafting_Autonomously', 
+						'commodity_Motive_Thirst', 'cooler_GrabDrinkAutonomously', 'cooler_GrabDrinkAutonomously_Expensive',
+						'espressoMachine_MakeDrink_Autonomous', 'fridge_GrabDrinkAutonomously', 'fridge_GrabWaterAutonomously',
+						'globeBar_MakeDrink_Autonomous', 'si_VenueFridge_BuyDrinkAutonomously', 'sink_StartCrafting_Autonomously', 
+						'social_JuiceKeg_KegStand_Autonomous', 'teaMaker_StartGroupCrafting_Autonomously', },
+        },
+        'actions': {
+            'disable_autonomy': {
+                'xpath': ".",  # add to root
+                'add': [{'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False'}],
+            },
+        }
+    }
+}
