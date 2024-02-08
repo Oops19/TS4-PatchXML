@@ -18,30 +18,13 @@ Each tuning modification alters the game play, in a desired or an unexpected way
 * Basically 'allow_sims' is set to 'False' so the broadcaster affects only objects.
 * `inspect BROADCASTER broadcaster_Jealousy` will display `allow_sims: <class 'str'> = False: <class 'bool'>`.
 
-## suppress_nude_broadcaster.txt
-* Suppress all inappropriate reactions of sims when they live in a nudist world. Not suitable for everyone.
-* Keep it playing on repeat. If you hate it - press delete.
-
 ## faster_gardening.txt
 * One of my first Live XML tunings. Converted to Patch XML.
 * It works exactly as Live XML, the min and max values are reduced and the loot gets adjusted.
 
-## teens_fake_id.txt
-* We'll add teens to the global 'adult' test. This will allow teens to access more interactions etc.
-* `inspect SNIPPET testSetInstance_YoungAdultOrAbove_YAE` will list a frozenset with ages: YOUNG_ADULT, ADULT, ELDER.
-* The patch will add 'TEEN' to the snippet.
-* `inspect SNIPPET testSetInstance_YoungAdultOrAbove_YAE` will display `ages=frozenset({<Age.YOUNGADULT = 16>, <Age.TEEN = 8>, <Age.ADULT = 32>, <Age.ELDER = 64>})`.
-* `inspect SNIPPET testSetInstance_YoungAdultOrAbove_YAE test.SimInfoTest.ages` to drill properly down.
-
 ## suntan_in_buildings.txt
 * This patch`will remove a few tests from the tunings. Location, time and weather will no longer be checked. So one can also tan outside at night with freezing temperatures.
 * `inspect INTERACTION suntan_BeachTowel test_globals.LocationTest` raises an error as there is no `LocationTest`any more.
-
-## lower_privacy_radius.txt
-* This patch reduces the privacy radius. Reducing or increasing the radius might be useful for many tunings.
-* The default is 10 or something like this so it works best if one plays only with one sim.
-* Reducing this limit to 2 with `div(5, 0)` allows the sims to behave differently.
-* `inspect - suntan_BeachTowel_Nude test_globals.SimsInConstraintTests.constraints` will not drill down deep enough to display the new value. 
 
 ## immediate_instant_upgrade.txt
 * This one is an easy patch, some min and max values are modified.
@@ -55,11 +38,11 @@ Each tuning modification alters the game play, in a desired or an unexpected way
 * Then the loaded tuning will display `decay_rate: <class 'str'> = 0.0017: <class 'float'>`
 
 # To be added
+* Currently only available via Live XML
 ## faster_retail.txt
-## neglect_toddlers_and_children.txt
-* Actually to prevent that TS4 whisks them away without any reason. Only cruel people would neglect them.
+## neglect_toddlers_and_children.txt 
+* To prevent that TS4 whisks them away without any reason. Only cruel people would neglect them.
 ## sing_longer_in_shower.txt
-
 
 # Fails
 Not everything is possible with Patch XML.

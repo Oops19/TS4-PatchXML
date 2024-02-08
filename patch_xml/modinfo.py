@@ -8,7 +8,7 @@ from sims4communitylib.mod_support.common_mod_info import CommonModInfo
 
 
 class ModInfo(CommonModInfo):
-    """ Mod info for the S4CL Sample Mod. """
+    """ Mod info for the S4.CL Sample Mod. """
     # To create a Mod Identity for this mod, simply do ModInfo.get_identity(). Please refrain from using the ModInfo of The Sims 4 Community Library in your own mod and instead use yours!
     _FILE_PATH: str = str(__file__)
 
@@ -34,12 +34,16 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.3'
+        return '1.0.5'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v1.0.5
+    Updated README for new TS4 version
+v1.0.4
+    Small bugfix
 v1.0.3
     Updated README for new TS4 version
 v1.0.2

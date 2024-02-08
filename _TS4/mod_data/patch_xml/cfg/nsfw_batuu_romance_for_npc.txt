@@ -1,0 +1,48 @@
+{
+    'o19:Batuu Romance Enabler': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'trait', },
+            'tunings': {'trait_Batuu_Resistance_SNPC_*', 'trait_Batuu_Scoundrel_SNPC_*', 'trait_Batuu_FirstOrder_SNPC_*', },
+        },
+        'actions': {
+            'enable_romance': {
+                'xpath': "L[@n='buffs']/U",
+                'delete': [
+                    {'tag': 'T', 'attrib': {'n': 'buff_type'}, 'text': '241026'},  # <T n="buff_type">241026<!--buff_Batuu_Whitelist_SNPC_Vi--></T>
+                    {'tag': 'T', 'attrib': {'n': 'buff_type'}, 'text': '239782'},  # <T n="buff_type">239782<!--buff_Batuu_Whitelist_SNPC_Hondo--></T>
+                    {'tag': 'T', 'attrib': {'n': 'buff_type'}, 'text': '240750'},  # <T n="buff_type">240750<!--buff_Batuu_Whitelist_SNPC_Rey--></T>
+                    {'tag': 'T', 'attrib': {'n': 'buff_type'}, 'text': '240751'},  # <T n="buff_type">240751<!--buff_Batuu_Whitelist_SNPC_Kylo--></T>
+                    {'tag': 'T', 'attrib': {'n': 'buff_type'}, 'text': '241027'},  # <T n="buff_type">241027<!--buff_Batuu_Whitelist_SNPC_Agnon--></T>
+                    # {'tag': 'T', 'attrib': {'n': 'buff_type'}, 'text': '&ids("buff", "buff_Batuu_Whitelist_SNPC_*")'},  # TODO: implement &ids()
+                ],
+            },
+            'cleanup_1': {
+                'xpath': "L[@n='buffs']",
+                'delete': [{'tag': 'U', 'empty': True}],  # Delete all empty "<U></U>" in "<L n='buffs'>...</L>"
+            },
+            'cleanup_2': {
+                'xpath': ".",
+                'delete': [{'tag': 'L', 'attrib': {'n': 'buffs'}, 'empty': True}],  # Delete all empty <L n='buffs'></L>" if any
+            },
+        }
+    }
+}
+
+
+# Tuning data (for Vi) ('#-' lines will be removed)
+# <I c="Trait" i="trait" m="traits.traits" n="trait_Batuu_Resistance_SNPC_Vi_Identifier" s="239020">
+#   <L n="buffs">
+#     <U>
+#       <T n="buff_type">233796<!--buff_Batuu_Vi_Identifier--></T>
+#     </U>
+# -    <U>
+# -      <T n="buff_type">239782<!--buff_Batuu_Whitelist_SNPC_Vi--></T>
+# -    </U>
+#   </L>
+
+
+# To be checked with:
+# inspect TRAIT trait_Batuu_Resistance_SNPC_Vi_Identifier buffs.buffs
+# buff_type: <class 'str'> = <class 'sims4.tuning.instances.buff_Batuu_Vi_Identifier'>
+# buff_type: <class 'str'> = <class 'sims4.tuning.instances.buff_Batuu_Whitelist_SNPC_Vi'>  # will be missing after patch

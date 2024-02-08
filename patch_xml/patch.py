@@ -152,7 +152,7 @@ class Patch(object, metaclass=Singleton):
         if Patch().patch_file_data is not None:
             with open(Patch().patch_file, 'wt', encoding='UTF-8', newline='\n') as fp:
                 fp.write(f"s: n\n")
-                for s, n in dict(sorted(Patch().patch_file_data.items())):
+                for s, n in dict(sorted(Patch().patch_file_data.items())).items():
                     fp.write(f"{s}: {n}\n")
             Patch().patch_file_data = None
 
