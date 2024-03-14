@@ -10,8 +10,6 @@ from xml.etree.ElementTree import Element
 
 from patch_xml.modinfo import ModInfo
 
-from ts4lib.utils.un_common_log import UnCommonLog
-
 from xml.etree import ElementTree
 from sims4communitylib.utils.common_log_registry import CommonLog
 

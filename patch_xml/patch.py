@@ -6,15 +6,16 @@
 
 
 import os
-from typing import List, Tuple, Set, Any
+from typing import List, Tuple, Set, Any, Union
 from xml.etree.ElementTree import Element
 
 from patch_xml.modinfo import ModInfo
 from patch_xml.tuning_tools import TuningTools
 from patch_xml.vanilla_tunings import VanillaTunings
 from patch_xml.xml_patcher import XmlPatcher
+from sims4.tuning.merged_tuning_manager import UnavailablePackSafeResourceError
 
-from sims4.tuning.serialization import ETreeTuningLoader, ETreeClassCreator
+from sims4.tuning.serialization import ETreeTuningLoader, ETreeClassCreator  # patch serialization.py#88: raise ValueError(f"Trailing comma on tunable '{_}'")
 from sims4communitylib.events.event_handling.common_event_registry import CommonEventRegistry
 from sims4communitylib.events.zone_spin.events.zone_late_load import S4CLZoneLateLoadEvent
 from sims4communitylib.utils.common_injection_utils import CommonInjectionUtils
@@ -29,12 +30,17 @@ log.enable()
 
 
 class Patch(object, metaclass=Singleton):
+
+    logged_errors: Set[str] = set()
     def __init__(self):
         self.ts4f = TS4Folders(ModInfo.get_identity().base_namespace)
         self.tt = TuningTools()
         self.px = XmlPatcher()
         self.used_tags = self.used_instances = self.used_tuning_ids = None
-        self.match_string_equal = self.match_string_starts = self.match_string_ends = self.match_string_contains = None
+        self.match_string_equal = None
+        self.match_string_starts = None
+        self.match_string_ends = None
+        self.match_string_contains = None
         self.secret_combinations = None
 
         self.patch_file = os.path.join(self.ts4f.data_folder, 'patch.txt')
@@ -48,12 +54,13 @@ class Patch(object, metaclass=Singleton):
         else:
             self.nopatch_file_data = dict()
 
+
     def init(self, parsed_patches: Tuple[Set, Set, Set, Set, Set, Set, Set, List]):
         self.used_tags, self.used_instances, self.used_tuning_ids,\
             self.match_string_equal, self.match_string_starts,\
             self.match_string_ends, self.match_string_contains, self.secret_combinations = parsed_patches
 
-    def nopatch(self, node: Any, caller: str = None) -> Element:
+    def nopatch(self, _self: Union[ETreeTuningLoader, ETreeClassCreator], node: Any, caller: str = None) -> Element:
         if self.nopatch_file_data is not None:
             try:
                 if isinstance(node, Element):
@@ -68,8 +75,11 @@ class Patch(object, metaclass=Singleton):
                 log.error(f"{e}", throw=True)
         return node
 
-    def patch(self, node: Any, caller: str = None) -> Element:
-
+    def patch(self, _self: Union[ETreeTuningLoader, ETreeClassCreator], node: Union[Element, Any], caller: str = None, verbose: bool = False) -> Element:
+        tag = ''
+        i = ''
+        n = ''
+        s = ''
         try:
             if isinstance(node, Element):
                 tag = node.tag
@@ -86,7 +96,15 @@ class Patch(object, metaclass=Singleton):
             if self.patch_file_data is not None:
                 self.patch_file_data.update({s: n})
 
-            # TODO load node(s, n)
+            # This would log every tuning
+            if verbose:
+                log.debug(f"Checking({caller}): {tag} {i} '{n}' ({s})")
+                log.debug(f"used_tags: {self.used_tags}")
+                log.debug(f"used_instances: {self.used_instances}")
+                log.debug(f"match_string_equal: {self.match_string_equal}")
+                log.debug(f"match_string_starts: {self.match_string_starts}")
+                log.debug(f"match_string_ends: {self.match_string_ends}")
+                log.debug(f"match_string_contains: {self.match_string_contains}")
 
             val_s = int(s)
             if val_s not in self.used_tuning_ids:
@@ -137,7 +155,8 @@ class Patch(object, metaclass=Singleton):
                         return node
 
         except Exception as e:
-            log.error(f"{e}", throw=True)
+            self.handle_exception(_self, node, caller, e)
+            raise e
         return node
 
     @staticmethod
@@ -156,13 +175,49 @@ class Patch(object, metaclass=Singleton):
                     fp.write(f"{s}: {n}\n")
             Patch().patch_file_data = None
 
+    @staticmethod
+    def handle_exception(_self: Union[ETreeTuningLoader, ETreeClassCreator], node: Union[Element, Any], caller: str, e: Exception = None):
+        source = ''
+        tag = ''
+        i = ''
+        n = ''
+        s = ''
+        try:
+            source = _self.source
+        except:
+            pass
+        try:
+            if isinstance(node, Element):
+                tag = node.tag
+                i = node.attrib.get('i')
+                n = node.attrib.get('n')
+                s = node.attrib.get('s')
+            else:
+                # assume isinstance(node, _tuning.BinaryTuningElement)
+                tag = node.tag
+                i = node.get('i')
+                n = node.get('n')
+                s = node.get('s')
+        except:
+            pass
+        log.error(f"{caller}: source='{source}', n='{n}', s='{s}', i='{i}', tag='{tag}', err='{e}'", throw=True)
+
 
 # class ETreeTuningLoader:
 #     def  _load_node(self, node, tunable_class):
 @CommonInjectionUtils.inject_safely_into(ModInfo.get_identity(), ETreeTuningLoader, ETreeTuningLoader._load_node.__name__, handle_exceptions=False)
 def patch_xml_tuning_loader_load_node(original, self: ETreeTuningLoader, node: Any, tunable_class, *args, **kwargs):
-    root = Patch().patch(node, 'ETreeTuningLoader')
-    return original(self, root, tunable_class, *args, **kwargs)
+    root = Patch().patch(self, node, 'ETreeTuningLoader')
+    try:
+        return original(self, root, tunable_class, *args, **kwargs)
+    except (ModuleNotFoundError, UnavailablePackSafeResourceError) as e:
+        _e = f'{e}'
+        if _e not in Patch.logged_errors:
+            Patch.logged_errors.add(_e)
+            log.warn(_e)
+    except Exception as e:
+        Patch().handle_exception(self, root, 'ETreeTuningLoader', e)
+        raise e
 
 
 # called before ETreeTuningLoader
@@ -170,5 +225,15 @@ def patch_xml_tuning_loader_load_node(original, self: ETreeTuningLoader, node: A
 #     def _load_node(self, node, tunable_class):
 @CommonInjectionUtils.inject_safely_into(ModInfo.get_identity(), ETreeClassCreator, ETreeClassCreator._load_node.__name__, handle_exceptions=False)
 def patch_xml_class_creator_load_node(original, self: ETreeClassCreator, node: Element, tunable_class, *args, **kwargs):
-    root = Patch().nopatch(node, 'ETreeClassCreator')
-    return original(self, root, tunable_class, *args, **kwargs)
+    root = Patch().nopatch(self, node, 'ETreeClassCreator')
+    try:
+        return original(self, root, tunable_class, *args, **kwargs)
+    except (ModuleNotFoundError, UnavailablePackSafeResourceError) as e:
+        _e = f'{e}'
+        if _e not in Patch.logged_errors:
+            Patch.logged_errors.add(_e)
+            log.warn(_e)
+    except Exception as e:
+        Patch().handle_exception(self, root, 'ETreeClassCreator', e)
+        raise e
+# (NameError, TypeError)

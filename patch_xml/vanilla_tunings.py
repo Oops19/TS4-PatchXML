@@ -1,7 +1,7 @@
 #
 # LICENSE
 # https://creativecommons.org/licenses/by/4.0/ https://creativecommons.org/licenses/by/4.0/legalcode
-# © 2023 https://github.com/Oops19
+# © 2024 https://github.com/Oops19
 #
 
 
@@ -252,10 +252,11 @@ class VanillaTunings(object, metaclass=Singleton):
             root = ElementTree.fromstring(b_xml)
         else:
             b_xmls = VanillaTunings.xml_lookup_table_rs.get(tuning_id)
-            for b_xml in b_xmls:
-                root = ElementTree.fromstring(b_xml)
-                if tuning_class == root.get('c', ''):
-                    break
+            if b_xmls:
+                for b_xml in b_xmls:
+                    root = ElementTree.fromstring(b_xml)
+                    if tuning_class == root.get('c', ''):
+                        break
         tuning_class = root.get('c', '')
         tuning_name = root.get('n', '')
         file = os.path.join(self.tunings_folder, tuning_class, f"{tuning_id}.{tuning_name}.xml")

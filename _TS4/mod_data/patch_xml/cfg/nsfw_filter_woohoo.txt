@@ -1,0 +1,22 @@
+{
+    'o19:filter_woohoo': {
+        'test_file': 'filter_WooHoo.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'sim_filter', },
+            'tunings': {"filter_WooHoo", },
+        },
+        'actions': {
+            'optimize_traits': {
+                'xpath': "L[@n='_filter_terms']/V[@t='trait_blacklist']/U[@n='trait_blacklist']/L[@n='traits']",
+                'delete': [{'tag': 'T'}],  # delete '<T>1234</T>'
+            },
+            'optimize_rel_bit': {
+                 'xpath': "L[@n='_filter_terms']/V[@t='relationship_bit']/U[@n='relationship_bit']/L[@n='black_list']",
+                'delete': [{'tag': 'T'}],  # delete '<T>1234</T>''
+            }
+        }
+    }
+}
+
+# inspect SIM_FILTER filter_WooHoo _filter_terms

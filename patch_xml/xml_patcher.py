@@ -25,7 +25,7 @@ class XmlPatcher:
     def patch(self, root: Element, actions: Dict) -> Element:
         for description, action in actions.items():
             log.debug(f"Processing {description} ...")
-            xpath = action.get('xpath', '.')
+            xpath = action.get('xpath', '.')  # AttributeError: 'str' object has no attribute 'get' / ETreeTuningLoader: source='Instance: 141926 (shower_TakeShower_SingInShower), Types.INTERACTION', n='shower_TakeShower_SingInShower', s='141926', i='interaction', tag='I', err=''str' object has no attribute 'get''
             attributes = action.get('attrib')
             text = action.get('text', '')
             delete_xml_elements = action.get('delete')

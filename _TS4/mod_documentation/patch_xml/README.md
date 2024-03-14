@@ -78,10 +78,10 @@ The included files should not affect the game-play too much but it's hard to tes
 * 'o19.tunings.write 0': Write all tuning files. This takes 5..30 minutes depending on the installed DLCs and your CPU.
 
 ## Limitations
-All tunings? No! Some indomitable tunings doen't stop resisting the modifications.
+All tunings? No! Some indomitable tunings stop resisting the modifications.
 Even though all tunings can be read and modified it is not always possible to apply the modifications.
 * 'patch.txt' (created after starting TS4) should contain the tunings which can be patched.
-* 'nopatch.txt' contains the tunings might not be patched.  E.g. the 'satisfaction.satisfaction_tracker' tuning.
+* 'nopatch.txt' contains the tunings which might not be patched.  E.g. the 'satisfaction.satisfaction_tracker' tuning.
 
 ## Mod collision
 If you are currently using Live XML consider to migrate the configurations to Patch XML. At least make sure that either Patch XML or Live XML modifies a tuning, this will improve performance.
@@ -128,11 +128,12 @@ The element attributes and the element text can also be modified:
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4` 1.104.58, S4CL 3.0 (2023-12), TS4Lib 0.1.8 (2023-09).
+This mod has been tested with `The Sims 4` 1.105.345, S4CL 3.2, TS4Lib 0.2.0 (2024-02).
 It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
 * [The Sims 4](https://www.ea.com/games/the-sims/the-sims-4)
+* [This Mod](./releases/latest)
 * [TS4-Library](https://github.com/Oops19/TS4-Library/releases/latest)
 * [S4CL](https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest)
 
@@ -157,7 +158,7 @@ This mod does not send any data to tracking servers. The code is open source, no
 Some log entries in the log file ('mod_logs' folder) may contain the local username, especially if files are not found (WARN, ERROR).
 
 ## External Links
-[Sources](https://v/Oops19/)
+[Sources](https://github.com/Oops19/)
 [Support](https://discord.gg/d8X9aQ3jbm)
 [Donations](https://www.patreon.com/o19)
 

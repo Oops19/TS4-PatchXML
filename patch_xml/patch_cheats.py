@@ -51,8 +51,8 @@ def o19_tunings_patch(output: CommonConsoleCommandOutput, config_file: str, tuni
             user_provided_patches: Dict = ast.literal_eval(fp.read())
             parsed_patches: Tuple = uc.join_configuration(user_provided_patches)
             patch.init(parsed_patches)
-            node = vt.get_tuning(f"{tuning_id}")
-            root = patch.patch(node, 'o19.tunings.patch')
+            node = vt.get_tuning(f"{tuning_id}")  # str ===????
+            root = patch.patch(None, node, 'Console', verbose=True)
             file2 = os.path.join(ts4f.data_folder, f"{tuning_id}.patched.xml")
             with open(file2, 'wt', encoding='UTF-8') as fp2:
                 fp2.write(f"{ElementTree.tostring(root, encoding='UTF-8').decode('UTF-8')}")

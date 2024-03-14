@@ -8,7 +8,7 @@
 		# Item FILTER.TUNING: 4 variants are supported: 'ab', ab*', *ab', '*ab*' to match the actual tuning name.
         'filter': {
             'loading_tags': ['I', ],  # Module = 'M'; Class = 'C'; Instance = 'I'; Tunable = 'T'; List = 'L'; Tuple = 'U'; Enum = 'E'
-            'instance': ['interaction', ],
+            'instance': ['interaction', ],  # snippet, trait, buff, ...
             'tuning': ['Gardening_*', ],
         },
 

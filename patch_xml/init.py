@@ -1,7 +1,7 @@
 #
 # LICENSE
 # https://creativecommons.org/licenses/by/4.0/ https://creativecommons.org/licenses/by/4.0/legalcode
-# © 2023 https://github.com/Oops19
+# © 2024 https://github.com/Oops19
 #
 
 
@@ -60,6 +60,7 @@ class Init(object, metaclass=Singleton):
             shutil.copyfile(ts4_gv, mod_gv, follow_symlinks=False)
         except:
             log.error(f"Could not initialize Patch XML!", throw=True)
+        log.debug(f"Init completed")
 
 
 Init()
