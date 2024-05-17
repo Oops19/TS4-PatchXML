@@ -128,14 +128,15 @@ The element attributes and the element text can also be modified:
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4` 1.105.345, S4CL 3.2, TS4Lib 0.2.0 (2024-02).
+This mod has been tested with `The Sims 4` 1.106.148, S4CL 3.3, TS4Lib 0.3.14 (2024-04).
 It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
-* [The Sims 4](https://www.ea.com/games/the-sims/the-sims-4)
-* [This Mod](./releases/latest)
+Download the ZIP file, not the sources.
+* [This Mod](../../releases/latest)
 * [TS4-Library](https://github.com/Oops19/TS4-Library/releases/latest)
 * [S4CL](https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest)
+* [The Sims 4](https://www.ea.com/games/the-sims/the-sims-4)
 
 If not installed download and install TS4 and these mods.
 All are available for free.

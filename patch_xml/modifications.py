@@ -12,11 +12,14 @@ from xml.etree.ElementTree import Element
 
 from patch_xml.modinfo import ModInfo
 
-from sims4communitylib.utils.common_log_registry import CommonLog
 
+try:
+    from sims4communitylib.utils.common_log_registry import CommonLog
+    log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name)
+except:
+    from ts4lib.utils.un_common_log import UnCommonLog
+    log: UnCommonLog = UnCommonLog(f"{ModInfo.get_identity().name}", ModInfo.get_identity().name)
 
-mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(f"{ModInfo.get_identity().name}", ModInfo.get_identity().name, custom_file_path=None)
 log.enable()
 
 
@@ -66,7 +69,7 @@ class Modification:
                                     log.info(f"Element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' deleted.")
 
     @staticmethod
-    def add_element(root: Element, xpath: str, xml_elements: List[Dict]):
+    def add_element(root: Element, xpath: str, xml_elements: List[Dict], add_comments: bool = False):
         elements: List[ElementTree.Element] = root.findall(xpath)
         log.debug(f"add_element(xpath='{xpath}', xml_elements='{xml_elements}'; found_elements={len(elements)})")
         for element in elements:
@@ -79,11 +82,13 @@ class Modification:
                     if xml_element.get('attrib'):
                         for k, v in xml_element.get('attrib').items():
                             new_tag.set(f"{k}", f"{v}")
-                    if xml_element.get('comment'):
+                    # This may cause issues for TS4
+                    if add_comments and xml_element.get('comment'):
+                        log.warn(f"Adding comment {xml_element.get('comment')} which might cause issues.")
                         element.append(ElementTree.Comment(f"{xml_element.get('comment')}"))
 
     @staticmethod
-    def modify_element(root: Element, xpath: str, text: str = None, attributes: Dict = None):
+    def modify_element(root: Element, xpath: str, text: str = None, attributes: Dict = None, comment: str = None):
         elements: List[ElementTree.Element] = root.findall(xpath)
         log.debug(f"modify_element(xpath='{xpath}', text='{text}', attributes='{attributes }'; found_elements={len(elements)})")
         for element in elements:
@@ -114,3 +119,6 @@ class Modification:
                     element.text = f"{value:0.{int(rv[3])}f}"
                 else:
                     element.text = text
+            if comment:
+                log.warn(f"Adding comment {comment} which might cause issues")
+                element.append(ElementTree.Comment(f" {comment} "))

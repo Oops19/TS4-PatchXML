@@ -20,7 +20,7 @@ from sims4communitylib.utils.common_log_registry import CommonLog
 
 
 mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(f"{ModInfo.get_identity().name}", ModInfo.get_identity().name, custom_file_path=None)
+log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
 log.enable()
 
 # o19.tunings.patch teens_fake_id.txt 129094

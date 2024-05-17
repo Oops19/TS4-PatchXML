@@ -34,13 +34,20 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.7'
+        return '1.0.9'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v1.0.9
+    Improved logging
+v1.0.8
+    Require XmlPatcher(add_comments=True) to add comments to generated files.
 v1.0.7
+    Modified log imports to use this mod without TS4.
+    Allow to add a comment also while modifying XML.
+    It is not recommended to add comments with config files during startup as this may cause issues for TS4.
 v1.0.6
     Improve error logging
 v1.0.5
