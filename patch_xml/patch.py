@@ -23,7 +23,6 @@ from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.singleton import Singleton
 from sims4communitylib.utils.common_log_registry import CommonLog
 
-
 mod_name = ModInfo.get_identity().name
 log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
 log.enable()
@@ -156,7 +155,7 @@ class Patch(object, metaclass=Singleton):
 
         except Exception as e:
             self.handle_exception(_self, node, caller, e)
-            raise e
+            # raise e
         return node
 
     @staticmethod
@@ -200,7 +199,7 @@ class Patch(object, metaclass=Singleton):
                 s = node.get('s')
         except:
             pass
-        log.error(f"{caller}: source='{source}', n='{n}', s='{s}', i='{i}', tag='{tag}', err='{e}'", throw=True)
+        log.error(f"{caller}: source='{source}'; tag='{tag}', n='{n}', s='{s}', i='{i}'; err='{e}'", throw=False)
 
 
 # class ETreeTuningLoader:
@@ -217,7 +216,7 @@ def patch_xml_tuning_loader_load_node(original, self: ETreeTuningLoader, node: A
             log.warn(_e)
     except Exception as e:
         Patch().handle_exception(self, root, 'ETreeTuningLoader', e)
-        raise e
+        # raise e
 
 
 # called before ETreeTuningLoader

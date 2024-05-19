@@ -3,12 +3,13 @@
 # https://creativecommons.org/licenses/by/4.0/ https://creativecommons.org/licenses/by/4.0/legalcode
 # © 2023 https://github.com/Oops19
 #
+
+
 import ast
 import os
 from typing import Dict, Tuple
 from xml.etree import ElementTree
 
-from patch_xml.modinfo import ModInfo
 from patch_xml.patch import Patch
 from patch_xml.user_config import UserConfig
 from patch_xml.vanilla_tunings import VanillaTunings
@@ -16,10 +17,9 @@ from patch_xml.vanilla_tunings import VanillaTunings
 from sims4communitylib.services.commands.common_console_command import CommonConsoleCommand, CommonConsoleCommandArgument
 from sims4communitylib.services.commands.common_console_command_output import CommonConsoleCommandOutput
 from ts4lib.libraries.ts4folders import TS4Folders
+
+from patch_xml.modinfo import ModInfo
 from sims4communitylib.utils.common_log_registry import CommonLog
-
-
-mod_name = ModInfo.get_identity().name
 log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
 log.enable()
 

@@ -34,12 +34,29 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.9'
+        return '1.0.11'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v1.0.11
+    Return XML without the 'n', 's' ad 'i' attributes 1:1, don't throw an exception
+v1.0.10
+    Basic support for http://xpather.com/ XPath syntax.
+    Avoid to add spaces to the XPath expression around `@=,[]()"'` etc. as such strings can't be converted.
+        Exception: 1-n spaces behind ',' are supported.
+    '', '/I', -> '.'
+    '/I/X/Y/Z' -> 'X/Y/Z'
+    '/X[text()="Y"]' with '/[X="Y"]/X'
+    '/X[contains(text(), "Y"]' with '/[X="Y"]/X'  # not correct, no longer a contains check!
+    '/*' will be removed as it is not supported!
+    
+    A simple expression can be used 1:1, e.g.:
+    * '/I/X[text()="Y"]/../Z' will be translated to '[X="Y"]/X/../Z'
+    
+    For '/[T="text"]' matches: 
+        Remove all comments from xml before parsing. 'Y' does not match 'Y<-- Whatever -->'
 v1.0.9
     Improved logging
 v1.0.8

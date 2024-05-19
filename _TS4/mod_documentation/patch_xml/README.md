@@ -7,6 +7,19 @@ It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add
 
 As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.
 
+
+## Mild Warning - Game mechanics changed
+The `mod_data/patch_xml/cfg/*.txt` files modify tunings.
+They change the game mechanics and checks in various ways (like an override.package does).
+* Please review the files in `mod_data` and remove files which you do not want to use.
+* Filtering of broadcasts affects multiple sims.
+* Modified age/race/gender checks may allow sims and/or pets to execute tasks which were never planned to be available for them.
+* Modified range checks may lower or increase the interaction range and/or privacy need of sims. 
+
+The included files should not affect the game-play too much, but it's hard to test everything.
+
+Modifications which I do not consider as strictly SFW have a 'nsfw_' prefix.
+
 ### Tuning Extractor
 This mod can extract all tuning files with comments for referenced tunings, like 'TS4 XML Extractor' does. It doesn't add STBL comments for text references.
 
@@ -60,14 +73,6 @@ For now I recommend that you review the files before you save them to `mod_data/
 I consider this mod to be safe, otherwise I would not publish it.
 
 
-## Mild Warning - Game mechanics changed
-The `mod_data/patch_xml/cfg/*.txt` files modify tunings. They change the game mechanics and checks in various ways (like a .package with an XML does).
-* Please review the files in `mod_data` and remove files which you do not want to use.
-* Filtering of broadcasts affects multiple sims.
-* Modified age/race/gender checks may allow sims to execute tasks which were never planned to be available for them.
-* Modified range checks may lower or increase the privacy need of sims. 
-
-The included files should not affect the game-play too much but it's hard to test everything.
 
 
 ## Cheat commands
@@ -128,7 +133,7 @@ The element attributes and the element text can also be modified:
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4` 1.106.148, S4CL 3.3, TS4Lib 0.3.14 (2024-04).
+This mod has been tested with `The Sims 4` 1.106.148, S4CL 3.4, TS4Lib 0.3.14 (2024-04).
 It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
