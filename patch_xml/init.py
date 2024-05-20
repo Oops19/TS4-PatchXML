@@ -14,15 +14,11 @@ from patch_xml.modinfo import ModInfo
 from patch_xml.patch import Patch
 from patch_xml.user_config import UserConfig
 from patch_xml.vanilla_tunings import VanillaTunings
-from sims4communitylib.utils.common_log_utils import CommonLogUtils
-
 from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.singleton import Singleton
-from sims4communitylib.utils.common_log_registry import CommonLog
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
-
-mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 log.enable()
 log.info(f"Thank you for using Patch XML!")
 
@@ -39,6 +35,7 @@ class Init(object, metaclass=Singleton):
             os.makedirs(self.tunings_folder, exist_ok=True)
             ts4_gv = os.path.join(self.ts4f.ts4_folder_mods, 'GameVersion.txt')
             mod_gv = os.path.join(self.ts4f.data_folder, 'GameVersion.txt')
+            self.game_updated = True
             if os.path.exists(ts4_gv) and os.path.exists(mod_gv):
                 with open(ts4_gv, 'rb') as fp:
                     b_new_gv = fp.read()
@@ -47,8 +44,6 @@ class Init(object, metaclass=Singleton):
                 if b_new_gv == b_cur_gv:
                     # Don't patch a thing, read from cache
                     self.game_updated = False
-                else:
-                    self.game_updated = True
 
             if self.game_updated:
                 try:

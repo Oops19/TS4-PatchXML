@@ -15,7 +15,7 @@ try:
     log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 except:
     from ts4lib.utils.un_common_log import UnCommonLog
-    log: UnCommonLog = UnCommonLog(f"{ModInfo.get_identity().name}", ModInfo.get_identity().name, custom_file_path=None)
+    log: UnCommonLog = UnCommonLog(ModInfo.get_identity().name, ModInfo.get_identity().name)
 log.enable()
 
 

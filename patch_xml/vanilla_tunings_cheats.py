@@ -10,11 +10,10 @@ from patch_xml.vanilla_tunings import VanillaTunings
 
 from sims4communitylib.services.commands.common_console_command import CommonConsoleCommand, CommonConsoleCommandArgument
 from sims4communitylib.services.commands.common_console_command_output import CommonConsoleCommandOutput
-from sims4communitylib.utils.common_log_registry import CommonLog
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
 
-mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 log.enable()
 
 

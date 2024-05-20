@@ -7,7 +7,7 @@
 
 import ast
 import os
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Set, List
 from xml.etree import ElementTree
 
 from patch_xml.patch import Patch
@@ -19,8 +19,9 @@ from sims4communitylib.services.commands.common_console_command_output import Co
 from ts4lib.libraries.ts4folders import TS4Folders
 
 from patch_xml.modinfo import ModInfo
-from sims4communitylib.utils.common_log_registry import CommonLog
-log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
+
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 log.enable()
 
 # o19.tunings.patch teens_fake_id.txt 129094
@@ -49,7 +50,7 @@ def o19_tunings_patch(output: CommonConsoleCommandOutput, config_file: str, tuni
             return
         with open(file, 'rt', encoding='UTF-8') as fp:
             user_provided_patches: Dict = ast.literal_eval(fp.read())
-            parsed_patches: Tuple = uc.join_configuration(user_provided_patches)
+            parsed_patches: Tuple[Set, Set, Set, Set, Set, Set, Set, List] = uc.join_configuration(user_provided_patches)
             patch.init(parsed_patches)
             node = vt.get_tuning(f"{tuning_id}")  # str ===????
             root = patch.patch(None, node, 'Console', verbose=True)

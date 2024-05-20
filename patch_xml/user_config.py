@@ -13,11 +13,10 @@ from patch_xml.modinfo import ModInfo
 
 from ts4lib.libraries.file_utils import FileUtils
 from ts4lib.libraries.ts4folders import TS4Folders
-from sims4communitylib.utils.common_log_registry import CommonLog
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
 
-mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 log.enable()
 
 

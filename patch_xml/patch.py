@@ -21,16 +21,16 @@ from sims4communitylib.events.zone_spin.events.zone_late_load import S4CLZoneLat
 from sims4communitylib.utils.common_injection_utils import CommonInjectionUtils
 from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.singleton import Singleton
-from sims4communitylib.utils.common_log_registry import CommonLog
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
-mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 log.enable()
 
 
 class Patch(object, metaclass=Singleton):
 
     logged_errors: Set[str] = set()
+
     def __init__(self):
         self.ts4f = TS4Folders(ModInfo.get_identity().base_namespace)
         self.tt = TuningTools()
@@ -52,7 +52,6 @@ class Patch(object, metaclass=Singleton):
             self.nopatch_file_data = None
         else:
             self.nopatch_file_data = dict()
-
 
     def init(self, parsed_patches: Tuple[Set, Set, Set, Set, Set, Set, Set, List]):
         self.used_tags, self.used_instances, self.used_tuning_ids,\
@@ -159,12 +158,12 @@ class Patch(object, metaclass=Singleton):
         return node
 
     @staticmethod
-    @CommonEventRegistry.handle_events(ModInfo.get_identity().name)
+    @CommonEventRegistry.handle_events(ModInfo.get_identity())
     def save_data(event_data: S4CLZoneLateLoadEvent):
         if Patch().nopatch_file_data is not None:
             with open(Patch().nopatch_file, 'wt', encoding='UTF-8', newline='\n') as fp:
                 fp.write(f"s: n\n")
-                for s, n in dict(sorted(Patch().nopatch_file_data.items())):
+                for s, n in dict(sorted(Patch().nopatch_file_data.items())).items():
                     fp.write(f"{s}: {n}\n")
             Patch().nopatch_file_data = None
         if Patch().patch_file_data is not None:
@@ -175,7 +174,7 @@ class Patch(object, metaclass=Singleton):
             Patch().patch_file_data = None
 
     @staticmethod
-    def handle_exception(_self: Union[ETreeTuningLoader, ETreeClassCreator], node: Union[Element, Any], caller: str, e: Exception = None):
+    def handle_exception(_self: Union[ETreeTuningLoader, ETreeClassCreator, None], node: Union[Element, Any], caller: str, e: Exception = None):
         source = ''
         tag = ''
         i = ''

@@ -23,11 +23,9 @@ from patch_xml.tuning_tools import TuningTools
 from sims4.tuning.merged_tuning_manager import get_manager
 from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.singleton import Singleton
-from sims4communitylib.utils.common_log_registry import CommonLog
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
-
-mod_name = ModInfo.get_identity().name
-log: CommonLog = CommonLog(ModInfo.get_identity(), ModInfo.get_identity().name, custom_file_path=None)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 log.enable()
 
 

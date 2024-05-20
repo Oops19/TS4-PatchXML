@@ -34,12 +34,15 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.11'
+        return '1.0.12'
 
 
 """
 TODO:
     Save tunings to patched/ and load them from there
+v1.0.12
+    Improved logging
+    Fixed a bug
 v1.0.11
     Return XML without the 'n', 's' ad 'i' attributes 1:1, don't throw an exception
 v1.0.10
