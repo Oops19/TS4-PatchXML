@@ -68,13 +68,13 @@ def indent(tree, space="  ", level=0):
     space characters by default.
     *level* is the initial indentation level. Setting this to a higher
     value than 0 can be used for indenting subtrees that are more deeply
-    nested inside of a document.
+    nested inside a document.
     """
 
     # Reduce the memory consumption by reusing indentation strings.
     indentations = ["\n" + level * space]
 
-    def _indent_children(elem, level):
+    def _indent_children(elem, level: int):
         # Start a new indentation level for the first child.
         child_level = level + 1
         try:
