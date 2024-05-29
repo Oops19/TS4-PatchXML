@@ -15,7 +15,7 @@ from patch_xml.vanilla_tunings import VanillaTunings
 from patch_xml.xml_patcher import XmlPatcher
 from sims4.tuning.merged_tuning_manager import UnavailablePackSafeResourceError
 
-from sims4.tuning.serialization import ETreeTuningLoader, ETreeClassCreator  # patch serialization.py#88: raise ValueError(f"Trailing comma on tunable '{_}'")
+from sims4.tuning.serialization import ETreeTuningLoader, ETreeClassCreator  # patch serialization.py#88: raise ValueError(f"Trailing comma on tunable '{_}'") to remove the error
 from sims4communitylib.events.event_handling.common_event_registry import CommonEventRegistry
 from sims4communitylib.events.zone_spin.events.zone_late_load import S4CLZoneLateLoadEvent
 from sims4communitylib.utils.common_injection_utils import CommonInjectionUtils

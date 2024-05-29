@@ -12,15 +12,14 @@ import pickle
 import sys
 import time
 from typing import List, Tuple, Dict
-
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
-from patch_xml import ET
 from patch_xml.modinfo import ModInfo
 from patch_xml.tuning_tools import TuningTools
 
 from sims4.tuning.merged_tuning_manager import get_manager
+from ts4lib.libraries import ET
 from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.singleton import Singleton
 from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
