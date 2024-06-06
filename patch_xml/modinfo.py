@@ -34,12 +34,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.12'
+        return '1.0.13'
 
 
-"""
+r'''
 TODO:
     Save tunings to patched/ and load them from there
+v1.0.13
+    Tested with TS4 v1.107
 v1.0.12
     Improved logging
     Fixed a bug
@@ -128,4 +130,4 @@ v0.0.2
 v0.0.1
     Initial version
     Extract and save tuning.xml files
-"""
+'''

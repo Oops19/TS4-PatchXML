@@ -1,9 +1,7 @@
-# compile.sh version 2.0.16
+# compile.sh version 2.0.19
 
-# This file searches from the parent directory for 'modinfo.py' in it or in any sub directory.
+# This file searches from the parent directory for 'modinfo.py' in it or in any subdirectory.
 # Make sure to have only one 'modinfo.py' in your project directory. The first found 'modinfo.py' is used and loaded.
-#
-#
 
 # Folder structure:
 # PyCharm-Folder/_compile/compile.sh
@@ -21,7 +19,6 @@ import shutil
 from typing import Tuple, Dict, Any
 
 from Utilities.unpyc3_compiler import Unpyc3PythonCompiler
-
 
 additional_directories: Tuple = ()
 include_sources = False
@@ -46,12 +43,22 @@ except:
 beta_appendix = "-beta"  # or "-test-build"
 
 modinfo_py = 'modinfo.py'
+init_py = '__init__.py'
+init = ''
 mi = None
 for root, dirs, files in os.walk('..'):
     if '.private' in root:
         continue
     if modinfo_py in files:
         modinfo = os.path.join(root, modinfo_py)
+        init = os.path.join(root, init_py)
+        if not os.path.exists(init):
+            print(f"Found '{modinfo}' but '{init}' is missing. Skipping folder!")
+            continue
+        else:
+            size = os.path.getsize(init)
+            if size > 0:
+                print(f"Size of '{init}' is {size}.")
         print(f"Using '{modinfo}' ...")
         try:
             sys.path.insert(1, root)
@@ -82,7 +89,7 @@ try:
         s4cl_version = fp.read()
         s4cl_version = s4cl_version.replace('\r', ' ').replace('\n', ' ').replace('\t', ' ')
         s4cl_version = re.sub(r' {2,}', ' ', s4cl_version)
-        s4cl_version = re.sub(r".*def _version.*return '(...)'.*", r'\g<1>', s4cl_version)
+        s4cl_version = re.sub(r".*def _version.*return '([0-9.]*)'.*", r'\g<1>', s4cl_version)
 except Exception as e:
     print(f"Error reading S4CL ({e}).")
     exit(1)
@@ -123,11 +130,9 @@ if add_readme:
 
 release_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(os.getcwd()))), 'Release')
 mod_base_directory = os.path.join(release_directory, mod_name)
-mod_base_directory_backup = os.path.join(release_directory, f"{mod_name}.bak")
-if os.path.exists(mod_base_directory_backup):
-    shutil.rmtree(mod_base_directory_backup)
+
 if os.path.exists(mod_base_directory):
-    os.rename(mod_base_directory, mod_base_directory_backup)
+    shutil.rmtree(mod_base_directory)
 
 ts4_directory = os.path.join(mod_base_directory, 'Mods', f"_{author}_")
 
@@ -186,6 +191,12 @@ shutil.make_archive(os.path.join(release_directory, f"{zip_file_name}"), 'zip', 
 print(f'Created {os.path.join(release_directory, f"{zip_file_name}.zip")}')
 
 '''
+v2.0.19
+    Remove backup option as it doesn't help with locked directories
+v2.0.18
+    Check for __init__.py and its size.
+v2.0.17
+    Support also longer S4CL version numbers '([0-9]*)' instead of '(.\..)'
 v2.0.16
     Added exclude_dependencies to config.ini to be able to remove these.
     Updated FOOTER.md with 'GAME_VERSION'
