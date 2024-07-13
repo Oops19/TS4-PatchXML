@@ -34,12 +34,15 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.13'
+        return '1.2.0'
 
 
 r'''
 TODO:
-    Save tunings to patched/ and load them from there
+    Cleanup of old delete code in SharedData().initialize_cache_directory()
+    
+v1.2.0
+    Save tunings to patch_xml/1.107.151.1020/ and load them from there
 v1.0.13
     Tested with TS4 v1.107
 v1.0.12

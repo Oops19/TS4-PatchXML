@@ -23,7 +23,7 @@ except:
 log.enable()
 
 
-class Modification:
+class XmlModification:
     """
     Class to modify XML elements.
     It allows to add, delete and modify elements.

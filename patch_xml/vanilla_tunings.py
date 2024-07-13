@@ -16,6 +16,7 @@ from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 from patch_xml.modinfo import ModInfo
+from patch_xml.shared_data import SharedData
 from patch_xml.tuning_tools import TuningTools
 
 from sims4.tuning.merged_tuning_manager import get_manager
@@ -40,7 +41,8 @@ class VanillaTunings(object, metaclass=Singleton):
 
     def __init__(self):
         self.ts4f = TS4Folders(ModInfo.get_identity().base_namespace)
-        self.tunings_folder = os.path.join(self.ts4f.data_folder, 'tunings')
+        self.sd = SharedData()
+        self.tunings_folder = self.sd.dir_tunings
         self.tt = TuningTools()
         self._write_all_tunings = False
         self._dump_xml = False
@@ -57,7 +59,6 @@ class VanillaTunings(object, metaclass=Singleton):
         self._force_refresh = force_refresh
 
         try:
-            os.makedirs(self.tunings_folder, exist_ok=True)
             ready = False
             if (self._force_refresh is False) and (self._dump_xml is False):
                 try:
@@ -213,7 +214,7 @@ class VanillaTunings(object, metaclass=Singleton):
             self.write_tuning(element)
         log.debug(f"Writing completed")
 
-    def write_tuning(self, element: ElementTree, file_suffix: str = 'xml'):
+    def write_tuning(self, element: ElementTree, file_suffix: str = 'xml') -> str:
         if self._xml_comments:
             t_elements = element.findall('.//T')
             for t_element in t_elements:
@@ -231,10 +232,13 @@ class VanillaTunings(object, metaclass=Singleton):
         i = element.get('i', 'i')
         s = element.get('s', '0')
         n = element.get('n', 'n')
-        os.makedirs(os.path.join(self.tunings_folder, i), exist_ok=True)
-        log.debug(f'Writing {os.path.join(self.tunings_folder, i, f"{s}.{n}.{file_suffix}")}')
-        with open(os.path.join(self.tunings_folder, i, f"{s}.{n}.{file_suffix}"), 'wt', encoding='UTF-8') as fp:
+        os.makedirs(os.path.join(self.sd.dir_ts4_mods_gv, i), exist_ok=True)
+        rel_filename = os.path.join(i, f"{s}.{n}.{file_suffix}")
+        abs_filename = os.path.join(self.sd.dir_ts4_mods_gv, rel_filename)
+        log.debug(f'Writing {abs_filename}')
+        with open(abs_filename, 'wt', encoding='UTF-8') as fp:
             fp.write(f"{ElementTree.tostring(element, encoding='UTF-8').decode('UTF-8')}")
+        return rel_filename
 
     def get_tuning(self, tuning_id: str, tuning_class: str = None) -> ElementTree:
         """

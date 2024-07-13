@@ -9,7 +9,7 @@ from typing import Dict
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
-from patch_xml.modifications import Modification
+from patch_xml.xml_modifications import XmlModification
 
 from patch_xml.modinfo import ModInfo
 try:
@@ -24,7 +24,7 @@ log.enable()
 class XmlPatcher:
     def __init__(self, add_comments: bool = False):
         self.add_comments = add_comments
-        self.mod = Modification()
+        self.mod = XmlModification()
 
     def patch(self, root: Element, actions: Dict) -> Element:
         for description, action in actions.items():

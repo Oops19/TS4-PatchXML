@@ -1,5 +1,5 @@
-PatchXML v1.0.13 for The Sims 4 v1.107.151 and S4CL v3.4
-Created on 2024-07-04
-v1.0.13
-    Tested with TS4 v1.107
+PatchXML v1.2.0 for The Sims 4 v1.107.151 and S4CL v3.4
+Created on 2024-07-13
+v1.2.0
+    Save tunings to patch_xml/1.107.151.1020/ and load them from there
 

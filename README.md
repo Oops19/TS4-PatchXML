@@ -7,6 +7,14 @@ It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add
 
 As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.
 
+### v1.2.0 CacheD
+Version 1.2+ cache the patched tuning files in `mod_data/patch_xml/{game_version/`.
+Whenever a new TS4 version gets released startup will take a while to extract comments and to create new patch files. 
+
+The cached tunings are used to replace the original tunings.
+It takes around 2 seconds to replace the tunings, so this version is much faster.
+
+There's no need to update even though I highly recommend it.
 
 ## Mild Warning - Game mechanics changed
 The `mod_data/patch_xml/cfg/*.txt` files modify tunings.

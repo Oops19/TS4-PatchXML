@@ -6,16 +6,19 @@
 
 
 import os
-from typing import List, Tuple, Set, Any, Union
+import time
+from typing import List, Tuple, Set, Any, Union, Dict
 from xml.etree.ElementTree import Element
 
 from patch_xml.modinfo import ModInfo
+from patch_xml.shared_data import SharedData
 from patch_xml.tuning_tools import TuningTools
 from patch_xml.vanilla_tunings import VanillaTunings
 from patch_xml.xml_patcher import XmlPatcher
 from sims4.tuning.merged_tuning_manager import UnavailablePackSafeResourceError
 
-from sims4.tuning.serialization import ETreeTuningLoader, ETreeClassCreator  # patch serialization.py#88: raise ValueError(f"Trailing comma on tunable '{_}'") to remove the error
+# patch serialization.py#88: raise ValueError(f"Trailing comma on tunable '{_}'") to remove the 'ETreeClassCreator' error, if any
+from sims4.tuning.serialization import ETreeTuningLoader, ETreeClassCreator
 from sims4communitylib.events.event_handling.common_event_registry import CommonEventRegistry
 from sims4communitylib.events.zone_spin.events.zone_late_load import S4CLZoneLateLoadEvent
 from sims4communitylib.utils.common_injection_utils import CommonInjectionUtils
@@ -30,9 +33,21 @@ log.enable()
 class Patch(object, metaclass=Singleton):
 
     logged_errors: Set[str] = set()
+    file_cache_index: str = ''
+    patch_tuning_files: Union[None, Dict[str, str]] = {}
+    t_start_class_creator = 0
+    t_end_class_creator = 0
+    t_duration_class_creator = 0
+    t_start_tuning_loader = 0
+    t_end_tuning_loader = 0
+    t_duration_tuning_loader = 0
 
     def __init__(self):
+        log.debug(f"Patch().init()")
         self.ts4f = TS4Folders(ModInfo.get_identity().base_namespace)
+        self.sd = SharedData()
+        Patch.file_cache_index = self.sd.file_cache_index
+
         self.tt = TuningTools()
         self.px = XmlPatcher()
         self.used_tags = self.used_instances = self.used_tuning_ids = None
@@ -42,12 +57,12 @@ class Patch(object, metaclass=Singleton):
         self.match_string_contains = None
         self.secret_combinations = None
 
-        self.patch_file = os.path.join(self.ts4f.data_folder, 'patch.txt')
+        self.patch_file = self.sd.file_patch
         if os.path.exists(self.patch_file):
             self.patch_file_data = None
         else:
             self.patch_file_data = dict()
-        self.nopatch_file = os.path.join(self.ts4f.data_folder, 'nopatch.txt')
+        self.nopatch_file = self.sd.file_no_patch
         if os.path.exists(self.nopatch_file):
             self.nopatch_file_data = None
         else:
@@ -70,7 +85,7 @@ class Patch(object, metaclass=Singleton):
                     s = node.get('s')
                 self.nopatch_file_data.update({s: n})
             except Exception as e:
-                log.error(f"{e}", throw=True)
+                log.error(f"nopatch({caller}) -> '{e}'", throw=False)
         return node
 
     def patch(self, _self: Union[ETreeTuningLoader, ETreeClassCreator], node: Union[Element, Any], caller: str = None, verbose: bool = False) -> Element:
@@ -91,11 +106,19 @@ class Patch(object, metaclass=Singleton):
                 n = node.get('n')
                 s = node.get('s')
 
+            # self.sd.patched_tunings_cache
+            if self.sd.patched_tunings_cache:
+                patched_node = self.sd.patched_tunings_cache.get(s, None)
+                if patched_node:
+                    return patched_node
+                else:
+                    return node
+
             if self.patch_file_data is not None:
                 self.patch_file_data.update({s: n})
 
-            # This would log every tuning
             if verbose:
+                # This logs every tuning
                 log.debug(f"Checking({caller}): {tag} {i} '{n}' ({s})")
                 log.debug(f"used_tags: {self.used_tags}")
                 log.debug(f"used_instances: {self.used_instances}")
@@ -140,7 +163,8 @@ class Patch(object, metaclass=Singleton):
                 if val_s in secret_combination[3]:
                     log.debug(f"Tuning {n} ({s}) matches 'tuning_id'")
                     node = self.px.patch(node, secret_combination[4])
-                    VanillaTunings().write_tuning(node, 'patched.xml')
+                    filename = VanillaTunings().write_tuning(node, 'patched.xml')
+                    Patch.patch_tuning_files.update({s: filename})
                     return node
 
             for secret_combination in self.secret_combinations:
@@ -149,7 +173,8 @@ class Patch(object, metaclass=Singleton):
                     if tuning_id:
                         log.debug(f"Tuning {n} ({tuning_id}) matches '{tuning_search_name}'")
                         node = self.px.patch(node, secret_combination[4])
-                        VanillaTunings().write_tuning(node, 'patched.xml')
+                        filename = VanillaTunings().write_tuning(node, 'patched.xml')
+                        Patch.patch_tuning_files.update({s: filename})
                         return node
 
         except Exception as e:
@@ -173,8 +198,20 @@ class Patch(object, metaclass=Singleton):
                     fp.write(f"{s}: {n}\n")
             Patch().patch_file_data = None
 
+        log.debug(f"Patch.file_cache_index = {Patch.file_cache_index}")
+        log.debug(f"Patch.patch_tuning_files = {Patch.patch_tuning_files}")
+        if Patch.patch_tuning_files:
+            with open(Patch.file_cache_index, 'wt', encoding='UTF-8') as fp:
+                fp.write(f"{Patch.patch_tuning_files}")
+            Patch.patch_tuning_files = None
+
+        log.info(f"Patch statistics: ETreeClassCreator || ETreeTuningLoader")
+        log.info(f"Patch start: {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_start_class_creator))} || {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_start_tuning_loader))}")
+        log.info(f"Patch end:   {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_end_class_creator))} || {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_end_tuning_loader))}")
+        log.info(f"Patch duration: {Patch.t_duration_class_creator:0.3f}s (+ TS4 {Patch.t_end_class_creator - Patch.t_start_class_creator - Patch.t_duration_class_creator:0.3f}s) || {Patch.t_duration_tuning_loader:0.3f}s (+ TS4 {Patch.t_end_tuning_loader - Patch.t_start_tuning_loader - Patch.t_duration_tuning_loader:0.3f}s)")
+
     @staticmethod
-    def handle_exception(_self: Union[ETreeTuningLoader, ETreeClassCreator, None], node: Union[Element, Any], caller: str, e: Exception = None):
+    def handle_exception(_self: Union[ETreeTuningLoader, ETreeClassCreator, None], node: Union[Element, Any], caller: str, ex: Exception = None, as_error: bool = True):
         source = ''
         tag = ''
         i = ''
@@ -198,23 +235,33 @@ class Patch(object, metaclass=Singleton):
                 s = node.get('s')
         except:
             pass
-        log.error(f"{caller}: source='{source}'; tag='{tag}', n='{n}', s='{s}', i='{i}'; err='{e}'", throw=False)
+        if as_error:
+            log.error(f"{caller}: source='{source}'; tag='{tag}', n='{n}', s='{s}', i='{i}'; ex='{ex}'", throw=False)
+        else:
+            log.warn(f"{caller}: source='{source}'; tag='{tag}', n='{n}', s='{s}', i='{i}'; ex='{ex}'")
 
 
 # class ETreeTuningLoader:
 #     def  _load_node(self, node, tunable_class):
 @CommonInjectionUtils.inject_safely_into(ModInfo.get_identity(), ETreeTuningLoader, ETreeTuningLoader._load_node.__name__, handle_exceptions=False)
 def patch_xml_tuning_loader_load_node(original, self: ETreeTuningLoader, node: Any, tunable_class, *args, **kwargs):
+    t = time.time()
     root = Patch().patch(self, node, 'ETreeTuningLoader')
+    Patch.t_duration_tuning_loader += time.time() - t
+    if Patch.t_start_tuning_loader > 0:
+        Patch.t_end_tuning_loader = time.time()
+    else:
+        Patch.t_start_tuning_loader = t
     try:
         return original(self, root, tunable_class, *args, **kwargs)
     except (ModuleNotFoundError, UnavailablePackSafeResourceError) as e:
         _e = f'{e}'
-        if _e not in Patch.logged_errors:
+        if _e not in Patch.logged_errors and _e.startswith('No module named'):
             Patch.logged_errors.add(_e)
-            log.warn(_e)
+            Patch().handle_exception(self, root, 'ETreeTuningLoader', e, as_error=False)
     except Exception as e:
         Patch().handle_exception(self, root, 'ETreeTuningLoader', e)
+        log.warn(f"ETreeTuningLoader: Dropping exception!")
         # raise e
 
 
@@ -223,15 +270,21 @@ def patch_xml_tuning_loader_load_node(original, self: ETreeTuningLoader, node: A
 #     def _load_node(self, node, tunable_class):
 @CommonInjectionUtils.inject_safely_into(ModInfo.get_identity(), ETreeClassCreator, ETreeClassCreator._load_node.__name__, handle_exceptions=False)
 def patch_xml_class_creator_load_node(original, self: ETreeClassCreator, node: Element, tunable_class, *args, **kwargs):
+    t = time.time()
     root = Patch().nopatch(self, node, 'ETreeClassCreator')
+    Patch.t_duration_class_creator += time.time() - t
+    if Patch.t_start_class_creator > 0:
+        Patch.t_end_class_creator = time.time()
+    else:
+        Patch.t_start_class_creator = t
     try:
         return original(self, root, tunable_class, *args, **kwargs)
     except (ModuleNotFoundError, UnavailablePackSafeResourceError) as e:
         _e = f'{e}'
-        if _e not in Patch.logged_errors:
+        if _e not in Patch.logged_errors and _e.startswith('No module named'):
             Patch.logged_errors.add(_e)
-            log.warn(_e)
+            Patch().handle_exception(self, root, 'ETreeClassCreator', e, as_error=False)
     except Exception as e:
         Patch().handle_exception(self, root, 'ETreeClassCreator', e)
+        log.warn(f"ETreeClassCreator: Raising exception!")
         raise e
-# (NameError, TypeError)
