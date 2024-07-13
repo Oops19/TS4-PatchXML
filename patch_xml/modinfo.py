@@ -42,7 +42,7 @@ TODO:
     Cleanup of old delete code in SharedData().initialize_cache_directory()
     
 v1.2.0
-    Save tunings to patch_xml/1.107.151.1020/ and load them from there
+    Save tunings to mod_data/patch_xml/{game_version}/ and load them from there
 v1.0.13
     Tested with TS4 v1.107
 v1.0.12
