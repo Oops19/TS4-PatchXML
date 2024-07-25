@@ -117,9 +117,10 @@ class Patch(object, metaclass=Singleton):
             if self.patch_file_data is not None:
                 self.patch_file_data.update({s: n})
 
+            # This logs every tuning. We do this as EA may catch exceptions and not log the tuning at all.
+            # The log time stamp allows to match Vanilla logs '[GSI_DUMP][cjiang] Error ...' to a tuning.
+            log.debug(f"Checking({caller}): {tag} {i} '{n}' ({s})")
             if verbose:
-                # This logs every tuning
-                log.debug(f"Checking({caller}): {tag} {i} '{n}' ({s})")
                 log.debug(f"used_tags: {self.used_tags}")
                 log.debug(f"used_instances: {self.used_instances}")
                 log.debug(f"match_string_equal: {self.match_string_equal}")

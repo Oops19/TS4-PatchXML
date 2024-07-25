@@ -34,13 +34,28 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.2.0'
+        return '1.2.1'
 
 
 r'''
 TODO:
     Cleanup of old delete code in SharedData().initialize_cache_directory()
     
+v1.2.1
+    Improved identification of bogus tunings.
+    During 1st start and/or after a game update all tuning IDs are logged.
+    The time stamps can be matched with Vanilla Logs.
+    Vanilla Logs are needed as exceptions within TS4 are caught internally and Patch-XML doesn't receive them.
+v1.2.0
+    For example:
+    2024-07-25 23:55:55.742631 DEBUG: [PatchXML]: Checking(ETreeTuningLoader): I buff 'buff_Alien_Empathy_Emotion_Playful' (103479)
+    2024-07-25T23:55:55.724679 FATAL  None                 None       '[GSI_DUMP][cjiang] Error occurred within the tag named 'walkstyle' (value: V) (UnavailablePackSafeResourceError)
+    S4S Shift+Ctr+C 'resource.find 103479' -> Shows only EA EP01/EP02 sources for me, strange!
+    Add 103479 to S4S package and check all references, e.g. n="Mood_Playful" s="14642"
+    S4S Shift+Ctr+C 'resource.find 14642' -> 'roBurky - EmotionalInertia-Complete.package' - This file must be updated or deleted to fix the error.
+    Remove the cached Patch-XML data and start TS4 again to make sure it starts without errors.
+    PS: This FATAL error is not really FATAL, TS4 starts anyway. 
+
 v1.2.0
     Save tunings to mod_data/patch_xml/{game_version}/ and load them from there
 v1.0.13
