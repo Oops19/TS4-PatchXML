@@ -30,7 +30,7 @@ class Init(object, metaclass=Singleton):
 
     def __init__(self):
         try:
-            log.debug(f"Init().init()")
+            log.debug(f"Init.init()")
             self.ts4f = TS4Folders(ModInfo.get_identity().base_namespace)
             self.uc = UserConfig()
             self.sd = SharedData()
