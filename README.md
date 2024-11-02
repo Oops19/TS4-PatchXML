@@ -141,7 +141,7 @@ The element attributes and the element text can also be modified:
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4` 1.109.185, S4CL 3.7, TS4Lib 0.3.24 (2024-07-25).
+This mod has been tested with `The Sims 4` 1.110.294, S4CL 3.7, TS4Lib 0.3.24 (2024-07-25).
 It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
