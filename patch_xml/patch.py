@@ -26,11 +26,11 @@ from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.singleton import Singleton
 from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
-log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), 'Patch')
 log.enable()
 
 
-class Patch(object, metaclass=Singleton):
+class Patch(metaclass=Singleton):
 
     logged_errors: Set[str] = set()
     file_cache_index: str = ''
@@ -43,7 +43,7 @@ class Patch(object, metaclass=Singleton):
     t_duration_tuning_loader = 0
 
     def __init__(self):
-        log.debug(f"Patch().init()")
+        log.debug(f"init()")
         self.ts4f = TS4Folders(ModInfo.get_identity().base_namespace)
         self.sd = SharedData()
         Patch.file_cache_index = self.sd.file_cache_index
@@ -67,6 +67,7 @@ class Patch(object, metaclass=Singleton):
             self.nopatch_file_data = None
         else:
             self.nopatch_file_data = dict()
+        self.saved_data = False
 
     def init(self, parsed_patches: Tuple[Set, Set, Set, Set, Set, Set, Set, List]):
         self.used_tags, self.used_instances, self.used_tuning_ids,\
@@ -186,18 +187,28 @@ class Patch(object, metaclass=Singleton):
     @staticmethod
     @CommonEventRegistry.handle_events(ModInfo.get_identity())
     def save_data(event_data: S4CLZoneLateLoadEvent):
-        if Patch().nopatch_file_data is not None:
-            with open(Patch().nopatch_file, 'wt', encoding='UTF-8', newline='\n') as fp:
+        log.debug(f"Saving data ...")
+        p = Patch()
+        if p.saved_data:
+            return
+
+        if p.nopatch_file_data is not None:
+            with open(p.nopatch_file, 'wt', encoding='UTF-8', newline='\n') as fp:
                 fp.write(f"s: n\n")
-                for s, n in dict(sorted(Patch().nopatch_file_data.items())).items():
+                # Sorting may run for a while and/or never complete. Keep it OFF !
+                # for s, n in dict(sorted(p.nopatch_file_data.items())).items():
+                for s, n in p.nopatch_file_data.items():
                     fp.write(f"{s}: {n}\n")
-            Patch().nopatch_file_data = None
-        if Patch().patch_file_data is not None:
-            with open(Patch().patch_file, 'wt', encoding='UTF-8', newline='\n') as fp:
+            p.nopatch_file_data = None
+
+        if p.patch_file_data is not None:
+            with open(p.patch_file, 'wt', encoding='UTF-8', newline='\n') as fp:
                 fp.write(f"s: n\n")
-                for s, n in dict(sorted(Patch().patch_file_data.items())).items():
+                # Sorting may run for a while and/or never complete. Keep it OFF !
+                # for s, n in dict(sorted(p.patch_file_data.items())).items():
+                for s, n in p.patch_file_data.items():
                     fp.write(f"{s}: {n}\n")
-            Patch().patch_file_data = None
+            p.patch_file_data = None
 
         log.debug(f"Patch.file_cache_index = {Patch.file_cache_index}")
         log.debug(f"Patch.patch_tuning_files = {Patch.patch_tuning_files}")
@@ -210,6 +221,7 @@ class Patch(object, metaclass=Singleton):
         log.info(f"Patch start: {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_start_class_creator))} || {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_start_tuning_loader))}")
         log.info(f"Patch end:   {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_end_class_creator))} || {time.strftime('%y-%m-%d %H:%M:%S', time.localtime(Patch.t_end_tuning_loader))}")
         log.info(f"Patch duration: {Patch.t_duration_class_creator:0.3f}s (+ TS4 {Patch.t_end_class_creator - Patch.t_start_class_creator - Patch.t_duration_class_creator:0.3f}s) || {Patch.t_duration_tuning_loader:0.3f}s (+ TS4 {Patch.t_end_tuning_loader - Patch.t_start_tuning_loader - Patch.t_duration_tuning_loader:0.3f}s)")
+        Patch().saved_data = True
 
     @staticmethod
     def handle_exception(_self: Union[ETreeTuningLoader, ETreeClassCreator, None], node: Union[Element, Any], caller: str, ex: Exception = None, as_error: bool = True):

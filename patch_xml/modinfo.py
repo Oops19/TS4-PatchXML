@@ -34,13 +34,15 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.2.1'
+        return '1.2.2'
 
 
 r'''
 TODO:
     Cleanup of old delete code in SharedData().initialize_cache_directory()
-    
+
+v1.2.2
+    No longer sort tunings, this fixes a memory issue.
 v1.2.1
     Improved identification of bogus tunings.
     During 1st start and/or after a game update all tuning IDs are logged.

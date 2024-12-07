@@ -1,8 +1,5 @@
-PatchXML v1.2.1 for The Sims 4 v1.110.311 and S4CL v3.9
-Created on 2024-11-14
-v1.2.1
-    Improved identification of bogus tunings.
-    During 1st start and/or after a game update all tuning IDs are logged.
-    The time stamps can be matched with Vanilla Logs.
-    Vanilla Logs are needed as exceptions within TS4 are caught internally and Patch-XML doesn't receive them.
+PatchXML v1.2.2 for The Sims 4 v1.111.102 and S4CL v3.9
+Created on 2024-12-07
+v1.2.2
+    No longer sort tunings, this fixes a memory issue.
 
