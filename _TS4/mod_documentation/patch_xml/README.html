@@ -1,0 +1,334 @@
+<h1>Patch XML</h1>
+<br/>
+This mod is a poor man's clone of Live XML.<br/>
+<br/>
+It allows to patch the tuning files while starting TS4 which might be much more convenient for many users.<br/>
+It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add', 'delete' and 'modify' operations.<br/>
+<br/>
+As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.<br/>
+<br/>
+<h3>v1.2.0 CacheD</h3>
+Version 1.2+ cache the patched tuning files in <i>mod_data/patch_xml/{game_version/</i>.<br/>
+Whenever a new TS4 version gets released startup will take a while to extract comments and to create new patch files.<br/>
+<br/>
+The cached tunings are used to replace the original tunings.<br/>
+It takes around 2 seconds to replace the tunings, so this version is much faster.<br/>
+<br/>
+There's no need to update even though I highly recommend it.<br/>
+<br/>
+<h2>Mild Warning - Game mechanics changed</h2>
+The <i>mod_data/patch_xml/cfg/*.txt</i> files modify tunings.<br/>
+They change the game mechanics and checks in various ways (like an override.package does).<br/>
+<ul>
+	<li>Please review the files in <i>mod_data</i> and remove files which you do not want to use.</li>
+	<li>Filtering of broadcasts affects multiple sims.</li>
+	<li>Modified age/race/gender checks may allow sims and/or pets to execute tasks which were never planned to be available for them.</li>
+	<li>Modified range checks may lower or increase the interaction range and/or privacy need of sims.</li>
+</ul>
+<br/>
+The included files should not affect the game-play too much, but it's hard to test everything.<br/>
+<br/>
+Modifications which I do not consider as strictly SFW have a 'nsfw_' prefix.<br/>
+<br/>
+<h3>Tuning Extractor</h3>
+This mod can extract all tuning files with comments for referenced tunings, like 'TS4 XML Extractor' does. It doesn't add STBL comments for text references.<br/>
+<br/>
+<h3>Tuning Editor</h3>
+This mod is for everyone who wants to modify tuning values without editing XML files. It is the superior alternative to overrides.<br/>
+<br/>
+We often see xml tuning override mods which are 3 months old and when compared to the current XML it becomes obvious that EA added many new things to the XML files (fixes, buffs, traits, commodities, ...) which are missing in the mod.<br/>
+They often break when EA releases a new TS4 version.<br/>
+It is more easy to use than Live XML. Anyhow it has the limitation that the tunings can't be modified as soon as the game is running.<br/>
+<br/>
+As a normal user you want to install this mod if another mod requires it.<br/>
+The mod itself does not modify the game play at all.<br/>
+Of course, you can install it and benefit (or suffer) from the game changes caused by the included sample configuration files if you fail to remove them.<br/>
+<br/>
+<h2>Real world example</h2>
+How would we implement the simple requirement to disable autonomy for one interaction?<br/>
+<br/>
+<h3>Copy XML Tuning</h3>
+**Don't do this!** There are many mods which have been created like this, unfortunately.<br/>
+<br/>
+The simple way is to copy the tuning (eg 'stereo_Dance_LocalCultureSkill') and add a line <i>&lt;T n="allow_autonomous"&gt;False&lt;/T&gt;</i> to it.<br/>
+Then add the XML to a new .package and it's done.<br/>
+To do this for 10 similar tunings we copy all 10 files, edit them and add them to the .package.<br/>
+And then we pray to EA that they never ever modify these tunings, even though we know that we did it wrong.<br/>
+<br/>
+If you created your tunings mods like this you may consider to use this mod.<br/>
+EA adds new lines to tuning files, sometimes 3, sometimes 100 and each '.package' file with copied tunings will contribute to game errors.<br/>
+Don't be a fool and join the 'Broken/Updated Mods & CC' forum on forums.thesims.com.<br/>
+<br/>
+<h3>'Patch while starting TS4' with 'Patch XML'</h3>
+We need to gather the tunings, for this mod we need the name.<br/>
+Wildcards are supported, so it is easy to match similar tunings (eg 'stereo_Dance_*').<br/>
+As we work with XML we need to locate the proper place to insert <i>&lt;T n='allow_autonomous'&gt;False&lt;/T&gt;</i><br/>
+<br/>
+With XPath <i>'xpath': "."</i> we'll locate the tuning root.<br/>
+<br/>
+And with <i>'add': [{'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False', 'comment': " Rumbasim is Dead. "}]</i> we add the XML node.<br/>
+<br/>
+That's it. Saved to a configuration file and when the game starts it's applied to the specified tunings.<br/>
+<br/>
+To test this while the game is running we create a new configuration file <i>no_autonomous_rumbasim.txt</i> with the data from above.<br/>
+<br/>
+With the cheat command <i>o19.tunings.patch no_autonomous_rumbasim.txt 175415</i> the tuning 175415(stereo_Dance_LocalCultureSkill) is loaded, the configuration will be applied and the patched file is saved. Review this file and if it looks good the configuration is good, hopefully.<br/>
+<br/>
+<h2>Security</h2>
+This mod reads and parses configuration files with <i>literal_eval()</i> into  Python dict() elements.<br/>
+The elements are hopefully processed properly as variables and should never be executed.<br/>
+Please let me know if you can identify security issues, no one wants to run a mod with code injection or shell vulnerabilities.<br/>
+For now I recommend that you review the files before you save them to <i>mod_data/patch_xml/</i>.<br/>
+<br/>
+I consider this mod to be safe, otherwise I would not publish it.<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<h2>Cheat commands</h2>
+<ul>
+	<li>'o19.tunings.patch file.txt n': Config file (in patch_xml/cfg/) and tuning_id to test. The modification can't be applied while testing.  If the patch looks fine restart the game to apply it.</li>
+	<li>'o19.tunings.pretty False': Disable formatting the XML.</li>
+	<li>'o19.tunings.comments False': Disable comments in XML.</li>
+	<li>'o19.tunings.write n': Write tuning for tuning_id n.</li>
+	<li>'o19.tunings.write 0': Write all tuning files. This takes 5..30 minutes depending on the installed DLCs and your CPU.</li>
+</ul>
+<br/>
+<h2>Limitations</h2>
+All tunings? No! Some indomitable tunings stop resisting the modifications.<br/>
+Even though all tunings can be read and modified it is not always possible to apply the modifications.<br/>
+<ul>
+	<li>'patch.txt' (created after starting TS4) should contain the tunings which can be patched.</li>
+	<li>'nopatch.txt' contains the tunings which might not be patched.  E.g. the 'satisfaction.satisfaction_tracker' tuning.</li>
+</ul>
+<br/>
+<h2>Mod collision</h2>
+If you are currently using Live XML consider to migrate the configurations to Patch XML. At least make sure that either Patch XML or Live XML modifies a tuning, this will improve performance.<br/>
+It may make sense to keep Live XML installed to be able to inspect the tunings after they have been loaded.<br/>
+<br/>
+<h2>Merging</h2>
+Most people do not merge script mods. This mod may be merged with a ZIP program with other mods. The file name may be renamed, it is not used to reference anything.<br/>
+<br/>
+<h2>Future</h2>
+Fix bugs.<br/>
+Add support to patch everything.<br/>
+<br/>
+<h1>Creating custom files</h1>
+The file 'cfg/sample.txt.ignore' contains some sample code with descriptions, like the supplied files.<br/>
+In case you need to figure out which XPATH to use try to use a tool like <a href='https://www.freeformatter.com/xpath-tester.html.'>https://www.freeformatter.com/xpath-tester.html.</a><br/>
+<br/>
+Actually it is quite easy to follow the XML structure and use '/' before every child tag, ignore the 'I' as the XPath implementation is limited:<br/>
+<ul>
+	<li>`&lt;I&gt;&lt;U n="go"&gt;&lt;T m="home"&gt;&lt;E x="y"&gt; ==> U/T/E`</li>
+	<li>`&lt;I&gt;&lt;U n="go"&gt;&lt;T m="home"&gt;&lt;E x="y"&gt; ==> U[n='go']/T[m='home']/E[x='y']</i> to be much more specific if the tuning has multiple U/T/E elements which different attributes.</li>
+</ul>
+The XPath may match 1-n elements and all elements will be processed.<br/>
+<br/>
+Elements can be added or deleted, e.g. <i>&lt;E&gt;TEEN&lt;/E&gt;</i> with <i>{'tag': 'E', 'text': 'TEEN'}</i>.<br/>
+<ul>
+	<li>`'delete': [{'tag': 'E', 'text': 'TEEN'}]`</li>
+	<li>`'add': [{'tag': 'E', 'text': 'TEEN'}]`</li>
+</ul>
+<br/>
+To delete empty tags add <i>'empty': True, <i>.<br/>
+This allows to remove empty (list) elements from the XML which can confuse TS4.<br/>
+<ul>
+	<li>`'delete': [{'tag': 'E', 'empty': True}}]`</li>
+	<li>`'delete': [{'tag': 'E', 'attrib': {'n': 'go'}, 'empty': True}}]`</li>
+</ul>
+<br/>
+To delete possible empty tags use:<br/>
+<ul>
+	<li>`'delete`: [{'tag': 'U', 'empty': True}]</i> - A list with all elements removed must be cleaned up properly.</li>
+</ul>
+<br/>
+The element attributes and the element text can also be modified:<br/>
+<ul>
+	<li>`'attrib': {'n': 'something_else'}`</li>
+	<li>`'text': 'NewText'`</li>
+	<li>For numbers (int and float):</li>
+	<li>`'text': 'div(2, 0)'</i> - Subtract '2' and round to '0' digits (int instead of float).</li>
+	<li>Supported: operations: mul/div/add/sub/pow(number, digits) => 'text' */+-^ number; round to digits</li>
+	<li>Supported: operations: x_div/x_sub/x_pow => number /-^ 'text'; round to digits</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<h1>Addendum</h1>
+<br/>
+<h2>Game compatibility</h2>
+This mod has been tested with <i>The Sims 4</i> 1.111.102, S4CL 3.9, TS4Lib 0.3.33.<br/>
+It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.<br/>
+<br/>
+<h2>Dependencies</h2>
+Download the ZIP file, not the sources.<br/>
+<ul>
+	<li><a href='../../releases/latest'>This Mod</a></li>
+	<li><a href='https://github.com/Oops19/TS4-Library/releases/latest'>TS4-Library</a></li>
+	<li><a href='https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest'>S4CL</a></li>
+	<li><a href='https://www.ea.com/games/the-sims/the-sims-4'>The Sims 4</a></li>
+</ul>
+<br/>
+If not installed download and install TS4 and these mods.<br/>
+All are available for free.<br/>
+<br/>
+<h2>Installation</h2>
+<ul>
+	<li>Locate the localized <i>The Sims 4</i> folder which contains the <i>Mods</i> folder.</li>
+	<li>Extract the ZIP file into this <i>The Sims 4</i> folder.</li>
+	<li>It will create the directories/files <i>Mods/_o19_/$mod_name.ts4script`, <i>Mods/_o19_/$mod_name.package`, <i>mod_data/$mod_name/*</i> and/or <i>mod_documentation/$mod_name/*`</li>
+	<li>`mod_logs/$mod_name.txt</i> will be created as soon as data is logged.</li>
+</ul>
+<br/>
+<h3>Manual Installation</h3>
+If you don't want to extract the ZIP file into <i>The Sims 4</i> folder you might want to read this.<br/>
+<ul>
+	<li>The files in <i>ZIP-File/mod_data</i> are usually required and should be extracted to <i>The Sims 4/mod_data`.</li>
+	<li>The files in <i>ZIP-File/mod_documentation</i> are for you to read it. They are not needed to use this mod.</li>
+	<li>The <i>Mods/_o19_/*.ts4script</i> files can be stored in a random folder within <i>Mods</i> or directly in <i>Mods</i>. I highly recommend to store it in <i>_o19_</i> so you know who created it.</li>
+</ul>
+<br/>
+<h2>Usage Tracking / Privacy</h2>
+This mod does not send any data to tracking servers. The code is open source, not obfuscated, and can be reviewed.<br/>
+<br/>
+Some log entries in the log file ('mod_logs' folder) may contain the local username, especially if files are not found (WARN, ERROR).<br/>
+<br/>
+<h2>External Links</h2>
+<a href='https://github.com/Oops19/'>Sources</a><br/>
+<a href='https://discord.gg/d8X9aQ3jbm'>Support</a><br/>
+<a href='https://www.patreon.com/o19'>Donations</a><br/>
+<br/>
+<h2>Copyright and License</h2>
+<ul>
+	<li>© 2024 <a href='https://github.com/Oops19'>Oops19</a></li>
+	<li>License for '.package' files: <a href='https://tos.ea.com/legalapp/WEBTERMS/US/en/PC/'>Electronic Arts TOS for UGC</a></li>
+	<li>License for other media unless specified differently: <a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a> unless the Electronic Arts TOS for UGC overrides it.</li>
+</ul>
+This allows you to use this mod and re-use the code even if you don't own The Sims 4.<br/>
+Have fun extending this mod and/or integrating it with your mods.<br/>
+<br/>
+Oops19 / o19 is not endorsed by or affiliated with Electronic Arts or its licensors.<br/>
+Game content and materials copyright Electronic Arts Inc. and its licensors.<br/>
+Trademarks are the property of their respective owners.<br/>
+<br/>
+<h3>TOS</h3>
+<ul>
+	<li>Please don't put it behind a paywall.</li>
+	<li>Please don't create mods which break with every TS4 update.</li>
+	<li>For simple tuning modifications use <a href='https://github.com/Oops19/TS4-PatchXML'>Patch-XML</a></li>
+	<li>or <a href='https://github.com/Oops19/TS4-LiveXML'>LiveXML</a>.</li>
+	<li>To check the XML structure of custom tunings use <a href='https://github.com/Oops19/TS4-VanillaLogs'>VanillaLogs</a>.</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<h1>Addendum</h1>
+<br/>
+<h2>Game compatibility</h2>
+This mod has been tested with <i>The Sims 4</i> 1.112.519, S4CL 3.10, TS4Lib 0.3.36.<br/>
+It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.<br/>
+<br/>
+<h2>Dependencies</h2>
+Download the ZIP file, not the sources.<br/>
+<ul>
+	<li><a href='../../releases/latest'>This Mod</a></li>
+	<li><a href='https://github.com/Oops19/TS4-Library/releases/latest'>TS4-Library</a></li>
+	<li><a href='https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest'>S4CL</a></li>
+	<li><a href='https://www.ea.com/games/the-sims/the-sims-4'>The Sims 4</a></li>
+</ul>
+<br/>
+If not installed download and install TS4 and these mods.<br/>
+All are available for free.<br/>
+<br/>
+<h2>Removal of the mod</h2>
+The mod installation with unzip writes to a few directories.<br/>
+To remove this mod and all related files locate the files and folders and remove them:<br/>
+<ul>
+	<li>`The Sims 4/Mods/_o19_/$mod_name.*`</li>
+	<li>`The Sims 4/mod_data/_o19_/$mod_name/`</li>
+	<li>`The Sims 4/mod_documentation/_o19_/$mod_name/`</li>
+	<li>`The Sims 4/mod_sources/_o19_/$mod_name/`</li>
+</ul>
+<br/>
+To remove all of my mods locate these folders and remove them:<br/>
+<ul>
+	<li>`The Sims 4/Mods/_o19_/`</li>
+	<li>`The Sims 4/mod_data/_o19_/`</li>
+	<li>`The Sims 4/mod_documentation/_o19_/`</li>
+	<li>`The Sims 4/mod_sources/_o19_/`</li>
+</ul>
+<br/>
+<h2>Installation</h2>
+<ul>
+	<li>Locate the localized <i>The Sims 4</i> folder which contains the <i>Mods</i> folder.</li>
+	<li>Extract the ZIP file into this <i>The Sims 4</i> folder.</li>
+	<li>It will create the directories/files <i>Mods/_o19_/$mod_name.ts4script`, <i>Mods/_o19_/$mod_name.package`, <i>mod_data/$mod_name/*</i> and/or <i>mod_documentation/$mod_name/*</i> and/or <i>mod_sources/$mod_name/*`</li>
+	<li>CAS and build-buy UGC without scripts will create <i>Mods/o19/$mod_name.package`.</li>
+	<li>`mod_logs/$mod_name.txt</i> will be created as soon as data is logged.</li>
+	<li>`mod_documentation/$mod_name/</i> and/or <i>mod_sources/$mod_name/</i> are not required and can be deleted.</li>
+</ul>
+<br/>
+<h3>Manual Installation</h3>
+If you don't want to extract the ZIP file into <i>The Sims 4</i> folder you might want to read this.<br/>
+You can extract the ZIP file to a temporary directory and copy the folders manually.<br/>
+<ul>
+	<li>The files in <i>ZIP-File/mod_data</i> are usually required and should be extracted to <i>The Sims 4/mod_data`.</li>
+	<li>The files in <i>ZIP-File/mod_documentation</i> are for you to read it. They are not needed to use this mod.</li>
+	<li>The files in <i>ZIP-File/mod_sources</i> are not needed to use this mod.</li>
+	<li>The <i>Mods/_o19_/*.ts4script</i> files can be stored in a random folder within <i>Mods</i> or directly in <i>Mods</i>. I highly recommend to store it in <i>_o19_</i> so you know who created it.</li>
+</ul>
+<br/>
+<h2>Troubleshooting</h2>
+When installed properly this is not necessary at all.<br/>
+For manual installations check these things and make sure each question can be answered with 'yes'.<br/>
+<ul>
+	<li>Does 'The Sims 4' (localized to Die Sims 4, Les Sims 4, Los Sims 4, The Sims 4, ...) exist?</li>
+	<li>Does <i>The Sims 4</i> contain the folder <i>Mods`?</li>
+	<li>Does <i>Mods</i> contain the folder <i>_o19_`?</li>
+	<li>Does <i>_19_</i> contain <i>ts4lib.ts4script</i> and <i>ts4lib.package</i> files?</li>
+	<li>Does <i>_19_</i> contain <i>{mod_name}.ts4script</i> and/or <i>{mod_name}.package</i> files?</li>
+	<li>Does <i>The Sims 4</i> contain the folder <i>mod_data`?</li>
+	<li>Does <i>mod_data</i> contain the folder <i>{mod_name}`?</li>
+	<li>Does <i>{mod_name}</i> contain files or folders?</li>
+	<li>Does <i>The Sims 4</i> contain the <i>mod_logs</i> ?</li>
+	<li>Does <i>mod_logs</i> contain the file <i>Sims4CommunityLib_*_Messages.txt`?</li>
+	<li>Does <i>mod_logs</i> contain the file <i>TS4-Library_*_Messages.txt`?</li>
+	<li>Is this the most recent version or can it be updated?</li>
+	<li>Does <i>mod_logs</i> contain the file <i>{mod_name}_*_Messages.txt`?</li>
+	<li>Is this the most recent version or can it be updated?</li>
+	<li>Doesn't <i>The Sims 4</i> contain the file(s) <i>last_exception.txt</i>  and/or <i>last_exception*.txt</i> ?</li>
+	<li>Share the <i>The Sims 4/mod_logs/Sims4CommunityLib_*_Messages.txt</i> and <i>The Sims 4/mod_logs/{mod_name}_*_Messages.txt</i>  file.</li>
+</ul>
+<br/>
+<h2>Usage Tracking / Privacy</h2>
+This mod does not send any data to tracking servers. The code is open source, not obfuscated, and can be reviewed.<br/>
+<br/>
+Some log entries in the log file ('mod_logs' folder) may contain the local username, especially if files are not found (WARN, ERROR).<br/>
+<br/>
+<h2>External Links</h2>
+<a href='https://github.com/Oops19/'>Sources</a><br/>
+<a href='https://discord.gg/d8X9aQ3jbm'>Support</a><br/>
+<a href='https://www.patreon.com/o19'>Donations</a><br/>
+<br/>
+<h2>Copyright and License</h2>
+<ul>
+	<li>© 2020-2025 <a href='https://github.com/Oops19'>Oops19</a></li>
+	<li>License for '.package' files: <a href='https://tos.ea.com/legalapp/WEBTERMS/US/en/PC/'>Electronic Arts TOS for UGC</a></li>
+	<li>License for other media unless specified differently: <a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a> unless the Electronic Arts TOS for UGC overrides it.</li>
+</ul>
+This allows you to use this mod and re-use the code even if you don't own The Sims 4.<br/>
+Have fun extending this mod and/or integrating it with your mods.<br/>
+<br/>
+Oops19 / o19 is not endorsed by or affiliated with Electronic Arts or its licensors.<br/>
+Game content and materials copyright Electronic Arts Inc. and its licensors.<br/>
+Trademarks are the property of their respective owners.<br/>
+<br/>
+<h3>TOS</h3>
+<ul>
+	<li>Please don't put it behind a paywall.</li>
+	<li>Please don't create mods which break with every TS4 update.</li>
+	<li>For simple tuning modifications use <a href='https://github.com/Oops19/TS4-PatchXML'>Patch-XML</a></li>
+	<li>or <a href='https://github.com/Oops19/TS4-LiveXML'>LiveXML</a>.</li>
+	<li>To check the XML structure of custom tunings use <a href='https://github.com/Oops19/TS4-VanillaLogs'>VanillaLogs</a>.</li>
+</ul>
+<br/>
