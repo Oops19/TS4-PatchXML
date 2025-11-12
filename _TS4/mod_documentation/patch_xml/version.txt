@@ -1,5 +1,5 @@
-PatchXML v1.2.2 for The Sims 4 v1.119.109 and S4CL v3.15
-Created on 2025-11-09
+PatchXML v1.2.2 for The Sims 4 v1.119.109 and S4CL v3.17
+Created on 2025-11-12
 v1.2.2
     No longer sort tunings, this fixes a memory issue.
 
