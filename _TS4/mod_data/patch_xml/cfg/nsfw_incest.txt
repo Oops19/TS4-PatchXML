@@ -1,5 +1,5 @@
 {
-    'o19:incest': {
+    'o19:no_test_incest': {
         'test_file': 'hottub_WooHoo.xml',
         'filter': {
             'loading_tags': {'I', },
@@ -18,4 +18,3 @@
 # o19.tunings.patch nsfw_incest.txt 117777
 # inspect INTERACTION hottub_WooHoo
 # test_incest: <class 'str'> = True: <class 'bool'>
-#

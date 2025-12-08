@@ -31,8 +31,7 @@ class XmlModification:
     """
 
     @staticmethod
-    def delete_element(root: Element, xpath: str, xml_elements: List[Dict] = None, match: str = '*'):
-        elements = root.findall(xpath)
+    def delete_element(elements: List[Element], xpath: str, xml_elements: List[Dict] = None, match: str = '*'):
         log.debug(f"delete_element(xpath='{xpath}', xml_elements='{xml_elements}', match='{match}'; found_elements={len(elements)})")
         for element in elements:
             del_elements = element.findall(match)
@@ -69,8 +68,7 @@ class XmlModification:
                                     log.info(f"Element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' deleted.")
 
     @staticmethod
-    def add_element(root: Element, xpath: str, xml_elements: List[Dict], add_comments: bool = False):
-        elements: List[ElementTree.Element] = root.findall(xpath)
+    def add_element(elements: List[Element], xpath: str, xml_elements: List[Dict], add_comments: bool = False):
         log.debug(f"add_element(xpath='{xpath}', xml_elements='{xml_elements}'; found_elements={len(elements)})")
         for element in elements:
             for xml_element in xml_elements:
@@ -86,10 +84,12 @@ class XmlModification:
                     if add_comments and xml_element.get('comment'):
                         log.warn(f"Adding comment {xml_element.get('comment')} which might cause issues.")
                         element.append(ElementTree.Comment(f"{xml_element.get('comment')}"))
-
+                elif xml_element.get('_xml'):
+                    new_node = ElementTree.XML(f"{xml_element.get('_xml')}")
+                    element.append(new_node)
+                    
     @staticmethod
-    def modify_element(root: Element, xpath: str, text: str = None, attributes: Dict = None, comment: str = None):
-        elements: List[ElementTree.Element] = root.findall(xpath)
+    def modify_element(elements: List[Element], xpath: str, text: str = None, attributes: Dict = None, comment: str = None):
         log.debug(f"modify_element(xpath='{xpath}', text='{text}', attributes='{attributes }'; found_elements={len(elements)})")
         for element in elements:
             if attributes:

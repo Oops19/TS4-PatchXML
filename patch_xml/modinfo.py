@@ -34,13 +34,21 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.2.2'
+        return '1.2.3'
 
 
 r'''
 TODO:
     Cleanup of old delete code in SharedData().initialize_cache_directory()
 
+v1.2.3
+    Add XML with "_xml='<E>TEEN</E>'" to the selected (via xpath) node.
+    Evaluate the xpath only one time. xpath with '/..' will no longer fail after deleting the child node.
+    xpath compatibility: 'contains()' and 'text' support now single and double quotes:
+    * E[contains(text(), "TEEN")] or E[contains(text(), 'TEEN')]
+    * E[text="TEEN"] or E[text='TEEN']
+    * [E="TEEN"] or [T='TEEN']
+        * For 'match' [E="TEEN"] or [T='TEEN'] must be used, 'contains()' and 'text' are not supported.
 v1.2.2
     No longer sort tunings, this fixes a memory issue.
 v1.2.1
