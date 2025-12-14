@@ -1,93 +1,12 @@
-<I c="SocialSuperInteraction" i="interaction" m="interactions.social.social_super_interaction" n="Pool_Mermaid_KissinWater" s="211850">
-  <V n="_icon" t="participant">
-    <U n="participant">
-      <L n="participant_type">
-        <E>TargetSim</E>
-      </L>
-    </U>
-  </V>
-  <L n="_party_size_weight_tuning">
-    <U>
-      <T n="y">100</T>
-    </U>
-    <U>
-      <T n="x">1</T>
-      <T n="y">100</T>
-    </U>
-    <U>
-      <T n="x">2</T>
-      <T n="y">50</T>
-    </U>
-    <U>
-      <T n="x">3</T>
-      <T n="y">0</T>
-    </U>
-    <U>
-      <T n="x">4</T>
-    </U>
-  </L>
-  <V n="_saveable" t="enabled" />
-  <T n="_social_group_type">214744</T>
-  <V n="affordance_to_push_on_target" t="push_self_or_none">
-    <T n="push_self_or_none">False</T>
-  </V>
-  <T n="allow_user_directed">False</T>
-  <T n="attention_cost">0</T>
-  <V n="basic_content" t="flexible_length">
-    <U n="flexible_length">
-      <V n="content" t="staging_content">
-        <U n="staging_content">
-          <U n="content_set">
-            <L n="affordance_links">
-              <T>211844</T>
-            </L>
-          </U>
-        </U>
-      </V>
-      <V n="periodic_stat_change" t="enabled" />
-    </U>
-  </V>
-  <L n="basic_extras">
-    <V t="loot">
-      <U n="loot">
-        <L n="loot_list">
-          <T>162659</T>
-        </L>
-      </U>
-    </V>
-    <V t="buff">
-      <U n="buff">
-        <U n="buff_type">
-          <V n="buff_reason" t="enabled">
-            <T n="enabled">0x9C09275F</T>
-          </V>
-          <T n="buff_type">125555</T>
-        </U>
-        <L n="subject">
-          <E>Actor</E>
-          <E>SocialGroupSims</E>
-          <E>TargetSim</E>
-        </L>
-        <L n="tests">
-          <L>
-            <V t="social_group">
-              <U n="social_group">
-                <V n="threshold" t="enabled">
-                  <U n="enabled">
-                    <T n="value">3</T>
-                  </U>
-                </V>
-              </U>
-            </V>
-          </L>
-        </L>
-      </U>
-    </V>
-  </L>
-  <V n="basic_reserve_object" t="disabled" />
-  <T n="category">15510</T>
+<I c="MatchmakingTraitPickerSuperInteraction" i="interaction" m="traits.trait_tracker" n="traitPicker_Matchmaking_SetSelectedProfileTraits" s="370414">
+  <V n="_saveable" t="disabled" />
+  <T n="allow_from_world">True</T>
+  <T n="allowed_to_combine">False</T>
+  <T n="automation">True</T>
+  <T n="category">15488</T>
   <V n="content_score" t="disabled" />
-  <T n="display_name">0x7D632859</T>
+  <T n="debug">False</T>
+  <T n="display_name">0x3539144</T>
   <U n="display_name_text_tokens">
     <L n="tokens">
       <V t="participant_type">
@@ -110,238 +29,59 @@
       </V>
     </L>
   </U>
-  <V n="idle_animation" t="enabled">
+  <V n="filter_by_types" t="enabled">
     <U n="enabled">
-      <T n="factory">11570</T>
+      <V n="whitelist" t="specify">
+        <U n="specify">
+          <V n="threshold" t="all_must_match" />
+          <L n="whitelist">
+            <E />
+            <E>FEAR</E>
+            <E>ASPIRATION</E>
+            <E>LIFESTYLE</E>
+            <E>GAMEPLAY</E>
+          </L>
+        </U>
+      </V>
     </U>
   </V>
-  <T n="ignore_group_socials">False</T>
   <L n="interaction_category_tags">
-    <E>Interaction_SocialSuper</E>
-    <E>Interaction_Super</E>
-    <E>Interaction_All</E>
-    <E>Interaction_SocialAll</E>
-    <E>Interaction_Social_Contagious</E>
+    <E>INVALID</E>
   </L>
-  <T n="invite_in_after_interaction">True</T>
-  <U n="listen_animation">
-    <T n="factory">11570</T>
+  <T n="is_add">True</T>
+  <U n="picker_dialog">
+    <T n="add_all_category">False</T>
+    <T n="hide_row_description">False</T>
+    <T n="is_sortable">True</T>
+    <V n="max_selectable" t="static_count">
+      <U n="static_count">
+        <T n="exclude_previously_selected">False</T>
+        <T n="number_selectable">2</T>
+      </U>
+    </V>
+    <T n="min_selectable">2</T>
+    <T n="remove_empty_filter_categories">True</T>
+    <T n="sort_filter_categories">False</T>
+    <T n="use_dropdown_filter">False</T>
   </U>
-  <V n="pie_menu_icon" t="disabled" />
   <U n="progress_bar_enabled">
     <T n="bar_enabled">False</T>
   </U>
-  <T n="relationship_scoring">True</T>
-  <E n="scoring_priority">NORMAL</E>
-  <V n="sim_affinity_posture_scoring_data" t="enabled">
-    <U n="enabled">
-      <L n="my_scoring">
-        <U>
-          <V n="affinity_strategy" t="relationship_based" />
-          <T n="negate_tag">True</T>
-          <E n="running_interaction_tag">Sleeping</E>
-        </U>
-        <U>
-          <V n="affinity_strategy" t="avoid" />
-          <E n="running_interaction_tag">Very_Loud</E>
-        </U>
-      </L>
-      <L n="my_tags">
-        <E>Loud</E>
-        <E>Chat</E>
-      </L>
-    </U>
-  </V>
-  <T n="subaction_selection_weight">1</T>
-  <E n="target_type">TARGET</E>
+  <E n="target_type">OBJECT</E>
   <L n="test_globals">
-    <V t="buff">
-      <U n="buff">
-        <L n="blacklist">
-          <T>99711</T>
-        </L>
-        <E n="subject">TargetSim</E>
-      </U>
-    </V>
-    <V t="trait">
-      <U n="trait">
-        <L n="blacklist_traits">
-          <T>133798</T>
-        </L>
-        <E n="subject">TargetSim</E>
-      </U>
-    </V>
-    <V t="user_running_interaction">
-      <U n="user_running_interaction">
-        <L n="affordances">
-          <T>106223</T>
-        </L>
-        <E n="participant">Actor</E>
-        <T n="test_for_not_running">True</T>
-      </U>
-    </V>
-    <V t="test_set_reference">
-      <T n="test_set_reference">100790</T>
-    </V>
-    <V t="trait">
-      <U n="trait">
-        <L n="blacklist_traits">
-          <T>175972</T>
-          <T>177810</T>
-          <T>178437</T>
-        </L>
-      </U>
-    </V>
-    <V t="trait">
-      <U n="trait">
-        <L n="blacklist_traits">
-          <T>175972</T>
-          <T>177810</T>
-          <T>178437</T>
-        </L>
-        <E n="subject">TargetSim</E>
-      </U>
-    </V>
-    <V t="relationship">
-      <U n="relationship">
-        <U n="required_relationship_bits">
-          <L n="match_all">
-            <T>15803</T>
+    <V t="sim_info">
+      <U n="sim_info">
+        <V n="ages" t="specified">
+          <L n="specified">
+            <E>YOUNGADULT</E>
+            <E>ADULT</E>
+            <E>ELDER</E>
+            <E>TEEN</E>
           </L>
-        </U>
-        <L n="subject">
-          <E>Actor</E>
-        </L>
-        <L n="target_sim">
-          <E>TargetSim</E>
-        </L>
-      </U>
-    </V>
-    <V t="relationship">
-      <U n="relationship">
-        <T n="num_relations">1</T>
-        <U n="required_relationship_bits">
-          <L n="match_all">
-            <T>15803</T>
-          </L>
-        </U>
-        <L n="subject">
-          <E>Actor</E>
-        </L>
-        <L n="target_sim">
-          <E>Listeners</E>
-        </L>
-      </U>
-    </V>
-    <V t="test_set_reference">
-      <T n="test_set_reference">30822</T>
-    </V>
-    <V t="test_based_score_threshold">
-      <U n="test_based_score_threshold">
-        <T n="test_based_score">24566</T>
-        <U n="threshold">
-          <T n="value">15</T>
-        </U>
-      </U>
-    </V>
-    <V t="posture">
-      <U n="posture">
-        <L n="required_postures">
-          <T>39398</T>
-        </L>
-        <E n="subject">TargetSim</E>
-      </U>
-    </V>
-    <V t="test_set_reference">
-      <T n="test_set_reference">77554</T>
-    </V>
-    <V t="relationship">
-      <U n="relationship">
-        <U n="required_relationship_bits">
-          <L n="match_any">
-            <T>10150</T>
-          </L>
-        </U>
-      </U>
-    </V>
-    <V t="test_set_reference">
-      <T n="test_set_reference">187992</T>
-    </V>
-    <V t="test_set_reference">
-      <T n="test_set_reference">147681</T>
-    </V>
-    <V t="mood">
-      <U n="mood">
-        <T n="disallow">True</T>
-        <T n="mood">14643</T>
-        <V n="tooltip" t="enabled">
-          <T n="enabled">0xD3FBB440</T>
         </V>
-      </U>
-    </V>
-    <V t="mood">
-      <U n="mood">
-        <T n="disallow">True</T>
-        <T n="mood">14632</T>
-        <V n="tooltip" t="enabled">
-          <T n="enabled">0x630A426D</T>
-        </V>
+        <V n="species" t="unspecified" />
+        <E n="who">Actor</E>
       </U>
     </V>
   </L>
-  <L n="tests">
-    <L>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>TEEN</E>
-              <E>YOUNGADULT</E>
-              <E>ADULT</E>
-              <E>ELDER</E>
-            </L>
-          </V>
-        </U>
-      </V>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>TEEN</E>
-              <E>YOUNGADULT</E>
-              <E>ADULT</E>
-              <E>ELDER</E>
-            </L>
-          </V>
-          <E n="who">TargetSim</E>
-        </U>
-      </V>
-    </L>
-    <L>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>CHILD</E>
-            </L>
-          </V>
-        </U>
-      </V>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>CHILD</E>
-              <E>TEEN</E>
-              <E>YOUNGADULT</E>
-              <E>ADULT</E>
-              <E>ELDER</E>
-            </L>
-          </V>
-          <E n="who">TargetSim</E>
-        </U>
-      </V>
-    </L>
-  </L>
-  <T n="time_overhead">30</T>
 </I>

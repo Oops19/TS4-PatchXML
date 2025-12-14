@@ -9,37 +9,16 @@ from ts4lib.libraries import ET
 class PatchOffline:
     def __init__(self):
         # Add the patch actions here, just the actions:
-        #   <L n="tests">
-        #     <L>
-        #       <V t="sim_info">
-        #         <U n="sim_info">
-        #           <V n="ages" t="specified">
-        #             <L n="specified">
-        #               <E>YOUNGADULT</E>
-        actions_1 = {
-            'support_ctyae': {
-                # <V n="basic_content"
-                'xpath': "/I/L[@n='tests']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
-                'delete': [{'tag': 'E'}, ],
-                'add': [
-                    {'tag': 'E', 'text': 'CHILD'},
-                    {'tag': 'E', 'text': 'TEEN'},
-                    {'tag': 'E', 'text': 'YOUNGADULT'},
-                    {'tag': 'E', 'text': 'ADULT'},
-                    {'tag': 'E', 'text': 'ELDER'},
-                ],
-            },
-        }
+        #   <L n="test_globals">
+        #     <V t="sim_info">
+        #       <U n="sim_info">
+        #         <V n="ages" t="specified">
+        #           <L n="specified">
+
         actions = {
-            'support_ctyae': {
-                # <V n="basic_content"
-                'xpath': "/I/L[@n='tests']/L/V[@t='sim_info']/../../../L[@n='tests']",
-                # 'xpath': "/I/L[@n='tests']",
-                'delete': [{'tag': 'L'}, ],
-                'add': [
-                    {'_xml': '<L><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V></U></V><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V><E n="who">TargetSim</E></U></V></L>'},
-                    {'_xml': '<L><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>CHILD</E></L></V></U></V><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>CHILD</E><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V><E n="who">TargetSim</E></U></V></L>'},
-                ],
+                'modify_age_check': {
+                'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+                'add': [{'tag': 'E', 'text': 'TEEN'}, ],  # default: YOUNGADULT
             },
         }
 

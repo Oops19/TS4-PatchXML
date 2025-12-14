@@ -1,0 +1,29 @@
+{
+    'o19:Cupids Teen MatchMaker': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'sim_filter', },
+            'tunings': {'filter_Ages_YAE_Matchmaking*', },
+        },
+        'actions': {
+                'modify_age_check': {
+                'xpath': "/I/L[@n='_filter_terms']V[@t='age']U[@n='age']",
+                'delete': [{'tag': 'E'}, ],
+                'add': [{'tag': 'E', 'attrib': {'n': 'min_value'}, 'text': 'TEEN'}, ],  # default: YOUNGADULT
+            },
+        },
+    },
+    'o19:Cupids Teen Traits': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'traitPicker_Matchmaking_SetSelectedProfileTraits*', },
+        },
+        'actions': {
+                'modify_age_check': {
+                'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+                'add': [{'tag': 'E', 'text': 'TEEN'}, ],  # default: YAE
+            },
+        },
+    },
+}
