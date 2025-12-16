@@ -47,8 +47,8 @@ v1.2.3
     xpath compatibility: 'contains()' and 'text' support now single and double quotes:
     * E[contains(text(), "TEEN")] or E[contains(text(), 'TEEN')]
     * E[text="TEEN"] or E[text='TEEN']
-    * [E="TEEN"] or [T='TEEN']
-        * For 'match' [E="TEEN"] or [T='TEEN'] must be used, 'contains()' and 'text' are not supported.
+    * [E="TEEN"] or [E='TEEN']
+        * For 'match' [E="TEEN"] or [E='TEEN'] must be used, 'contains()' and 'text' are not supported.
 v1.2.2
     No longer sort tunings, this fixes a memory issue.
 v1.2.1
