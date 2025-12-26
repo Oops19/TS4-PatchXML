@@ -16,9 +16,12 @@ class PatchOffline:
         #           <L n="specified">
 
         actions = {
-                'modify_age_check': {
-                'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
-                'add': [{'tag': 'E', 'text': 'TEEN'}, ],  # default: YOUNGADULT
+            'change_age': {
+                'xpath': "/I/L[@n='tests']/L/V[@t='sim_info']/../../../L[@n='tests']",
+                'delete': [{'tag': 'L'}, ],
+                'add': [
+                    {'_xml': '<L><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V></U></V><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V><E n="who">OtherSimsInCurrentGame</E></U></V></L>'},
+                ],
             },
         }
 

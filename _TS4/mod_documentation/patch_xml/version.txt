@@ -1,11 +1,11 @@
 PatchXML v1.2.3 for The Sims 4 v1.120.117 and S4CL v3.17
-Created on 2025-12-14
+Created on 2025-12-18
 v1.2.3
     Add XML with "_xml='<E>TEEN</E>'" to the selected (via xpath) node.
     Evaluate the xpath only one time. xpath with '/..' will no longer fail after deleting the child node.
     xpath compatibility: 'contains()' and 'text' support now single and double quotes:
     * E[contains(text(), "TEEN")] or E[contains(text(), 'TEEN')]
     * E[text="TEEN"] or E[text='TEEN']
-    * [E="TEEN"] or [T='TEEN']
-        * For 'match' [E="TEEN"] or [T='TEEN'] must be used, 'contains()' and 'text' are not supported.
+    * [E="TEEN"] or [E='TEEN']
+        * For 'match' [E="TEEN"] or [E='TEEN'] must be used, 'contains()' and 'text' are not supported.
 
