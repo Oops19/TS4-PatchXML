@@ -3,12 +3,28 @@
         'filter': {
             'loading_tags': {'I', },
             'instance': {'interaction', },
-            'tunings': {'triviaBox_wooWho_playing', },
+            'tunings': {'triviaBox_wooWho_playing', },  # 360125
         },
         'actions': {
             'adjust_age_check': {
                 'xpath': "/I/L[@n='tests']/L/V[@t='sim_info']/../../../L[@n='tests']",
                 'delete': [{'tag': 'L'}, ],  # remove all '<L><V t='sim_info'>...</v></L>' nodes
+                'add': [
+                    {'_xml': '<L><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V></U></V><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V><E n="who">OtherSimsInCurrentGame</E></U></V></L>'},
+                ],
+            },
+        }
+    },
+    'o19:all_adults_play_woowho_2': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'snippet', },
+            'tunings': {'testSetInstance_TeensToTeensANDAdultsToAdults_PickedSim', },  # 107053
+        },
+        'actions': {
+            'adjust_age_check_groups': {
+                'xpath': "/I/L[@n='test']/L/V[@t='sim_info']/../../../L[@n='test']",
+                'delete': [{'tag': 'L'}, ],
                 'add': [
                     {'_xml': '<L><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V></U></V><V t="sim_info"><U n="sim_info"><V n="ages" t="specified"><L n="specified"><E>TEEN</E><E>YOUNGADULT</E><E>ADULT</E><E>ELDER</E></L></V><E n="who">OtherSimsInCurrentGame</E></U></V></L>'},
                 ],

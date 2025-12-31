@@ -26,4 +26,21 @@
             },
         },
     },
+    'o19:Cupids Teen Menus': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'*_Matchmaking_*', },
+        },
+        'actions': {
+            'modify_age_check': {
+                'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+                'add': [{'tag': 'E', 'text': 'TEEN'}, ],  # default: YAE
+            },
+        },
+    },
 }
+
+# interaction
+# computer_Matchmaking_Open phone_Matchmaking_BlindDate tablet_Matchmaking_Open computer_Matchmaking_Open phone_Matchmaking_Open phone_Matchmaking_Activate
+
