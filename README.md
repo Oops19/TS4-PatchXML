@@ -1,4 +1,4 @@
-# Patch XML
+# 🧬 Patch XML
 
 This mod is a poor man's clone of Live XML.
 
@@ -81,8 +81,6 @@ For now I recommend that you review the files before you save them to `mod_data/
 I consider this mod to be safe, otherwise I would not publish it.
 
 
-
-
 ## Cheat commands
 * 'o19.tunings.patch file.txt n': Config file (in patch_xml/cfg/) and tuning_id to test. The modification can't be applied while testing.  If the patch looks fine restart the game to apply it.
 * 'o19.tunings.pretty False': Disable formatting the XML.
@@ -135,6 +133,180 @@ The element attributes and the element text can also be modified:
 * `'text': 'div(2, 0)'` - Subtract '2' and round to '0' digits (int instead of float).
 * Supported: operations: mul/div/add/sub/pow(number, digits) => 'text' */+-^ number; round to digits
 * Supported: operations: x_div/x_sub/x_pow => number /-^ 'text'; round to digits
+
+# 📖 FAQ
+## 🗂️ How do I ...
+I try to provide a valid XML with only relevant parts.
+The `<I>` element is usually much longer and no `...` is used to show missing content.
+Between elements there are usually other elements `<[ELTUV]>` , if they don't matter they are excluded without adding `...` to the XML.
+
+The example contains only the `actions` and no `filter`.
+
+The examples do not always make sense as random elements are used.
+
+### ✏️ Change a text value
+```xml
+<I>
+    <T n="duration">240</T>
+    <T n="max_participants">5</T>
+</I>
+```
+```python
+actions = {
+    'override_duration': {
+        'xpath': "/I/T[@n='duration']",
+        'text': '360',
+    },
+    'override_max_participants': {
+        'xpath': "/I/max_participants",
+        'text': '10',
+    },
+}
+```
+
+### 🗑️ Delete an element
+```xml
+<I>
+    <T n="duration">360</T>
+</I>
+```
+```python
+actions = {
+    'remove_duration': {
+        'xpath': ".",
+        'delete': [{'tag': 'T', 'attrib': {'n': 'duration'}}],
+    },
+}
+```
+
+### ➕ Add 1-n elements
+```xml
+<I>
+  <L n="test_globals">
+    <V t="sim_info">
+      <U n="sim_info">
+        <V n="ages" t="specified">
+          <L n="specified">
+            <E>YOUNGADULT</E>
+          </L>
+        </V>
+      </U>
+    </V>
+  </L>
+</I>
+```
+```python
+actions = {
+    'modify_age_check': {
+        'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+        'add': [{'tag': 'E', 'text': 'ADULT'}, ],
+    },
+}
+```
+
+### ➕🌲 Add an XML tree
+This is way more comfortable than adding one element after the other.
+```xml
+<I>
+  <L n="test">
+    <L>
+      <V t="relationship">
+      </V>
+      <V t="trait">
+      </V>
+    </L>
+  </L>
+</I>
+```
+```python
+actions = {
+    'patch_filter': {
+        'xpath': "/I/L[@n='test']",
+        'delete': [{'tag': 'L', }, ],
+        'add': [
+            {'_xml': '<L><V t="trait"><U n="trait"><L n="whitelist_traits"><T>123</T></L></U></V></L>'}
+        ],
+    },
+}
+```
+
+### 📍🗑️🌲️ Select and delete an XML tree
+In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to the other test for 'YOUNGADULT'.
+```xml
+<I>
+  <L n="test">
+    <L>
+      <V t="sim_info">
+        <U n="sim_info">
+          <V n="ages" t="specified">
+            <L n="specified">
+              <E>YOUNGADULT</E>
+            </L>
+          </V>
+        </U>
+      </V>
+    </L>
+    <!-- the goal is to remove this test and use the YOUNGADULT test also for ADULT --> 
+    <L>
+      <V t="sim_info">
+        <U n="sim_info">
+          <V n="ages" t="specified">
+            <L n="specified">
+              <E>ADULT</E>
+            </L>
+          </V>
+        </U>
+      </V>
+    </L>
+  </L>
+</I>
+
+```
+```python
+actions = {
+    'remove_test': {
+        'xpath': "/I/L[@n='test']",
+        'delete': [{'tag': 'L', }, ],
+        'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='ADULT']/../../../..",
+    },
+    # This adds ADULT to all tests (hopefully only one is left) 
+    'add_adult': {
+        'xpath': "/I/L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+        'add': [
+            {'tag': 'E', 'text': 'ADULT'},
+        ],
+    },
+}
+```
+
+### 📍🗑️🌲️ Select and delete an XML tree (2)
+This is way more comfortable than adding one element after the other.
+```xml
+<I>
+  <V n="outcome">
+    <U n="partial">
+      <L n="test_and_results">
+        <U>
+          <T n="result_string">0xA45AC41C<!-- {0.SimFirstName} is sleeping. --></T>
+        </U>
+      </L>
+    </U>
+  </V>
+</I>
+```
+```python
+actions = {
+    'call_while_sleeping': {
+        'xpath': "/I/V[@n='outcome']/U[@n='partial']/L[@n='test_and_results']",
+        'match': 'U/[T="0xA45AC41C"]',
+        'delete': [
+            {'tag': 'U'},
+        ],
+    },
+}
+```
+
+
 
 
 ---
