@@ -1,13 +1,273 @@
-<I c="TestSetInstance" i="snippet" m="event_testing.tests" n="testSetInstance_BabyFeed_Body_Can_Actor" s="305329">
-  <L n="test">
-    <L>
-      <V t="trait">
-        <U n="trait">
-          <L n="whitelist_traits">
-            <T>274985</T>
+<I c="PromSituation" i="situation" m="situations.formal_dances_situation" n="situation_HSProm" s="280741">
+  <T n="_display_name">0x836E1981</T>
+  <T n="_icon" p="InEP12\UI\Icons\Events\EventIcons\events_Prom.png">2f7d0004:00000000:d8dd9f4606e2936b</T>
+  <U n="_level_data">
+    <U n="bronze">
+      <T n="icon" p="InEP12\UI\Icons\Events\EventGoal_Prom_bronze.png">2f7d0004:00000000:d616bc496ef89ab6</T>
+      <T n="level_description">0x9224E9B0</T>
+      <T n="reward">291227</T>
+    </U>
+    <U n="gold">
+      <T n="icon" p="InEP12\UI\Icons\Events\EventGoal_Prom_gold.png">2f7d0004:00000000:b35774ae52d81b24</T>
+      <T n="level_description">0x82AD9EEA</T>
+      <T n="reward">291229</T>
+    </U>
+    <U n="silver">
+      <T n="icon" p="InEP12\UI\Icons\Events\EventGoal_Prom_silver.png">2f7d0004:00000000:9ca571d7c26cdb59</T>
+      <T n="level_description">0x20CAEAD3</T>
+      <T n="reward">291228</T>
+    </U>
+  </U>
+  <U n="accept_awards_in_route_fail_state">
+    <T n="jester_winner_route_fail_role_state">291001</T>
+    <T n="royalty_winner_route_fail_role_state">291000</T>
+    <V n="time_out" t="enabled" />
+  </U>
+  <U n="accept_awards_state">
+    <L n="job_and_role_changes">
+      <U>
+        <T n="Situation Job">280743</T>
+        <T n="Role State">301077</T>
+      </U>
+      <U>
+        <T n="Situation Job">280744</T>
+        <T n="Role State">301077</T>
+      </U>
+      <U>
+        <T n="Situation Job">280745</T>
+        <T n="Role State">301077</T>
+      </U>
+      <U>
+        <T n="Situation Job">296440</T>
+        <T n="Role State">301077</T>
+      </U>
+    </L>
+    <V n="time_out" t="enabled" />
+  </U>
+  <U n="active_sims_job">
+    <T n="role_state">282083</T>
+    <T n="situation_job">296440</T>
+  </U>
+  <U n="announce_awards_in_route_fail_state">
+    <V n="time_out" t="enabled">
+      <T n="enabled">25</T>
+    </V>
+  </U>
+  <U n="announcer_situation_job">
+    <T n="role_state">280748</T>
+    <T n="situation_job">280745</T>
+  </U>
+  <T n="audio_sting_on_start" p="InGame\Audio\Bumper\bumper_event_start.propx">39b2aa4a:00000000:78b903461d47e4fc</T>
+  <T n="calendar_icon" p="InEP12\UI\Icons\Events\EventIcons\events_Prom.png">2f7d0004:00000000:d8dd9f4606e2936b</T>
+  <U n="chaperone_situation_job">
+    <T n="role_state">280747</T>
+    <T n="situation_job">280743</T>
+  </U>
+  <L n="compatible_venues">
+    <T>281069</T>
+    <T>281068</T>
+    <T>281066</T>
+    <T>292915</T>
+  </L>
+  <E n="creation_ui_option">NOT_AVAILABLE</E>
+  <T n="duration">360</T>
+  <U n="gather_and_dance_state">
+    <L n="job_and_role_changes">
+      <U>
+        <T n="Situation Job">280743</T>
+        <T n="Role State">280747</T>
+      </U>
+      <U>
+        <T n="Situation Job">280744</T>
+        <T n="Role State">282083</T>
+      </U>
+      <U>
+        <T n="Situation Job">280745</T>
+        <T n="Role State">280748</T>
+      </U>
+      <U>
+        <T n="Situation Job">296440</T>
+        <T n="Role State">282083</T>
+      </U>
+    </L>
+    <V n="time_out" t="enabled">
+      <T n="enabled">120</T>
+    </V>
+  </U>
+  <V n="goal_tracker_type" t="situation_goal_tracker" />
+  <T n="jester_winner_role_state">282932</T>
+  <T n="main_goal_audio_sting" p="InGame\Audio\Bumper\bumper_event_major_complete.propx">39b2aa4a:00000000:10b476550150a33f</T>
+  <T n="max_participants">20</T>
+  <L n="minor_goal_chains">
+    <T>283057</T>
+    <T>283326</T>
+    <T>283327</T>
+  </L>
+  <U n="more_dancing_state">
+    <L n="job_and_role_changes">
+      <U>
+        <T n="Situation Job">280743</T>
+        <T n="Role State">280747</T>
+      </U>
+      <U>
+        <T n="Situation Job">280744</T>
+        <T n="Role State">284081</T>
+      </U>
+      <U>
+        <T n="Situation Job">280745</T>
+        <T n="Role State">280748</T>
+      </U>
+      <U>
+        <T n="Situation Job">296440</T>
+        <T n="Role State">284081</T>
+      </U>
+    </L>
+  </U>
+  <T n="per_vote_weight">100</T>
+  <L n="podium_tag">
+    <E>Func_HSProm_Podium</E>
+  </L>
+  <T n="post_prom_drama_node">283489</T>
+  <T n="post_prom_schedule_delay">5</T>
+  <U n="prepare_for_awards_state">
+    <L n="job_and_role_changes">
+      <U>
+        <T n="Situation Job">280744</T>
+        <T n="Role State">283462</T>
+      </U>
+      <U>
+        <T n="Situation Job">280745</T>
+        <T n="Role State">291271</T>
+      </U>
+      <U>
+        <T n="Situation Job">296440</T>
+        <T n="Role State">283462</T>
+      </U>
+    </L>
+    <V n="time_out" t="enabled">
+      <T n="enabled">25</T>
+    </V>
+  </U>
+  <U n="present_awards_state">
+    <U n="interaction_of_interest">
+      <L n="affordances">
+        <T>283359</T>
+      </L>
+    </U>
+    <L n="job_and_role_changes">
+      <U>
+        <T n="Situation Job">280744</T>
+        <T n="Role State">282930</T>
+      </U>
+      <U>
+        <T n="Situation Job">280745</T>
+        <T n="Role State">284213</T>
+      </U>
+      <U>
+        <T n="Situation Job">296440</T>
+        <T n="Role State">282930</T>
+      </U>
+    </L>
+    <V n="time_out" t="enabled">
+      <T n="enabled">30</T>
+    </V>
+  </U>
+  <U n="presenter_goto_podium_state">
+    <U n="interaction_of_interest">
+      <L n="affordances">
+        <T>284111</T>
+      </L>
+    </U>
+    <L n="job_and_role_changes">
+      <U>
+        <T n="Situation Job">280745</T>
+        <T n="Role State">282936</T>
+      </U>
+    </L>
+    <V n="time_out" t="enabled">
+      <T n="enabled">35</T>
+    </V>
+  </U>
+  <U n="prom_jester_multiplier">
+    <L n="multipliers">
+      <U>
+        <T n="multiplier">1.5</T>
+        <L n="tests">
+          <L>
+            <V t="skill_tag">
+              <U n="skill_tag">
+                <T n="skill_quantity">1</T>
+                <E n="skill_tag">Skill_ComedyOrMischief</E>
+                <U n="skill_threshold">
+                  <T n="value">3</T>
+                </U>
+              </U>
+            </V>
           </L>
+        </L>
+      </U>
+    </L>
+  </U>
+  <T n="prom_jester_vote_statistic">282771</T>
+  <U n="prom_royalty_multiplier">
+    <L n="multipliers">
+      <U>
+        <T n="multiplier">1.5</T>
+        <L n="tests">
+          <L>
+            <V t="skill_tag">
+              <U n="skill_tag">
+                <T n="skill_quantity">1</T>
+                <E n="skill_tag">Skill_Charisma</E>
+                <U n="skill_threshold">
+                  <T n="value">3</T>
+                </U>
+              </U>
+            </V>
+          </L>
+        </L>
+      </U>
+    </L>
+  </U>
+  <T n="prom_royalty_vote_statistic">282770</T>
+  <U n="prom_winners_notification">
+    <V n="icon" t="enabled">
+      <V n="enabled" t="resource_key">
+        <U n="resource_key">
+          <T n="key" p="InEP12\UI\Icons\Events\EventIcons\events_Prom.png">2f7d0004:00000000:d8dd9f4606e2936b</T>
         </U>
       </V>
-    </L>
-  </L>
+    </V>
+    <V n="text" t="single">
+      <T n="single">0x236E8E31</T>
+    </V>
+  </U>
+  <T n="royalty_winner_role_state">282931</T>
+  <V n="screen_slam_bronze" t="enabled">
+    <V n="enabled" t="reference">
+      <T n="reference">302653</T>
+    </V>
+  </V>
+  <V n="screen_slam_gold" t="enabled">
+    <V n="enabled" t="reference">
+      <T n="reference">302654</T>
+    </V>
+  </V>
+  <V n="screen_slam_no_medal" t="enabled">
+    <V n="enabled" t="reference">
+      <T n="reference">75361</T>
+    </V>
+  </V>
+  <V n="screen_slam_silver" t="enabled">
+    <V n="enabled" t="reference">
+      <T n="reference">302655</T>
+    </V>
+  </V>
+  <V n="situation_end_time_string" t="show_end_time">
+    <T n="show_end_time">0xA3E17143</T>
+  </V>
+  <U n="teens_situation_job">
+    <T n="role_state">282083</T>
+    <T n="situation_job">280744</T>
+  </U>
 </I>

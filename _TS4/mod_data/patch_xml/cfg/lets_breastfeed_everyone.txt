@@ -5,9 +5,11 @@
             'instance': {'interaction', },
             'tunings': {'baby_Mixer_BabyFeed_Body_*', },
         },
-        'allow_for_everyone': {
-            'xpath': "/I/L[@n='tests']/L",
-            'delete': [{'tag': 'V', 'attrib': {'t': 'test_set_reference'}}, ],
+        'actions': {
+            'allow_for_everyone': {
+                'xpath': "/I/L[@n='tests']/L",
+                'delete': [{'tag': 'V', 'attrib': {'t': 'test_set_reference'}}, ],
+            },
         },
     },
     'o19:Deny Bottle Feeding': {
@@ -16,12 +18,14 @@
             'instance': {'interaction', },
             'tunings': {'baby_Mixer_BabyFeed_Bottle_*', },
         },
-        'deny_for_everyone': {
-            'xpath': ".",
-            'add': [
-                {'tag': 'T', 'attrib': {'n': 'allow_user_directed'}, 'text': 'False'},
-                {'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False'},
-            ],
+        'actions': {
+            'deny_for_everyone': {
+                'xpath': ".",
+                'add': [
+                    {'tag': 'T', 'attrib': {'n': 'allow_user_directed'}, 'text': 'False'},
+                    {'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False'},
+                ],
+            },
         },
     },
 }

@@ -1,48 +1,121 @@
-<I c="TestSetInstance" i="snippet" m="event_testing.tests" n="testSetInstance_BabyFeed_Body_Can_Actor" s="305329"><!-- 0x000000000004A8B1 -->
-  <L n="test">
-    <L>
-      <V t="relationship">
-        <U n="relationship">
-          <U n="required_relationship_bits">
-            <L n="match_all">
-              <T>8805<!-- family_Target_IsSonOrDaughterOf_Actor --></T>
-            </L>
+<I c="PrePromInviteDramaNode" i="drama_node" m="drama_scheduler.prom_invite_drama_node" n="prePromInviteDramaNode" s="280767">
+  <!-- 0x00000000000448BF --><T n="_host_event_at_NPCs_residence">True</T>
+  <V n="_NPC_host_job" t="enabled">
+    <T n="enabled">283487<!-- situationJob_HSProm_Teen_PreProm_Host --></T>
+  </V>
+  <V n="_NPC_hosted_situation_player_job" t="enabled">
+    <T n="enabled">280799<!-- situationJob_HSProm_Teen_PreProm --></T>
+  </V>
+  <L n="_NPC_hosted_situation_start_messages">
+    <U>
+      <U n="dialog">
+        <V n="bring_other_sims" t="enabled">
+          <U n="enabled">
+            <U n="picker_dialog">
+              <V n="max_selectable" t="static_count">
+                <U n="static_count">
+                  <T n="number_selectable">8</T>
+                </U>
+              </V>
+              <T n="min_selectable">0</T>
+              <V n="title" t="enabled">
+                <T n="enabled">0xFAD8C440<!-- Pick some teens! --></T>
+              </V>
+            </U>
+            <T n="situation_job">280799<!-- situationJob_HSProm_Teen_PreProm --></T>
+            <T n="text">0xF3CCFE08<!-- Choose Sims --></T>
+            <T n="travel_with_filter">280801<!-- filter_HSProm_Teen_PreProm --></T>
           </U>
-          <L n="target_sim">
-            <E>Object</E>
-          </L>
-        </U>
-      </V>
-      <V t="trait">
-        <U n="trait">
-          <L n="whitelist_traits">
-            <T>274985<!-- trait_GenderOptions_Lactate_Can --></T>
-          </L>
-        </U>
-      </V>
-    </L>
+        </V>
+        <E n="phone_ring_type">BUZZ</E>
+        <V n="text" t="single">
+          <T n="single">0xEDFF976E<!-- Hey {0.SimFirstName}, we're having a little get-together before Prom. Want to join? --></T>
+        </V>
+        <T n="zone_title">0xC79595F2<!-- {0.String}: {1.String} --></T>
+      </U>
+    </U>
+  </L>
+  <T n="_situation_to_run">280771<!-- customStatesSituation_HSProm_PreProm --></T>
+  <T n="_user_facing">False</T>
+  <U n="additional_party_goers">
+    <T n="job">280799<!-- situationJob_HSProm_Teen_PreProm --></T>
+    <T n="number_to_find">4</T>
+    <T n="sim_filter">280801<!-- filter_HSProm_Teen_PreProm --></T>
+  </U>
+  <T n="allow_during_work_hours">False</T>
+  <V n="cooldown_data" t="none" />
+  <U n="min_and_max_times">
+    <T n="lower_bound">0</T>
+    <T n="upper_bound">24</T>
+  </U>
+  <L n="pretests">
     <L>
-      <V t="trait">
-        <U n="trait">
-          <E n="subject">Object</E>
-          <L n="whitelist_traits">
-            <T>102785<!-- trait_OccultAlien --></T>
-            <T>102784<!-- trait_OccultAlienPart --></T>
-          </L>
-        </U>
-      </V>
-      <V t="relationship">
-        <U n="relationship">
-          <U n="required_relationship_bits">
-            <L n="match_all">
-              <T>100705<!-- relbit_Pregnancy_Birthparent --></T>
+      <V t="sim_info">
+        <U n="sim_info">
+          <V n="ages" t="specified">
+            <L n="specified">
+              <E>TEEN</E>
             </L>
-          </U>
-          <L n="target_sim">
-            <E>Object</E>
-          </L>
+          </V>
+          <E n="match_type">MATCH_ANY</E>
+          <V n="npc" t="enabled" />
+          <E n="who">Actor</E>
         </U>
       </V>
     </L>
   </L>
+  <L n="run_tests">
+    <L>
+      <V t="game_option">
+        <U n="game_option">
+          <E n="gameplay_option">NPC_AUTONOMY_FRIENDLY</E>
+        </U>
+      </V>
+      <V t="sim_info">
+        <U n="sim_info">
+          <V n="ages" t="specified">
+            <L n="specified">
+              <E>TEEN</E>
+              <E>YOUNGADULT</E>
+              <E>ADULT</E>
+              <E>ELDER</E>
+              <E>CHILD</E>
+            </L>
+          </V>
+        </U>
+      </V>
+      <V t="can_create_user_facing_situation">
+        <U n="can_create_user_facing_situation">
+          <T n="allow_non_prestige_is_exempt">True</T>
+        </U>
+      </V>
+      <V t="travel_group">
+        <U n="travel_group">
+          <V n="test_type" t="in_travel_group">
+            <U n="in_travel_group">
+              <T n="exists">False</T>
+            </U>
+          </V>
+        </U>
+      </V>
+    </L>
+  </L>
+  <V n="scoring" t="enabled">
+    <U n="enabled">
+      <E n="bucket">HSProm_PreProm</E>
+    </U>
+  </V>
+  <V n="sender_sim_info" t="sim_filter">
+    <U n="sim_filter">
+      <T n="sim_filter">280801<!-- filter_HSProm_Teen_PreProm --></T>
+    </U>
+  </V>
+  <V n="time_option" t="single_time">
+    <U n="single_time">
+      <U n="valid_time">
+        <E n="day">SATURDAY</E>
+        <T n="hour">15</T>
+      </U>
+    </U>
+  </V>
 </I>
