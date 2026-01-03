@@ -158,7 +158,7 @@ actions = {
         'text': '360',
     },
     'override_max_participants': {
-        'xpath': "/I/max_participants",
+        'xpath': "/I/T[@n='max_participants']",
         'text': '10',
     },
 }
@@ -435,3 +435,4 @@ To remove all of my mods, delete the following folders:
 * `The Sims 4/mod_data/_o19_/`
 * `The Sims 4/mod_documentation/_o19_/`
 * `The Sims 4/mod_sources/_o19_/`
+
