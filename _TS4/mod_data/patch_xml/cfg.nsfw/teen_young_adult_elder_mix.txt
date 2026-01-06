@@ -5,7 +5,7 @@
             'instance': {'snippet', },
             'tunings': {'testSet_RomanceAllowedAge', 'testSet_TeenANDTeenORAdultANDAdult_Romance*', },  # 100790
         },
-        actions = {
+        'actions' = {
             'remove_teen': {
                 'xpath': "/I/L[@n='test']",
                 'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='TEEN']/../../../..",
