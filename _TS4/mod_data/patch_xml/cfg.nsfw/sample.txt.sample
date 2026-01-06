@@ -1,0 +1,78 @@
+{
+	# $AUTHOR:DESCRIPTION: $AUTHOR:DESCRIPTION may be named randomly
+    'o19:my_first_patch': {
+		# Keep 'filter' etc. in lower case! In the comment sections upper case is used for easy reference.
+		# Item FILTER: These elements should be easy to locate looking a the first tag of the tuning file. 
+		# Item FILTER.LOADING_TAGS:
+		# Item FILTER.INSTANCE:
+		# Item FILTER.TUNING: 4 variants are supported: 'ab', ab*', *ab', '*ab*' to match the actual tuning name.
+        'filter': {
+            'loading_tags': ['I', ],  # Module = 'M'; Class = 'C'; Instance = 'I'; Tunable = 'T'; List = 'L'; Tuple = 'U'; Enum = 'E'
+            'instance': ['interaction', ],  # snippet, trait, buff, ...
+            'tuning': ['Gardening_*', ],
+        },
+
+		# ACTIONS: The actions section which will modify the tunings specified above.
+        # Each modification operation needs a unique description (eg. 'set_duration').
+        # The order of operations matters (only if two or more operations modify the same data).
+		# ACTIONS.$USER_ACTION: $USER_ACTION may be named randomly
+		#
+        # General XML syntax: '<TAG attribute_name="attribute_value">TEXT</TAG>'
+		#
+        # ACTIONS.$USER_ACTION.XPATH
+		# ACTIONS.$USER_ACTION.MATCH
+		# Each $USER_ACTION needs an XPATH which specifies the XML element to be modified. Do not start with '/I' as this is not supported!
+		# For each XPATH a MATCH may be specified, the default is '*' to match all elements.
+        # The XML implementation is limited, better skip 'MATCH' (default '*' or know what you are doing.
+        # XPATH ending with '/' will match all child elements, use this with care.
+		#
+        # A new static TEXT value can always be specified.
+        # To modfy the TEXT value these math functions are available:
+        # generic: NAME(VALUE, DIGITS)
+        # mul(2.2, 0) == float(text) * 2.2 - round to 0 digits / int value
+        # div(2.2, 1) == float(text) / 2.2 - round to 1 digits / float value
+        # add(2.2, 3) == float(text) + 2.2 - round to 3 digits / float value
+        # sub(2.2, 1) == float(text) - 2.2
+        # pow(0.5, 1) == float(text) ^ 0.5
+        # x_div(2.2, 3) == 2.2 / float(text)
+        # x_sub(2.2, 1) == 2.2 - float(text)
+        # x_pow(2.2, 1) == 2.2 ^ float(text)
+		#
+		#
+		# ACTIONS.$USER_ACTION.DELETE
+		# ACTIONS.$USER_ACTION.ADD
+		# ACTIONS.$USER_ACTION.MODIFY
+        # Each $USER_ACTION should at least contain one modification (DELETE, ADD, MODIFY) even though all 3 are supported.
+        # These modifications will be executed in this order: DELETE, ADD, MODIFY. If you really need a different order create different operations (a 2nd ACTIONS.$USER_ACTION).
+		#
+        # ACTIONS.$USER_ACTION.DELETE specifies the elements to delete. 'None' deletes all elements. Otherwise a list with xml elements can be used.
+        # Only matching elements will be deleted, matching of TAG, TEXT and/or ATTRIBUES is supported.
+		#
+        # ACTIONS.$USER_ACTION.ADD - XPATH, ADD
+        # This addes xml elements. Also COMMENTS can be added to locate the modified part in XML while testing.
+		#
+        # ACTIONS.$USER_ACTION.MODIFY - ATTRIB, TEXT
+        # All found elements will be modified.
+        'actions': {
+            'set_duration': {
+                'xpath': "V/U/L/V/U/L/V/U/T[@n='max_time']",
+                # 'attrib': {'n': 'min_time', 'm': 'minutes'},  # not really needed
+                'text': 'div(2, 0)',
+            },
+            'del_tings': {
+                'xpath': "V/U/L/V/U/L/V/U[@n='time_based']",
+                'match': '*',  # match all elements within "<U n='time_based'>"
+                # 'deletes': None,  # delete everything
+                # 'delete': [{'tag': 'T' }, 'text': '4'}],  # delete '<T ...></T>
+                # 'delete': [{'text': '4' }, 'text': '4'}],  # delete '<? ...>4</?>
+                'delete': [{'tag': 'T', 'attrib': {'n': 'max_time'}, 'text': '4'}],  # delete '<T n=max_time>4</T>
+            },
+            'add_tings': {
+                'xpath': "V/U/L/V/U/L/V/U[@n='time_based']",
+                'add': [{'tag': 'Foo', 'attrib': {'n': 'lax_time', 'm': 'm_time'}, 'text': '33', }],  # 'comment': 'My first comment!'
+                # Technically we can add a comment to the patched tuning. Anyhow TS4 can't handle these comments properly.
+            }
+        }
+    }
+}
+SAMPLE - DO NOT PARSE

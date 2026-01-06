@@ -1,0 +1,25 @@
+{
+    'o19:posture_BedSleep': {
+        'test_file': 'posture_BedSleep.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'posture', },
+            'tunings': {"posture_BedSleep", },
+        },
+        'actions': {
+            'sleep_naked': {
+                'xpath': 'V[@n="outfit_change"]/U[@n="for_reason"]/V[@n="on_entry"]',
+                'delete': [{'tag': 'E', 'attrib': {'n': 'enabled'}}],
+                'add': [{'tag': 'E', 'attrib': {'n': 'enabled'}, 'text': 'EnterBathing'}],
+            },
+            # Uncomment the lines below to change from nude to sleepwear.
+            #'exit_and_dress_in_sleepwear': {
+            #    'xpath': 'V[@n="outfit_change"]/U[@n="for_reason"]/V[@n="on_exit"]',
+            #    'delete': [{'tag': 'E', 'attrib': {'n': 'enabled'}}],
+            #    'add': [{'tag': 'E', 'attrib': {'n': 'enabled'}, 'text': 'Category_Sleep'}],
+            #}
+        }
+    }
+}
+
+# inspect posture posture_BedSleep outfit_change

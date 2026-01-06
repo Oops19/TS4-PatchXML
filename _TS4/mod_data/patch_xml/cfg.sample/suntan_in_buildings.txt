@@ -1,0 +1,20 @@
+{
+    'o19:suntan_in_buildings': {
+        'test_file': 'suntan_BeachTowel.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'suntan_BeachTowel*', 'suntan_LoungeChair*', 'suntan_SitLoungeFloat*'},
+        },
+        'actions': {
+            'remove_checks': {
+                'xpath': "L[@n='test_globals']",
+                'delete': [
+                    {'tag': 'V', 'attrib': {'t': 'location'}},
+                    {'tag': 'V', 'attrib': {'t': 'day_and_time'}},
+                    {'tag': 'V', 'attrib': {'t': 'weather_type'}}
+                ],
+            }
+        }
+    }
+}

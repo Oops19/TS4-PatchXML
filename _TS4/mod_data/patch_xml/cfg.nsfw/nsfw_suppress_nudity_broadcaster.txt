@@ -1,0 +1,15 @@
+{
+    'o19:suppress_nudity_broadcaster': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'broadcaster', },
+            'tunings': {'broadcaster_Outfit_Nude*', },  # 128809,
+        },
+        'actions': {
+            'optimize': {
+                'xpath': ".",  # add to root
+                'add': [{'tag': 'T', 'attrib': {'n': 'allow_sims'}, 'text': 'False', }],  # 'comment': " Don't affect other sims. "
+            }
+        }
+    }
+}

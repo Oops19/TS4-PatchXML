@@ -1,0 +1,61 @@
+{
+    # Start pre-prom 2h earlier at 13:00
+    # Let 10 (4) additional sims join
+    # Invite up to 10 (8) sims
+    "o19:HSY Prom - Pre Prom Start": {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'drama_node', },
+            'tunings': {'prePromInviteDramaNode', },  # 280767
+        },
+        'actions': {
+            'pre_prom_start_time': {
+                'xpath': "/I/V[@n='time_option']/U[@n='single_time']/U[@n='valid_time']/T[@n='hour']",
+                'text': '13',  # default: 15
+            },
+            'pre_prom_additional_party_goers': {
+                'xpath': "/I/U[@n='additional_party_goers']/T[@n='number_to_find']",
+                'text': '10',  # default: 4
+            },
+            'pre_prom_invite': {
+                'xpath': "/I/L[@n='_NPC_hosted_situation_start_messages']/U/U[@n='dialog']/V[@n='bring_other_sims']/U[@n='enabled']/U[@n='picker_dialog']/V[@n='max_selectable']/U[@n='static_count']/T[@n='number_selectable']",
+                'text': '10',  # default: 8
+            },
+        },
+    },
+
+    # Start prom 2h earlier at 17:00
+    "o19:HSY Prom - Start time": {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'drama_node', },
+            'tunings': {'promInviteDramaNode_HSProm', },  # 280737
+        },
+        'actions': {
+            'prom_start_time': {
+                'xpath': "/I/V[@n='time_option']/U[@n='single_time']/U[@n='valid_time']/T[@n='hour']",
+                'text': '17',  # default: 19
+            },
+        },
+    },
+
+    # Prom 2h longer for 6 hours (360 instead of 240 minutes)
+    # Prom with more guests
+    "o19:HSY Prom - Duration & Participants": {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'situation', },
+            'tunings': {'situation_HSProm', },  # 280741
+        },
+        'actions': {
+            'prom_duration': {
+                'xpath': "/I/T[@n='duration']",
+                'text': '360',  # 2 hours longer if it starts 2 hours earlier
+            },
+            'prom_max_participants': {
+                'xpath': "/I/T[@n='max_participants']",
+                'text': '30',  # invite 30 instead of 20 sims
+            },
+        },
+    },
+}

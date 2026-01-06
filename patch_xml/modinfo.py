@@ -34,12 +34,18 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.2.3'
+        return '1.3.0'
 
 
 r'''
 TODO:
     Cleanup of old delete code in SharedData().initialize_cache_directory()
+
+v1.3.0
+    Add a simple FAQ to README
+    Do nothing in case 'cfg' is empty. Do not read cached values or try to patch things.
+    Move all files out of 'cfg' and deliver the mod without default configuration files. >> README updated.
+    comments.zip updated
 
 v1.2.3
     Add XML with "_xml='<E>TEEN</E>'" to the selected (via xpath) node.

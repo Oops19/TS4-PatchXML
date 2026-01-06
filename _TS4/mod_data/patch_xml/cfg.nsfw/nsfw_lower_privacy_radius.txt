@@ -1,0 +1,16 @@
+{
+    'o19:lower_privacy_radius': {
+        'test_file': 'suntan_BeachTowel_Nude.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'suntan_BeachTowel*', 'suntan_LoungeChair*', 'suntan_SitLoungeFloat*'}, # 210704, ...
+        },
+        'actions': {
+            'lower_the_radius': {
+                'xpath': "L[@n='test_globals']/V[@t='sims_in_constraint']/U[@n='sims_in_constraint']/L[@n='constraints']/V[@t='circle']/U[@n='circle']T[@n='radius']",
+                'text': 'div(5, 0)',
+            }
+        }
+    }
+}

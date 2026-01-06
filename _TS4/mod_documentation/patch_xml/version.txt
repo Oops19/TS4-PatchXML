@@ -1,11 +1,9 @@
-PatchXML v1.2.3 for The Sims 4 v1.120.117 and S4CL v3.17
-Created on 2026-01-03
-v1.2.3
-    Add XML with "_xml='<E>TEEN</E>'" to the selected (via xpath) node.
-    Evaluate the xpath only one time. xpath with '/..' will no longer fail after deleting the child node.
-    xpath compatibility: 'contains()' and 'text' support now single and double quotes:
-    * E[contains(text(), "TEEN")] or E[contains(text(), 'TEEN')]
-    * E[text="TEEN"] or E[text='TEEN']
-    * [E="TEEN"] or [E='TEEN']
-        * For 'match' [E="TEEN"] or [E='TEEN'] must be used, 'contains()' and 'text' are not supported.
+PatchXML v1.3.0 for The Sims 4 v1.120.117 and S4CL v3.17
+Created on 2026-01-04
+v1.3.0
+    Add a simple FAQ to README
+    Do nothing in case 'cfg' is empty. Do not read cached values or try to patch things.
+    Move all files out of 'cfg' and deliver the mod without default configuration files. >> README updated.
+    comments.zip updated
+
 

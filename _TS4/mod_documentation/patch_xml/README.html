@@ -1,4 +1,4 @@
-<h1>Patch XML</h1>
+<h1>🧬 Patch XML</h1>
 <br/>
 This mod is a poor man's clone of Live XML.<br/>
 <br/>
@@ -7,7 +7,15 @@ It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add
 <br/>
 As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.<br/>
 <br/>
-<h3>v1.2.0 CacheD</h3>
+<h3>🛡️ v1.3.0 No Default Configuration</h3>
+The 'cfg' directory does no longer contain configuration files.<br/>
+This allows you to keep your own modifications in 'cfg' when updating Patch-XML.<br/>
+<br/>
+It also enforces you to either copy files from 'cfg.samples' to 'cfg' or create files in 'cfg' to use this mod.<br/>
+<br/>
+The new 📖 FAQ section (scroll down) in this readme should help you to get started.<br/>
+<br/>
+<h3>🚀 v1.2.0 CacheD</h3>
 Version 1.2+ cache the patched tuning files in <i>mod_data/patch_xml/{game_version/</i>.<br/>
 Whenever a new TS4 version gets released startup will take a while to extract comments and to create new patch files.<br/>
 <br/>
@@ -20,7 +28,8 @@ There's no need to update even though I highly recommend it.<br/>
 The <i>mod_data/patch_xml/cfg/*.txt</i> files modify tunings.<br/>
 They change the game mechanics and checks in various ways (like an override.package does).<br/>
 <ul>
-	<li>Please review the files in <i>mod_data</i> and remove files which you do not want to use.</li>
+	<li>~~Please review the files in <i>cfg</i> and remove files which you do not want to use.</s> (until v1.3.0)</li>
+	<li>Please review the files in <i>cfg.sample</i> and copy files which you want to use to <i>cfg`.</li>
 	<li>Filtering of broadcasts affects multiple sims.</li>
 	<li>Modified age/race/gender checks may allow sims and/or pets to execute tasks which were never planned to be available for them.</li>
 	<li>Modified range checks may lower or increase the interaction range and/or privacy need of sims.</li>
@@ -28,10 +37,11 @@ They change the game mechanics and checks in various ways (like an override.pack
 <br/>
 The included files should not affect the game-play too much, but it's hard to test everything.<br/>
 <br/>
-Modifications which I do not consider as strictly SFW have a 'nsfw_' prefix.<br/>
+🔞 Modifications which I do not consider as strictly SFW / child compatible are in 'cfg.nsfw' prefix.<br/>
+Do not use the mods until your mental age is 25.<br/>
 <br/>
 <h3>Tuning Extractor</h3>
-This mod can extract all tuning files with comments for referenced tunings, like 'TS4 XML Extractor' does. It doesn't add STBL comments for text references.<br/>
+This mod can extract nearly all tuning files with comments for referenced tunings, like 'TS4 XML Extractor' does. It doesn't add STBL comments for text references.<br/>
 <br/>
 <h3>Tuning Editor</h3>
 This mod is for everyone who wants to modify tuning values without editing XML files. It is the superior alternative to overrides.<br/>
@@ -81,9 +91,6 @@ Please let me know if you can identify security issues, no one wants to run a mo
 For now I recommend that you review the files before you save them to <i>mod_data/patch_xml/</i>.<br/>
 <br/>
 I consider this mod to be safe, otherwise I would not publish it.<br/>
-<br/>
-<br/>
-<br/>
 <br/>
 <h2>Cheat commands</h2>
 <ul>
@@ -151,6 +158,180 @@ The element attributes and the element text can also be modified:<br/>
 	<li>Supported: operations: mul/div/add/sub/pow(number, digits) => 'text' */+-^ number; round to digits</li>
 	<li>Supported: operations: x_div/x_sub/x_pow => number /-^ 'text'; round to digits</li>
 </ul>
+<br/>
+<h1>📖 FAQ</h1>
+<h2>🗂️ How do I ...</h2>
+I try to provide a valid XML with only relevant parts.<br/>
+The <i>&lt;I&gt;</i> element is usually much longer and no <i>...</i> is used to show missing content.<br/>
+Between elements there are usually other elements <i>&lt;[ELTUV]&gt;</i> , if they don't matter they are excluded without adding <i>...</i> to the XML.<br/>
+<br/>
+The example contains only the <i>actions</i> and no <i>filter</i>.<br/>
+<br/>
+The examples do not always make sense as random elements are used.<br/>
+<br/>
+<h3>✏️ Change a text value</h3>
+<pre>
+&lt;I&gt;
+    &lt;T n="duration"&gt;240&lt;/T&gt;
+    &lt;T n="max_participants"&gt;5&lt;/T&gt;
+&lt;/I&gt;
+</pre>
+<pre>
+actions = {
+    'override_duration': {
+        'xpath': "/I/T[@n='duration']",
+        'text': '360',
+    },
+    'override_max_participants': {
+        'xpath': "/I/T[@n='max_participants']",
+        'text': '10',
+    },
+}
+</pre>
+<br/>
+<h3>🗑️ Delete an element</h3>
+<pre>
+&lt;I&gt;
+    &lt;T n="duration"&gt;360&lt;/T&gt;
+&lt;/I&gt;
+</pre>
+<pre>
+actions = {
+    'remove_duration': {
+        'xpath': ".",
+        'delete': [{'tag': 'T', 'attrib': {'n': 'duration'}}],
+    },
+}
+</pre>
+<br/>
+<h3>➕ Add 1-n elements</h3>
+<pre>
+&lt;I&gt;
+  &lt;L n="test_globals"&gt;
+    &lt;V t="sim_info"&gt;
+      &lt;U n="sim_info"&gt;
+        &lt;V n="ages" t="specified"&gt;
+          &lt;L n="specified"&gt;
+            &lt;E&gt;YOUNGADULT&lt;/E&gt;
+          &lt;/L&gt;
+        &lt;/V&gt;
+      &lt;/U&gt;
+    &lt;/V&gt;
+  &lt;/L&gt;
+&lt;/I&gt;
+</pre>
+<pre>
+actions = {
+    'modify_age_check': {
+        'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+        'add': [{'tag': 'E', 'text': 'ADULT'}, ],
+    },
+}
+</pre>
+<br/>
+<h3>➕🌲 Add an XML tree</h3>
+This is way more comfortable than adding one element after the other.<br/>
+<pre>
+&lt;I&gt;
+  &lt;L n="test"&gt;
+    &lt;L&gt;
+      &lt;V t="relationship"&gt;
+      &lt;/V&gt;
+      &lt;V t="trait"&gt;
+      &lt;/V&gt;
+    &lt;/L&gt;
+  &lt;/L&gt;
+&lt;/I&gt;
+</pre>
+<pre>
+actions = {
+    'patch_filter': {
+        'xpath': "/I/L[@n='test']",
+        'delete': [{'tag': 'L', }, ],
+        'add': [
+            {'_xml': '&lt;L&gt;&lt;V t="trait"&gt;&lt;U n="trait"&gt;&lt;L n="whitelist_traits"&gt;&lt;T&gt;123&lt;/T&gt;&lt;/L&gt;&lt;/U&gt;&lt;/V&gt;&lt;/L&gt;'}
+        ],
+    },
+}
+</pre>
+<br/>
+<h3>📍🗑️🌲️ Select and delete an XML tree</h3>
+In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to the other test for 'YOUNGADULT'.<br/>
+<pre>
+&lt;I&gt;
+  &lt;L n="test"&gt;
+    &lt;L&gt;
+      &lt;V t="sim_info"&gt;
+        &lt;U n="sim_info"&gt;
+          &lt;V n="ages" t="specified"&gt;
+            &lt;L n="specified"&gt;
+              &lt;E&gt;YOUNGADULT&lt;/E&gt;
+            &lt;/L&gt;
+          &lt;/V&gt;
+        &lt;/U&gt;
+      &lt;/V&gt;
+    &lt;/L&gt;
+    &lt;!-- the goal is to remove this test and use the YOUNGADULT test also for ADULT --&gt;
+    &lt;L&gt;
+      &lt;V t="sim_info"&gt;
+        &lt;U n="sim_info"&gt;
+          &lt;V n="ages" t="specified"&gt;
+            &lt;L n="specified"&gt;
+              &lt;E&gt;ADULT&lt;/E&gt;
+            &lt;/L&gt;
+          &lt;/V&gt;
+        &lt;/U&gt;
+      &lt;/V&gt;
+    &lt;/L&gt;
+  &lt;/L&gt;
+&lt;/I&gt;
+
+</pre>
+<pre>
+actions = {
+    'remove_test': {
+        'xpath': "/I/L[@n='test']",
+        'delete': [{'tag': 'L', }, ],
+        'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='ADULT']/../../../..",
+    },
+    # This adds ADULT to all tests (hopefully only one is left)
+    'add_adult': {
+        'xpath': "/I/L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+        'add': [
+            {'tag': 'E', 'text': 'ADULT'},
+        ],
+    },
+}
+</pre>
+<br/>
+<h3>📍🗑️🌲️ Select and delete an XML tree (2)</h3>
+This is way more comfortable than adding one element after the other.<br/>
+<pre>
+&lt;I&gt;
+  &lt;V n="outcome"&gt;
+    &lt;U n="partial"&gt;
+      &lt;L n="test_and_results"&gt;
+        &lt;U&gt;
+          &lt;T n="result_string"&gt;0xA45AC41C&lt;!-- {0.SimFirstName} is sleeping. --&gt;&lt;/T&gt;
+        &lt;/U&gt;
+      &lt;/L&gt;
+    &lt;/U&gt;
+  &lt;/V&gt;
+&lt;/I&gt;
+</pre>
+<pre>
+actions = {
+    'call_while_sleeping': {
+        'xpath': "/I/V[@n='outcome']/U[@n='partial']/L[@n='test_and_results']",
+        'match': 'U/[T="0xA45AC41C"]',
+        'delete': [
+            {'tag': 'U'},
+        ],
+    },
+}
+</pre>
+<br/>
+<br/>
 <br/>
 <br/>
 ---<br/>

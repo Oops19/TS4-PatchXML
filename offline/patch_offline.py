@@ -10,15 +10,27 @@ class PatchOffline:
     def __init__(self):
 
         actions = {
-            'prom_duration': {
-                'xpath': "/I/T[@n='duration']",
-                'text': '360',  # 2 hours longer if it starts 2 hours earlier
+            'remove_teen': {
+                'xpath': "/I/L[@n='test']",
+                'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='TEEN']/../../../..",
+                'delete': [{'tag': 'L', }, ],
             },
-            'prom_max_participants': {
-                'xpath': "/I/T[@n='max_participants']",
-                'text': '30',  # invite 30 instead of 20 sims
+            'add_teen': {
+                'xpath': "/I/L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
+                'add': [
+                    {'tag': 'E', 'text': 'TEEN'},
+                ],
             },
         }
+
+        # "L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@t='specified']
+        #   <L n="test">
+        #     <L>
+        #       <V t="sim_info">
+        #         <U n="sim_info">
+        #           <V n="ages" t="specified">
+        #             <L n="specified">
+        #               <E>YOUNGADULT</E>
 
         src_tuning = os.path.join(os.path.dirname(__file__), './.src.xml')
         dst_file = os.path.join(os.path.dirname(__file__), './.dst.xml')
@@ -36,7 +48,6 @@ class PatchOffline:
 
         fp = open(dst_file, 'wt', encoding='UTF-8', newline='')
         fp.write(f"{ElementTree.tostring(new_xml, encoding='UTF-8').decode('UTF-8')}")
-
 
 
 if __name__ == '__main__':

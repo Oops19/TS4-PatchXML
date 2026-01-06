@@ -7,7 +7,15 @@ It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add
 
 As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.
 
-### v1.2.0 CacheD
+### 🛡️ v1.3.0 No Default Configuration
+The 'cfg' directory does no longer contain configuration files.
+This allows you to keep your own modifications in 'cfg' when updating Patch-XML.
+
+It also enforces you to either copy files from 'cfg.samples' to 'cfg' or create files in 'cfg' to use this mod.
+
+The new 📖 FAQ section (scroll down) in this readme should help you to get started.
+
+### 🚀 v1.2.0 CacheD
 Version 1.2+ cache the patched tuning files in `mod_data/patch_xml/{game_version/`.
 Whenever a new TS4 version gets released startup will take a while to extract comments and to create new patch files. 
 
@@ -19,17 +27,19 @@ There's no need to update even though I highly recommend it.
 ## Mild Warning - Game mechanics changed
 The `mod_data/patch_xml/cfg/*.txt` files modify tunings.
 They change the game mechanics and checks in various ways (like an override.package does).
-* Please review the files in `mod_data` and remove files which you do not want to use.
+* ~~Please review the files in `cfg` and remove files which you do not want to use.~~ (until v1.3.0)
+* Please review the files in `cfg.sample` and copy files which you want to use to `cfg`.
 * Filtering of broadcasts affects multiple sims.
 * Modified age/race/gender checks may allow sims and/or pets to execute tasks which were never planned to be available for them.
 * Modified range checks may lower or increase the interaction range and/or privacy need of sims. 
 
 The included files should not affect the game-play too much, but it's hard to test everything.
 
-Modifications which I do not consider as strictly SFW have a 'nsfw_' prefix.
+🔞 Modifications which I do not consider as strictly SFW / child compatible are in 'cfg.nsfw' prefix.
+Do not use the mods until your mental age is 25.
 
 ### Tuning Extractor
-This mod can extract all tuning files with comments for referenced tunings, like 'TS4 XML Extractor' does. It doesn't add STBL comments for text references.
+This mod can extract nearly all tuning files with comments for referenced tunings, like 'TS4 XML Extractor' does. It doesn't add STBL comments for text references.
 
 ### Tuning Editor
 This mod is for everyone who wants to modify tuning values without editing XML files. It is the superior alternative to overrides.
@@ -79,7 +89,6 @@ Please let me know if you can identify security issues, no one wants to run a mo
 For now I recommend that you review the files before you save them to `mod_data/patch_xml/`.
 
 I consider this mod to be safe, otherwise I would not publish it.
-
 
 ## Cheat commands
 * 'o19.tunings.patch file.txt n': Config file (in patch_xml/cfg/) and tuning_id to test. The modification can't be applied while testing.  If the patch looks fine restart the game to apply it.
@@ -140,9 +149,76 @@ I try to provide a valid XML with only relevant parts.
 The `<I>` element is usually much longer and no `...` is used to show missing content.
 Between elements there are usually other elements `<[ELTUV]>` , if they don't matter they are excluded without adding `...` to the XML.
 
-The example contains only the `actions` and no `filter`.
+The examples contain only the `actions`.
 
 The examples do not always make sense as random elements are used.
+
+### 📍 Search a node (simple)
+```xml
+<I>
+    <U>
+        <T></T>
+    </U>
+</I>
+```
+Simple search is not recommended, searches by attrib are more granular and can avoid unexpected matches.
+```python
+actions = {
+    'search_1': {
+        'xpath': "/I/U",  # Search the 'U' node.
+    },
+    # Depending on the use case one or the other search may be used.
+    'search_2': {
+        'xpath': "/I/U/T",  # Search the 'T' node.
+    },
+    
+}
+```
+
+### 📍 Search a node (attribute)
+```xml
+<I>
+    <U n="foo">
+        <T></T>
+    </U>
+    <U n="bar">
+        <T></T>
+    </U>
+</I>
+```
+Search the `<U n="foo">` node.
+```python
+actions = {
+    'node_by_attribute': {
+        'xpath': "/I/U[@n='foo']",
+    },
+}
+```
+
+### 📍 Search a node by text
+```xml
+<I>
+    <U>
+        <T n="result_string">0xA45AC41C<!-- {0.SimFirstName} is sleeping. --></T>
+    </U>
+</I>
+```
+```python
+actions = {
+    'node_by_text': {
+        'xpath': '/I/U/[T="0xA45AC41C"]',  # change the node or sub elements
+    },
+    # Some more advanced examples, depending on the use case one or the other will be used.
+    'node_by_text_2': {
+        'xpath': '/I/U',
+        'match': '[T="0xA45AC41C"]'  # change the node and/or sub elements
+    },
+    'node_by_text_3': {
+        'xpath': '/I',
+        'match': 'U/[T="0xA45AC41C"]'  # # change the parent node (e.g. delete it)
+    },
+}
+```
 
 ### ✏️ Change a text value
 ```xml
@@ -158,7 +234,7 @@ actions = {
         'text': '360',
     },
     'override_max_participants': {
-        'xpath': "/I/max_participants",
+        'xpath': "/I/T[@n='max_participants']",
         'text': '10',
     },
 }
@@ -231,6 +307,7 @@ actions = {
 ```
 
 ### 📍🗑️🌲️ Select and delete an XML tree
+The difference between the two nodes is nested deep in the node.
 In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to the other test for 'YOUNGADULT'.
 ```xml
 <I>
@@ -264,7 +341,7 @@ In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to th
 ```
 ```python
 actions = {
-    'remove_test': {
+    'select_and_delete': {
         'xpath': "/I/L[@n='test']",
         'delete': [{'tag': 'L', }, ],
         'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='ADULT']/../../../..",
@@ -296,7 +373,7 @@ This is way more comfortable than adding one element after the other.
 ```
 ```python
 actions = {
-    'call_while_sleeping': {
+    'select_and_delete': {
         'xpath': "/I/V[@n='outcome']/U[@n='partial']/L[@n='test_and_results']",
         'match': 'U/[T="0xA45AC41C"]',
         'delete': [
@@ -305,9 +382,6 @@ actions = {
     },
 }
 ```
-
-
-
 
 ---
 

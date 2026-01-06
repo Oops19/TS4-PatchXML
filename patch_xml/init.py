@@ -35,6 +35,10 @@ class Init(object, metaclass=Singleton):
             self.uc = UserConfig()
             self.sd = SharedData()
 
+            user_provided_patches: Dict = self.uc.merge_configuration_files()
+            if not user_provided_patches:
+                log.warn(f"No configuration files found. Exiting early without patching. No patching from cache.")
+
             self.tunings_folder = self.sd.dir_tunings
             os.makedirs(self.tunings_folder, exist_ok=True)
 

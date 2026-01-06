@@ -1,0 +1,16 @@
+{
+    'o19:suppress_jealousy_broadcaster': {
+        'test_file': 'broadcaster_Jealousy.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'broadcaster', },
+            'tunings': {'broadcaster_Jealousy*', },
+        },
+        'actions': {
+            'optimize': {
+                'xpath': ".",  # add to root
+                'add': [{'tag': 'T', 'attrib': {'n': 'allow_sims'}, 'text': 'False',}],  # 'comment': " Don't affect other sims. "
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "o19:Let's Breastfeed trait_GenderOptions_Lactate_Can": {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'snippet', },
+            'tunings': {'testSetInstance_BabyFeed_Body_Can_Actor', },  # 305329
+        },
+		'actions': {
+			'patch_filter': {
+				'xpath': "/I/L[@n='test']",
+				'delete': [{'tag': 'L', }, ],
+				'add': [
+					{'_xml': '<L><V t="trait"><U n="trait"><L n="whitelist_traits"><T>274985</T></L></U></V></L>'}
+				],
+			},
+		},
+    },
+    'o19:Deny Bottle Feeding': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': {'baby_Mixer_BabyFeed_Bottle_*', },
+        },
+		'actions': {
+			'deny_for_everyone': {
+				'xpath': ".",
+				'add': [
+					{'tag': 'T', 'attrib': {'n': 'allow_user_directed'}, 'text': 'False'},
+					{'tag': 'T', 'attrib': {'n': 'allow_autonomous'}, 'text': 'False'},
+				],
+			},
+		},
+    },
+    # testSetInstance_BabyFeed_Body_Can_Actor
+
+}
