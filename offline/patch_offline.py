@@ -11,26 +11,17 @@ class PatchOffline:
 
         actions = {
             'remove_teen': {
-                'xpath': "/I/L[@n='test']",
-                'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='TEEN']/../../../..",
-                'delete': [{'tag': 'L', }, ],
-            },
-            'add_teen': {
-                'xpath': "/I/L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
-                'add': [
-                    {'tag': 'E', 'text': 'TEEN'},
-                ],
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U",
+                'match': "U[E='ADULT']/../L[@n='target_age_to_multiplier']/U/E[n='TEEN']/../..",
+                'delete': [{'tag': 'U', }, ],
             },
         }
 
-        # "L[@n='test']/L/V[@t='sim_info']/U[@n='sim_info']/V[@t='specified']
-        #   <L n="test">
-        #     <L>
-        #       <V t="sim_info">
-        #         <U n="sim_info">
-        #           <V n="ages" t="specified">
-        #             <L n="specified">
-        #               <E>YOUNGADULT</E>
+        # <I c="CrossAgeTuning" i="snippet" m="snippets" n="crossAgeTuning_RomanceZero" s="338529"><!-- 0x0000000000052A61 -->
+        #   <U n="value">
+        #     <L n="cross_age_tuning">
+        #       <U>
+        #         <E n="subject_age">ADULT</E>
 
         src_tuning = os.path.join(os.path.dirname(__file__), './.src.xml')
         dst_file = os.path.join(os.path.dirname(__file__), './.dst.xml')

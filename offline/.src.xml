@@ -1,50 +1,197 @@
-<I c="TestSetInstance" i="snippet" m="event_testing.tests" n="testSet_RomanceAllowedAge" s="100585">
-  <!-- 0x00000000000188E9 --><L n="test">
-    <L>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>YOUNGADULT</E>
-              <E>ADULT</E>
-              <E>ELDER</E>
-            </L>
-          </V>
-        </U>
-      </V>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>YOUNGADULT</E>
-              <E>ADULT</E>
-              <E>ELDER</E>
-            </L>
-          </V>
-          <E n="who">TargetSim</E>
-        </U>
-      </V>
+<I c="CrossAgeTuning" i="snippet" m="snippets" n="crossAgeTuning_RomanceZero" s="338529"><!-- 0x0000000000052A61 -->
+  <U n="value">
+    <L n="cross_age_tuning">
+      <U>
+        <E n="subject_age">ADULT</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TEEN</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
+      <U>
+        <E n="subject_age">CHILD</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">ADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">ELDER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TEEN</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">YOUNGADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
+      <U>
+        <E n="subject_age">ELDER</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TEEN</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
+      <U>
+        <E n="subject_age">INFANT</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">ADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">ELDER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TEEN</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">YOUNGADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
+      <U>
+        <E n="subject_age">TEEN</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">ADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">ELDER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">YOUNGADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
+      <U>
+        <E n="subject_age">TODDLER</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">ADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">ELDER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TEEN</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">YOUNGADULT</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
+      <U>
+        <E n="subject_age">YOUNGADULT</E>
+        <L n="target_age_to_multiplier">
+          <U>
+            <E n="target_age">CHILD</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">INFANT</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TEEN</E>
+            <T n="multiplier">0</T>
+          </U>
+          <U>
+            <E n="target_age">TODDLER</E>
+            <T n="multiplier">0</T>
+          </U>
+        </L>
+      </U>
     </L>
-    <L>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>TEEN</E>
-            </L>
-          </V>
-        </U>
-      </V>
-      <V t="sim_info">
-        <U n="sim_info">
-          <V n="ages" t="specified">
-            <L n="specified">
-              <E>TEEN</E>
-            </L>
-          </V>
-          <E n="who">TargetSim</E>
-        </U>
-      </V>
-    </L>
-  </L>
+  </U>
 </I>
