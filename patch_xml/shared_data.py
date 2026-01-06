@@ -58,8 +58,6 @@ class SharedData(metaclass=Singleton):
         self.file_patch = os.path.join(self.ts4f.data_folder, 'patch.ETreeTuningLoader.txt')
         self.file_no_patch = os.path.join(self.ts4f.data_folder, 'no-patch.ETreeClassCreator.txt')
 
-        # self.patched_tunings: Dict[int, Union[Element, ElementTree]] = {}
-
         self.patched_tunings_cache: Union[None, Dict[str, Union[Element, ElementTree]]] = None  # Cache to read from  {id: xml, ...}
         self.patch_tuning_files: Union[None, Dict[str, str]] = None   # Add new tunings, save to cache later  {id: filename, ...}
 

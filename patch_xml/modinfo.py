@@ -34,11 +34,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.3.0'
+        return '1.3.1'
 
 
 r'''
 TODO:
+    Document behaviour if a tuning is referenced in multiple .txt files.
+
+v1.3.1
     Cleanup of old delete code in SharedData().initialize_cache_directory()
 
 v1.3.0
