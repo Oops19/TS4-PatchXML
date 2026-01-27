@@ -34,13 +34,18 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.3.1'
+        return '1.3.2'
 
 
 r'''
 TODO:
-    Document behaviour if a tuning is referenced in multiple .txt files.
+    Document behaviour if a tuning is referenced in multiple .txt files. - only the last one read is applied which is bad.
 
+TODO v1.3.3
+    Apply all patches for a tuning if multiple patches are provided.
+v1.3.2
+    Fix import in reload_xml
+    
 v1.3.1
     Cleanup of old delete code in SharedData().initialize_cache_directory()
 

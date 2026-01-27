@@ -34,6 +34,7 @@ class XmlModification:
     def delete_element(elements: List[Element], xpath: str, xml_elements: List[Dict] = None, match: str = '*'):
         log.debug(f"delete_element(xpath='{xpath}', xml_elements='{xml_elements}', match='{match}'; found_elements={len(elements)})")
         for element in elements:
+            log.debug(f"Element: {ElementTree.tostring(element, encoding='UTF-8').decode('UTF-8')}")
             del_elements = element.findall(match)
             log.debug(f"'<{element.tag} {element.attrib}>...</{element.tag}>' contains '{len(del_elements)}' elements to delete.")
             if del_elements is None:
@@ -52,7 +53,7 @@ class XmlModification:
                                 # Delete this empty tag
                                 element.remove(del_element)
                                 log.info(f"Element '<{del_element.tag}/>' deleted.")
-                        elif (xml_element.get('tag', None) is None or xml_element.get('tag') == del_element.tag) and \
+                        elif ((xml_element.get('tag', None) is None or xml_element.get('tag') == del_element.tag)) and \
                                 (xml_element.get('text', None) is None or xml_element.get('text') == del_element.text.strip()):
                             if not xml_element.get('attrib'):
                                 element.remove(del_element)
@@ -66,6 +67,7 @@ class XmlModification:
                                 if not no_match:
                                     element.remove(del_element)
                                     log.info(f"Element '<{del_element.tag.strip()} {del_element.attrib}>...</{del_element.tag.strip()}>' deleted.")
+
 
     @staticmethod
     def add_element(elements: List[Element], xpath: str, xml_elements: List[Dict], add_comments: bool = False):

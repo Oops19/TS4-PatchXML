@@ -165,15 +165,88 @@ I try to provide a valid XML with only relevant parts.<br/>
 The <i>&lt;I&gt;</i> element is usually much longer and no <i>...</i> is used to show missing content.<br/>
 Between elements there are usually other elements <i>&lt;[ELTUV]&gt;</i> , if they don't matter they are excluded without adding <i>...</i> to the XML.<br/>
 <br/>
-The example contains only the <i>actions</i> and no <i>filter</i>.<br/>
+The examples contain only the <i>actions</i>.<br/>
 <br/>
 The examples do not always make sense as random elements are used.<br/>
 <br/>
+⚠️ The examples use variable assignments <i>actions = {</i> to create valid code.<br/>
+In the config.txt files <i>'actions': {</i> must be used!<br/>
+<br/>
+<br/>
+<h3>📍 Search a node (simple)</h3>
+<pre>
+&lt;I&gt;
+    &lt;U&gt;
+        &lt;T&gt;&lt;/T&gt;
+    &lt;/U&gt;
+&lt;/I&gt;
+</pre>
+Simple search is not recommended, searches by attrib are more granular and can avoid unexpected matches.<br/>
+<pre>
+actions = {
+    'search_1': {
+        'xpath': "/I/U",  # Search the 'U' node.
+    },
+    # Depending on the use case one or the other search may be used.
+    'search_2': {
+        'xpath': "/I/U/T",  # Search the 'T' node.
+    },
+}
+</pre>
+<br/>
+<h3>📍 Search a node (attribute)</h3>
+<pre>
+&lt;I&gt;
+    &lt;U n="foo"&gt;
+        &lt;T&gt;&lt;/T&gt;
+    &lt;/U&gt;
+    &lt;U n="bar"&gt;
+        &lt;T&gt;&lt;/T&gt;
+    &lt;/U&gt;
+&lt;/I&gt;
+</pre>
+Search the <i>&lt;U n="foo"&gt;</i> node.<br/>
+<pre>
+actions = {
+    'node_by_attribute': {
+        'xpath': "/I/U[@n='foo']",
+    },
+}
+</pre>
+<br/>
+<h3>📍 Search a node by text</h3>
+<pre>
+&lt;I&gt;
+    &lt;U&gt;
+        &lt;T n="result_string"&gt;0xA45AC41C&lt;!-- {0.SimFirstName} is sleeping. --&gt;&lt;/T&gt;
+    &lt;/U&gt;
+&lt;/I&gt;
+</pre>
+<pre>
+actions = {
+    'node_by_text': {
+        'xpath': '/I/U/[T="0xA45AC41C"]',  # change the node or sub elements
+    },
+    # Some more advanced examples, depending on the use case one or the other will be used.
+    'node_by_text_2': {
+        'xpath': '/I/U',
+        'match': '[T="0xA45AC41C"]'  # change the node and/or sub elements
+    },
+    'node_by_text_3': {
+        'xpath': '/I',
+        'match': 'U/[T="0xA45AC41C"]'  # # change the parent node (e.g. delete it)
+    },
+}
+</pre>
+<br/>
 <h3>✏️ Change a text value</h3>
+These are 4 examples in one, usually only one value will be modified.<br/>
 <pre>
 &lt;I&gt;
     &lt;T n="duration"&gt;240&lt;/T&gt;
     &lt;T n="max_participants"&gt;5&lt;/T&gt;
+    &lt;T n="allow_autonomous"&gt;True&lt;/T&gt;
+    &lt;T n="allow_user_directed"&gt;True&lt;/T&gt;
 &lt;/I&gt;
 </pre>
 <pre>
@@ -185,6 +258,14 @@ actions = {
     'override_max_participants': {
         'xpath': "/I/T[@n='max_participants']",
         'text': '10',
+    },
+    'override_allow_autonomous': {
+        'xpath': "/I/T[@n='allow_autonomous']",
+        'text': 'False',
+    },
+    'override_allow_user_directed': {
+        'xpath': "/I/T[@n='allow_user_directed']",
+        'text': 'False',
     },
 }
 </pre>
@@ -224,9 +305,21 @@ actions = {
 actions = {
     'modify_age_check': {
         'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
-        'add': [{'tag': 'E', 'text': 'ADULT'}, ],
+        'add': [
+            {'tag': 'E', 'text': 'ADULT'},
+            {'tag': 'E', 'attrib': {'n': 'disabled'}, 'text': 'TODDLER'},
+        ],
     },
 }
+</pre>
+Modified XML:<br/>
+<pre>
+&lt;!-- ... --&gt;
+&lt;L n="specified"&gt;
+    &lt;E&gt;YOUNGADULT&lt;/E&gt;
+    &lt;E&gt;ADULT&lt;/E&gt;
+    &lt;E n="disabled"&gt;TODDLER&lt;/E&gt;
+&lt;/L&gt;
 </pre>
 <br/>
 <h3>➕🌲 Add an XML tree</h3>
@@ -249,13 +342,28 @@ actions = {
         'xpath': "/I/L[@n='test']",
         'delete': [{'tag': 'L', }, ],
         'add': [
-            {'_xml': '&lt;L&gt;&lt;V t="trait"&gt;&lt;U n="trait"&gt;&lt;L n="whitelist_traits"&gt;&lt;T&gt;123&lt;/T&gt;&lt;/L&gt;&lt;/U&gt;&lt;/V&gt;&lt;/L&gt;'}
+            {'_xml': '&lt;L&gt;&lt;V t="trait"&gt;&lt;U n="trait"&gt;&lt;L n="whitelist_traits"&gt;&lt;T&gt;231263&lt;/T&gt;&lt;/L&gt;&lt;/U&gt;&lt;/V&gt;&lt;/L&gt;'}
         ],
     },
 }
 </pre>
+Modified XML:<br/>
+<pre>
+&lt;I&gt;
+  &lt;L n="test"&gt;
+    &lt;L&gt;
+      &lt;V t="trait"&gt;
+          &lt;L n="whitelist_traits"&gt;
+              &lt;T&gt;231263&lt;/T&gt;
+          &lt;/L&gt;
+      &lt;/V&gt;
+    &lt;/L&gt;
+  &lt;/L&gt;
+&lt;/I&gt;
+</pre>
 <br/>
 <h3>📍🗑️🌲️ Select and delete an XML tree</h3>
+The difference between the two nodes is nested deep in the node.<br/>
 In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to the other test for 'YOUNGADULT'.<br/>
 <pre>
 &lt;I&gt;
@@ -289,10 +397,10 @@ In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to th
 </pre>
 <pre>
 actions = {
-    'remove_test': {
+    'select_and_delete': {
         'xpath': "/I/L[@n='test']",
-        'delete': [{'tag': 'L', }, ],
         'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='ADULT']/../../../..",
+        'delete': [{'tag': 'L', }, ],
     },
     # This adds ADULT to all tests (hopefully only one is left)
     'add_adult': {
@@ -321,7 +429,7 @@ This is way more comfortable than adding one element after the other.<br/>
 </pre>
 <pre>
 actions = {
-    'call_while_sleeping': {
+    'select_and_delete': {
         'xpath': "/I/V[@n='outcome']/U[@n='partial']/L[@n='test_and_results']",
         'match': 'U/[T="0xA45AC41C"]',
         'delete': [
@@ -331,15 +439,82 @@ actions = {
 }
 </pre>
 <br/>
+<h3>🔍🐞️ Avoid common errors</h3>
+When the configuration file can't be parsed it will be ignored.<br/>
 <br/>
+<ul>
+	<li>Not supported are modifications which should be applied to SimData and the Tuning XML - only the XML will be modified. This can lead to strange in-game problems.</li>
+	<li>`X[@y=</i> - Do not forget the <i>@</i> sign.</li>
+	<li>`X[@y=</i> - Make sure <i>X</i> and <i>y</i> match the tuning.</li>
+	<li>Single / Double Quotes</li>
+	<li>Either put the <i>xpath</i> and <i>match</i> expression in double quotes or use double (I prefer this) or</li>
+	<li>Or use double quotes inside <i>xpath</i> and <i>match</i> expression.</li>
+	<li>Make sure to have opening and closing quotes around each tag and expression.</li>
+	<li>Curly and Square Bracket</li>
+	<li>Make sure to have for each opening one a closing one.</li>
+	<li>Append a <i>,</i> behind _each_ closing bracket. It does not harm and allow to add new lines later (without forgetting to edit the line above and append the <i>,`).</li>
+	<li>Never append a <i>,</i> to the last and final closing bracket!</li>
+	<li>Start a new line after each opening bracket, this keeps the file human read-able.</li>
+	<li>Always use <i>X[@y='text']</i> for filter and match. The variants <i>X[contains(text(), 'text')]</i> and <i>X[text='text']</i> are supported only for <i>xpath`.</li>
+	<li>Do not use <i>comment</i> when adding tags in production. Ir produces valid XML but can disable / break the tuning for TS4.</li>
+	<li>Test the file before adding it to <i>cfg`</li>
+</ul>
 <br/>
+<h3>🧬🧪 Testing</h3>
+Use a local Python installation or open <a href='https://www.online-python.com/'>https://www.online-python.com/</a> or a similar service which allows to run Python.<br/>
+Add this code and run it:<br/>
+<pre>
+test = {}
+print(f"{test}")
+</pre>
+Expected output: <i>{}</i><br/>
 <br/>
+Replace <i>{}</i> in the code with the file contents you want to test and run again.<br/>
+The code should look like this:<br/>
+<pre>
+test = {
+    'Author:Description': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'buff', },
+            'tunings': {'buff_Trait_Pet_Hunter'},  # 159985
+        },
+        'actions': {
+            'optimize': {
+                'xpath': "(I",
+                'delete': [
+                    {'tag': 'T', 'attrib': {'n': 'visible'}},
+                    {'tag': 'T', 'attrib': {'n': 'success_modifier'}},
+                ],
+            },
+        },
+    },
+}
+print(f"{test}")
+</pre>
+Expected output: <i>{'Author:Description': {...}}</i> as one long line.<br/>
+<ul>
+	<li>If the output starts with <i>(</i> there is a <i>,</i> behind the final closing bracket.</li>
+	<li>If there are errors try to locate it or parse smaller parts, e.g.:</li>
+<pre>
+</ul>
+test = {
+    'Author:Description': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'buff', },
+            'tunings': {'buff_Trait_Pet_Hunter'},  # 159985
+        },
+    },
+}
+print(f"{test}")
+</pre>
 ---<br/>
 <br/>
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.120.117, S4CL 3.17, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.120.140, S4CL 3.17, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>
@@ -491,7 +666,7 @@ To remove all of my mods, delete the following folders:<br/>
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.120.117, S4CL 3.17, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.120.140, S4CL 3.17, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>

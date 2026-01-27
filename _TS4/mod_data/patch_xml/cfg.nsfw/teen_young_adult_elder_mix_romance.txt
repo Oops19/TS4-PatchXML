@@ -1,0 +1,41 @@
+{
+    'o19:TYAE cross age Romance 1001': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'snippet', },
+            'tunings': {'crossAgeTuning_RomanceZero', },  # 338529
+        },
+        'actions': {
+            'fix_teen_ya': {
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U/[E='TEEN']/L[@n='target_age_to_multiplier']",
+                'match': "U/[E='YOUNGADULT']",
+                'delete': [{'tag': 'U', }, ],
+            },
+            'fix_teen_adult': {
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U/[E='TEEN']/L[@n='target_age_to_multiplier']",
+                'match': "U/[E='ADULT']",
+                'delete': [{'tag': 'U', }, ],
+            },
+            'fix_teen_elder': {
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U/[E='TEEN']/L[@n='target_age_to_multiplier']",
+                'match': "U/[E='ELDER']",
+                'delete': [{'tag': 'U', }, ],
+            },
+            'fix_ya_teen': {
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U/[E='YOUNGADULT']/L[@n='target_age_to_multiplier']",
+                'match': "U/[E='TEEN']",
+                'delete': [{'tag': 'U', }, ],
+            },
+            'fix_adult_teen': {
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U/[E='ADULT']/L[@n='target_age_to_multiplier']",
+                'match': "U/[E='TEEN']",
+                'delete': [{'tag': 'U', }, ],
+            },
+            'fix_elder_teen': {
+                'xpath': "/I/U[@n='value']/L[@n='cross_age_tuning']/U/[E='ELDER']/L[@n='target_age_to_multiplier']",
+                'match': "U/[E='TEEN']",
+                'delete': [{'tag': 'U', }, ],
+            },
+        },
+    },
+}

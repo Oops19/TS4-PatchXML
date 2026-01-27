@@ -1,0 +1,30 @@
+{
+    'o19:sing_in_shower': {
+        'test_file': 'shower_TakeShower_SingInShower.xml',
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'interaction', },
+            'tunings': { "shower_TakeShower_SingInShower", },  # 141926
+        },
+        'actions': {
+            # increase the shower time to 20m.
+            # With this patch only the sim stops after 20m or when hygiene is 100%, further patches below
+            'longer_min_time': {
+                'xpath': "/I/V[@n='basic_content']/U[@n='flexible_length']/L[@n='conditional_actions']/V[@t='literal']/U[@n='literal']/L[@n='conditions']/V[@t='time_based']/U[@n='time_based']/T[@n='min_time']",
+                'text': '20',
+            },
+            # Define also a max_time. So the sim will sing at least 20m and max. 60m
+            # ... and still exit with 100% hygiene reached.
+            'longer_max_time': {
+                'xpath': "/I/V[@n='basic_content']/U[@n='flexible_length']/L[@n='conditional_actions']/V[@t='literal']/U[@n='literal']/L[@n='conditions']/V[@t='time_based']/U[@n='time_based']",
+                "add": [{'tag': 'T', 'attrib': {'n': 'max_time', }, 'text': '60'}],
+            },
+            # remove the 100% hygiene reached early-exit check to sing 20m
+            'remove_hygiene_test': {
+                'xpath': "/I/V[@n='basic_content']/U[@n='flexible_length']/L[@n='conditional_actions']/V[@t='literal']/U[@n='literal']/L[@n='conditions']",
+                'match': "V[@t='stat_based']",
+                "delete": [{'tag': 'V', 'attrib': {'t': 'stat_based'}}],
+            }
+        }
+    }
+}

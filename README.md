@@ -153,6 +153,10 @@ The examples contain only the `actions`.
 
 The examples do not always make sense as random elements are used.
 
+⚠️ The examples use variable assignments `actions = {` to create valid code.
+In the config.txt files `'actions': {` must be used!
+
+
 ### 📍 Search a node (simple)
 ```xml
 <I>
@@ -171,7 +175,6 @@ actions = {
     'search_2': {
         'xpath': "/I/U/T",  # Search the 'T' node.
     },
-    
 }
 ```
 
@@ -221,10 +224,13 @@ actions = {
 ```
 
 ### ✏️ Change a text value
+These are 4 examples in one, usually only one value will be modified.
 ```xml
 <I>
     <T n="duration">240</T>
     <T n="max_participants">5</T>
+    <T n="allow_autonomous">True</T>
+    <T n="allow_user_directed">True</T>
 </I>
 ```
 ```python
@@ -236,6 +242,14 @@ actions = {
     'override_max_participants': {
         'xpath': "/I/T[@n='max_participants']",
         'text': '10',
+    },
+    'override_allow_autonomous': {
+        'xpath': "/I/T[@n='allow_autonomous']",
+        'text': 'False',
+    },
+    'override_allow_user_directed': {
+        'xpath': "/I/T[@n='allow_user_directed']",
+        'text': 'False',
     },
 }
 ```
@@ -275,9 +289,21 @@ actions = {
 actions = {
     'modify_age_check': {
         'xpath': "/I/L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']",
-        'add': [{'tag': 'E', 'text': 'ADULT'}, ],
+        'add': [
+            {'tag': 'E', 'text': 'ADULT'},
+            {'tag': 'E', 'attrib': {'n': 'disabled'}, 'text': 'TODDLER'},
+        ],
     },
 }
+```
+Modified XML:
+```xml
+<!-- ... -->
+<L n="specified">
+    <E>YOUNGADULT</E>
+    <E>ADULT</E>
+    <E n="disabled">TODDLER</E>
+</L>
 ```
 
 ### ➕🌲 Add an XML tree
@@ -300,10 +326,24 @@ actions = {
         'xpath': "/I/L[@n='test']",
         'delete': [{'tag': 'L', }, ],
         'add': [
-            {'_xml': '<L><V t="trait"><U n="trait"><L n="whitelist_traits"><T>123</T></L></U></V></L>'}
+            {'_xml': '<L><V t="trait"><U n="trait"><L n="whitelist_traits"><T>231263</T></L></U></V></L>'}
         ],
     },
 }
+```
+Modified XML:
+```xml
+<I>
+  <L n="test">
+    <L>
+      <V t="trait">
+          <L n="whitelist_traits">
+              <T>231263</T>
+          </L>
+      </V>
+    </L>
+  </L>
+</I>
 ```
 
 ### 📍🗑️🌲️ Select and delete an XML tree
@@ -343,8 +383,8 @@ In this case a test for 'ADULT' will be deleted. And 'ADULT' will be added to th
 actions = {
     'select_and_delete': {
         'xpath': "/I/L[@n='test']",
-        'delete': [{'tag': 'L', }, ],
         'match': "L/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='ADULT']/../../../..",
+        'delete': [{'tag': 'L', }, ],
     },
     # This adds ADULT to all tests (hopefully only one is left) 
     'add_adult': {
@@ -383,12 +423,78 @@ actions = {
 }
 ```
 
+### 🔍🐞️ Avoid common errors
+When the configuration file can't be parsed it will be ignored.
+
+* Not supported are modifications which should be applied to SimData and the Tuning XML - only the XML will be modified. This can lead to strange in-game problems.
+* `X[@y=` - Do not forget the `@` sign.
+* `X[@y=` - Make sure `X` and `y` match the tuning.
+* Single / Double Quotes
+  * Either put the `xpath` and `match` expression in double quotes or use double (I prefer this) or
+  * Or use double quotes inside `xpath` and `match` expression.
+  * Make sure to have opening and closing quotes around each tag and expression.
+* Curly and Square Bracket
+  * Make sure to have for each opening one a closing one.
+  * Append a `,` behind _each_ closing bracket. It does not harm and allow to add new lines later (without forgetting to edit the line above and append the `,`).
+  * Never append a `,` to the last and final closing bracket!
+  * Start a new line after each opening bracket, this keeps the file human read-able.
+* Always use `X[@y='text']` for filter and match. The variants `X[contains(text(), 'text')]` and `X[text='text']` are supported only for `xpath`. 
+* Do not use `comment` when adding tags in production. Ir produces valid XML but can disable / break the tuning for TS4.
+* Test the file before adding it to `cfg`
+
+### 🧬🧪 Testing
+Use a local Python installation or open https://www.online-python.com/ or a similar service which allows to run Python.
+Add this code and run it:
+```python
+test = {}
+print(f"{test}")
+```
+Expected output: `{}`
+
+Replace `{}` in the code with the file contents you want to test and run again.
+The code should look like this:
+```python
+test = {
+    'Author:Description': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'buff', },
+            'tunings': {'buff_Trait_Pet_Hunter'},  # 159985
+        },
+        'actions': {
+            'optimize': {
+                'xpath': "(I",
+                'delete': [
+                    {'tag': 'T', 'attrib': {'n': 'visible'}},
+                    {'tag': 'T', 'attrib': {'n': 'success_modifier'}},
+                ],
+            },
+        },
+    },
+}
+print(f"{test}")
+```
+Expected output: `{'Author:Description': {...}}` as one long line.
+* If the output starts with `(` there is a `,` behind the final closing bracket.
+* If there are errors try to locate it or parse smaller parts, e.g.:
+```python
+test = {
+    'Author:Description': {
+        'filter': {
+            'loading_tags': {'I', },
+            'instance': {'buff', },
+            'tunings': {'buff_Trait_Pet_Hunter'},  # 159985
+        },
+    },
+}
+print(f"{test}")
+```
 ---
 
 # 📝 Addendum
 
 ## 🔄 Game compatibility
-This mod has been tested with `The Sims 4` 1.120.117, S4CL 3.17, TS4Lib 0.3.42.
+This mod has been tested with `The Sims 4` 1.120.140, S4CL 3.17, TS4Lib 0.3.42.
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.
 
 ## 📦 Dependencies

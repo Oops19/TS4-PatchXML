@@ -11,15 +11,15 @@
         'actions': {
             'pre_prom_start_time': {
                 'xpath': "/I/V[@n='time_option']/U[@n='single_time']/U[@n='valid_time']/T[@n='hour']",
-                'text': '13',  # default: 15
+                'test': '13',  # default: 15
             },
             'pre_prom_additional_party_goers': {
                 'xpath': "/I/U[@n='additional_party_goers']/T[@n='number_to_find']",
-                'text': '10',  # default: 4
+                'test': '10',  # default: 4
             },
             'pre_prom_invite': {
                 'xpath': "/I/L[@n='_NPC_hosted_situation_start_messages']/U/U[@n='dialog']/V[@n='bring_other_sims']/U[@n='enabled']/U[@n='picker_dialog']/V[@n='max_selectable']/U[@n='static_count']/T[@n='number_selectable']",
-                'text': '10',  # default: 8
+                'test': '10',  # default: 8
             },
         },
     },
@@ -59,3 +59,4 @@
         },
     },
 }
+

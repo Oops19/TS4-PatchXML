@@ -1,5 +1,5 @@
 {
-    'o19:Cupids Teen MatchMaker': {
+    'o19:Teen Test Sets': {
         'filter': {
             'loading_tags': {'I', },
             'instance': {'snippet', },

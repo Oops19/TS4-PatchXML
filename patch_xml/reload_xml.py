@@ -4,12 +4,12 @@ from datetime import date
 from typing import List, Any
 import sims4
 import services
+from patch_xml.modinfo import ModInfo
 from patch_xml.shared_data import SharedData
 from sims4.resources import Types
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
-from create_enums.modinfo import ModInfo
 from ts4lib.custom_enums.custom_resource_type import CustomResourceType
 from ts4lib.custom_enums.enum_types.custom_enum import CustomEnum
 from ts4lib.libraries.file_utils import FileUtils
