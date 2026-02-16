@@ -45,22 +45,21 @@ TODO
     * unsafe: removing and/or adding an XML tree / node with children
         
 v1.3.3
-    Apply all patches for a tuning if multiple patches are provided.
-    Multiple patch files are written in this case, only the last one is used.
-        This is 50% safe and/or 50% unsafe
-        If a patch deletes XML data the 2nd patch may fail if it relies on it.
-        If the 2nd patch deletes modifications of the 1st patch things fail too.
+* NEW FEATURE: Apply all patches for a tuning if multiple patches are provided.
+  * Multiple patch files are written in this case, only the last one is used.
+    * This is 50% safe and/or 50% unsafe
+    * If a patch deletes XML data the 2nd patch may fail if it relies on it.
+    * If the 2nd patch deletes modifications of the 1st patch things fail too.
 v1.3.2
-    Fix import in reload_xml    
+* FIX: Fix import in reload_xml    
 v1.3.1
-    Cleanup of old delete code in SharedData().initialize_cache_directory()
+* TASK: Cleanup of old delete code in SharedData().initialize_cache_directory()
 
 v1.3.0
     Add a simple FAQ to README
     Do nothing in case 'cfg' is empty. Do not read cached values or try to patch things.
     Move all files out of 'cfg' and deliver the mod without default configuration files. >> README updated.
     comments.zip updated
-
 v1.2.3
     Add XML with "_xml='<E>TEEN</E>'" to the selected (via xpath) node.
     Evaluate the xpath only one time. xpath with '/..' will no longer fail after deleting the child node.

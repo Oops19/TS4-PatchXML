@@ -7,7 +7,12 @@ It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add
 
 As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.
 
-### 🛡️ v1.3.0 No Default Configuration
+### v1.3.3 ⧉ Merge Patch Files
+All patches for the same tuning file are now applied.
+Due to the nature of patches which can add and/or remove nodes and XML trees patches can now fail.
+Simple patches which remove or add tags shouldn't cause any issues. 
+
+### v1.3.0 ∅ No Default Configuration
 The 'cfg' directory does no longer contain configuration files.
 This allows you to keep your own modifications in 'cfg' when updating Patch-XML.
 
