@@ -1,6 +1,5 @@
 import os
-import re
-from datetime import date
+
 from typing import List, Any
 import sims4
 import services
@@ -11,7 +10,6 @@ from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 from ts4lib.custom_enums.custom_resource_type import CustomResourceType
-from ts4lib.custom_enums.enum_types.custom_enum import CustomEnum
 from ts4lib.libraries.file_utils import FileUtils
 from ts4lib.libraries.filename_helper import FilenameHelper
 

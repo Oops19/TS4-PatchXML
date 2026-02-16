@@ -18,7 +18,7 @@ from ts4lib.utils.singleton import Singleton
 
 from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 
-log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), 'SharedData')
 log.enable()
 
 
@@ -58,8 +58,8 @@ class SharedData(metaclass=Singleton):
         self.file_patch = os.path.join(self.ts4f.data_folder, 'patch.ETreeTuningLoader.txt')
         self.file_no_patch = os.path.join(self.ts4f.data_folder, 'no-patch.ETreeClassCreator.txt')
 
-        self.patched_tunings_cache: Union[None, Dict[str, Union[Element, ElementTree]]] = None  # Cache to read from  {id: xml, ...}
-        self.patch_tuning_files: Union[None, Dict[str, str]] = None   # Add new tunings, save to cache later  {id: filename, ...}
+        self.patched_tunings_cache: Dict[int, Union[Element, ElementTree]] = {}  # Cache to read from  {id: xml, ...}
+        self.patch_tuning_files: Dict[str, str] = {}   # Add new tunings, save to cache later  {id: filename, ...}
 
     def initialize_cache_directory(self):
         for directory in [self.dir_ts4_mods_gv, self.dir_mod_data_gv]:

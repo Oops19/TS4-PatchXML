@@ -80,7 +80,7 @@ class VanillaTunings(object, metaclass=Singleton):
     def process_xml_list(self):
         merged_tuning_manager = get_manager()
         xml_list: List = merged_tuning_manager.binxml_list
-        log.debug(f"Processing '{len(xml_list)}' items")
+        log.debug(f"Processing {len(xml_list)} 'bin xml' items")
         idx = num_elements_g = num_elements_r = 0
 
         for xml_element in xml_list:

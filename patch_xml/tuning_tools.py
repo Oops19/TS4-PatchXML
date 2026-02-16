@@ -58,7 +58,7 @@ class TuningTools:
 
         return rv
 
-    def clone(self, node: Element) -> ElementTree:
+    def clone(self, node: Element) -> Element:
         tag = node.tag
         attrib = node.items()  # bin
         # attrib = node.attrib  # ET

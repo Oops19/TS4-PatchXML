@@ -109,6 +109,8 @@ Even though all tunings can be read and modified it is not always possible to ap
 	<li>'nopatch.txt' contains the tunings which might not be patched.  E.g. the 'satisfaction.satisfaction_tracker' tuning.</li>
 </ul>
 <br/>
+Further limitations: <a href='./PatchXML_LiveXML_Limitations.md'>Patch-XML vs. Live-XML</a><br/>
+<br/>
 <h2>Mod collision</h2>
 If you are currently using Live XML consider to migrate the configurations to Patch XML. At least make sure that either Patch XML or Live XML modifies a tuning, this will improve performance.<br/>
 It may make sense to keep Live XML installed to be able to inspect the tunings after they have been loaded.<br/>
@@ -322,8 +324,10 @@ Modified XML:<br/>
 &lt;/L&gt;
 </pre>
 <br/>
-<h3>➕🌲 Add an XML tree</h3>
+<h3>➕🌲 Add an XML tree from text string</h3>
 This is way more comfortable than adding one element after the other.<br/>
+It is limited to one root.<br/>
+Adding <i>&lt;E&gt;x&lt;/E&gt;&lt;E&gt;y&lt;/E&gt;</i> is not supported, use <i>_xml</i> two or more times to add 2-n root elements.<br/>
 <pre>
 &lt;I&gt;
   &lt;L n="test"&gt;
@@ -514,7 +518,7 @@ print(f"{test}")
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.120.140, S4CL 3.17, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.121.342, S4CL 3.17, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>
@@ -666,7 +670,7 @@ To remove all of my mods, delete the following folders:<br/>
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.120.140, S4CL 3.17, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.121.361, S4CL 3.19, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>

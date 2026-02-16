@@ -8,6 +8,7 @@
 import os
 import time
 from typing import List, Tuple, Set, Any, Union, Dict
+from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 from patch_xml.modinfo import ModInfo
@@ -108,8 +109,8 @@ class Patch(metaclass=Singleton):
                 s = node.get('s')
 
             # self.sd.patched_tunings_cache
-            if self.sd.patched_tunings_cache:
-                patched_node = self.sd.patched_tunings_cache.get(s, None)
+            if self.sd.patched_tunings_cache and s.isdecimal():
+                patched_node = self.sd.patched_tunings_cache.get(int(s), self.sd.patched_tunings_cache.get(s, None))
                 if patched_node:
                     return patched_node
                 else:
@@ -161,23 +162,32 @@ class Patch(metaclass=Singleton):
             log.debug(f"Processing({caller}): {tag} {i} '{n}' ({s})")
             node = VanillaTunings().get_tuning(s)
 
+            node_patched: int = -1
+            filename = ''
             for secret_combination in self.secret_combinations:
                 if val_s in secret_combination[3]:
                     log.debug(f"Tuning {n} ({s}) matches 'tuning_id'")
                     node = self.px.patch(node, secret_combination[4])
-                    filename = VanillaTunings().write_tuning(node, 'patched.xml')
-                    Patch.patch_tuning_files.update({s: filename})
-                    return node
+                    node_patched += 1
+                    comment = ElementTree.Comment(f"{node_patched}: {secret_combination}")
+                    comment.tail = '\n'
+                    node.append(comment)
+                    filename = VanillaTunings().write_tuning(node, f'patched-{node_patched}.xml')
 
-            for secret_combination in self.secret_combinations:
                 if tag in secret_combination[0] and i in secret_combination[1]:
                     tuning_id, tuning_search_name = self.tt.is_in(n, s, secret_combination[2])
                     if tuning_id:
                         log.debug(f"Tuning {n} ({tuning_id}) matches '{tuning_search_name}'")
                         node = self.px.patch(node, secret_combination[4])
-                        filename = VanillaTunings().write_tuning(node, 'patched.xml')
-                        Patch.patch_tuning_files.update({s: filename})
-                        return node
+                        node_patched += 1
+                        comment = ElementTree.Comment(f"{node_patched}: {secret_combination}")
+                        comment.tail = '\n'
+                        node.append(comment)
+                        filename = VanillaTunings().write_tuning(node, f'patched-{node_patched}.xml')
+
+            if node_patched != -1:
+                Patch.patch_tuning_files.update({s: filename})
+                return node
 
         except Exception as e:
             self.handle_exception(_self, node, caller, e)

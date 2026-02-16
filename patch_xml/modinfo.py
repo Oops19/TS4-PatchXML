@@ -34,18 +34,24 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.3.2'
+        return '1.3.3'
 
 
 r'''
-TODO:
-    Document behaviour if a tuning is referenced in multiple .txt files. - only the last one read is applied which is bad.
-
-TODO v1.3.3
+TODO
+    Figure out a way to patch always as expected.
+    * safe: deleting a single tag (node without children)
+    * mostly safe: adding a single tag (node without children) - this might re-add previously deleted tags
+    * unsafe: removing and/or adding an XML tree / node with children
+        
+v1.3.3
     Apply all patches for a tuning if multiple patches are provided.
+    Multiple patch files are written in this case, only the last one is used.
+        This is 50% safe and/or 50% unsafe
+        If a patch deletes XML data the 2nd patch may fail if it relies on it.
+        If the 2nd patch deletes modifications of the 1st patch things fail too.
 v1.3.2
-    Fix import in reload_xml
-    
+    Fix import in reload_xml    
 v1.3.1
     Cleanup of old delete code in SharedData().initialize_cache_directory()
 

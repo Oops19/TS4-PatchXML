@@ -17,7 +17,7 @@ The new 📖 FAQ section (scroll down) in this readme should help you to get sta
 
 ### 🚀 v1.2.0 CacheD
 Version 1.2+ cache the patched tuning files in `mod_data/patch_xml/{game_version/`.
-Whenever a new TS4 version gets released startup will take a while to extract comments and to create new patch files. 
+Whenever a new TS4 version gets released startup will take a while (1-20 minutes, depending on the CPU speed, number of DLCs and patched tunings) to extract comments and to create new patch files. 
 
 The cached tunings are used to replace the original tunings.
 It takes around 2 seconds to replace the tunings, so this version is much faster.
@@ -102,6 +102,8 @@ All tunings? No! Some indomitable tunings stop resisting the modifications.
 Even though all tunings can be read and modified it is not always possible to apply the modifications.
 * 'patch.txt' (created after starting TS4) should contain the tunings which can be patched.
 * 'nopatch.txt' contains the tunings which might not be patched.  E.g. the 'satisfaction.satisfaction_tracker' tuning.
+
+Further limitations: [Patch-XML vs. Live-XML](./PatchXML_LiveXML_Limitations.md)
 
 ## Mod collision
 If you are currently using Live XML consider to migrate the configurations to Patch XML. At least make sure that either Patch XML or Live XML modifies a tuning, this will improve performance.
@@ -306,8 +308,10 @@ Modified XML:
 </L>
 ```
 
-### ➕🌲 Add an XML tree
+### ➕🌲 Add an XML tree from text string
 This is way more comfortable than adding one element after the other.
+It is limited to one root.
+Adding `<E>x</E><E>y</E>` is not supported, use `_xml` two or more times to add 2-n root elements.
 ```xml
 <I>
   <L n="test">
@@ -494,7 +498,7 @@ print(f"{test}")
 # 📝 Addendum
 
 ## 🔄 Game compatibility
-This mod has been tested with `The Sims 4` 1.120.140, S4CL 3.17, TS4Lib 0.3.42.
+This mod has been tested with `The Sims 4` 1.121.361, S4CL 3.19, TS4Lib 0.3.42.
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.
 
 ## 📦 Dependencies
