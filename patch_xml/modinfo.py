@@ -41,7 +41,7 @@ r'''
 TODO
     Figure out a way to patch always as expected.
     * safe: deleting a single tag (node without children)
-    * mostly safe: adding a single tag (node without children) - this might re-add previously deleted tags
+    * technically safe: adding a single tag (node without children) - functionality: this could re-add previously deleted tags
     * unsafe: removing and/or adding an XML tree / node with children
         
 v1.3.3
