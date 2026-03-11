@@ -7,7 +7,12 @@ It uses XML XPath syntax to locate the parts in the tuning and offers basic 'add
 <br/>
 As it is executed while the tuning files are loaded there might be a chicken-egg problem so for now configuration files instead of '.package' files are used to patch tunings.<br/>
 <br/>
-<h3>🛡️ v1.3.0 No Default Configuration</h3>
+<h3>v1.3.3 ⧉ Merge Patch Files</h3>
+All patches for the same tuning file are now applied.<br/>
+Due to the nature of patches which can add and/or remove nodes and XML trees patches can now fail.<br/>
+Simple patches which remove or add tags shouldn't cause any issues.<br/>
+<br/>
+<h3>v1.3.0 ∅ No Default Configuration</h3>
 The 'cfg' directory does no longer contain configuration files.<br/>
 This allows you to keep your own modifications in 'cfg' when updating Patch-XML.<br/>
 <br/>
@@ -670,7 +675,7 @@ To remove all of my mods, delete the following folders:<br/>
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.121.361, S4CL 3.19, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.121.372, S4CL 3.20, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>
