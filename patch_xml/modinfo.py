@@ -34,7 +34,7 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.3.3'
+        return '1.3.4'
 
 
 r'''
@@ -43,9 +43,24 @@ TODO
     * safe: deleting a single tag (node without children)
     * technically safe: adding a single tag (node without children) - functionality: this could re-add previously deleted tags
     * unsafe: removing and/or adding an XML tree / node with children
-        
+    
+v1.3.4
+* New Feature: 'update' command
+  * Replace values without changing the XML structure, e.g:
+    * 'xpath': "T[@n='display_name']", 'update': [{'text': '0x12345678', }, ],
+    * 'xpath': "V[@n='outcome']/U[@n='single']/U[@n='actions']/L[@n='continuation']/U/T[@n='affordance']", 'update': [{'text': '1111', }, ],   # replace  "<T n='affordance'>...</T>" with "<T n='affordance'>1111</T>"
+    * 'xpath': "V[@n='outcome']/U[@n='single']/U[@n='actions']/L[@n='continuation']/U/[T=1234]/T]", 'update': [{'text': '1111', }, ],  # replace "<T n='affordance'>1324</T>" with "<T n='affordance'>1111</T>"
+    * This can't be used to replace XML or text containing '<' / '>'
+
+* New Feature: 'remove' node command
+  * Remove nodes in one go.
+    * 'xpath': "L[@n='_false_advertisements']", 'remove': 1,
+    * 'xpath': "L[@n='test_globals']/V[@t='buff']", 'remove': 1,  # remove all buff tests
+    * 'xpath': "L[@n='test_globals']/V[@t='sim_info']/U[@n='sim_info']/V[@n='ages']/L[@n='specified']/[E='ELDER']", 'remove': 1,  # remove <E>ELDER</E> but keep other values
+    * 'xpath': "V[@n='outcome']/U[@n='single']/U[@n='actions']/L[@n='loot_list']/[T='1234']", 'remove': 1,  # remove loot 1234 but keep other loots
+    
 v1.3.3
-* NEW FEATURE: Apply all patches for a tuning if multiple patches are provided.
+* New Feature: Apply all patches for a tuning if multiple patches are provided.
   * Multiple patch files are written in this case, only the last one is used.
     * This is 50% safe and/or 50% unsafe
     * If a patch deletes XML data the 2nd patch may fail if it relies on it.

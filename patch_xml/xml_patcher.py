@@ -61,6 +61,8 @@ class XmlPatcher:
             delete_xml_elements = action.get('delete')
             match_xml_elements = action.get('match', '*')
             add_xml_elements = action.get('add')
+            remove_node = action.get('remove', 1)
+            upd_xml_elements = action.get('update')
 
             # Evaluate the nodes only one time. Complex xpath will not fail after delete
             elements: List[ElementTree.Element] = root.findall(xpath)
@@ -69,6 +71,12 @@ class XmlPatcher:
 
             if add_xml_elements:
                 self.mod.add_element(elements, xpath, add_xml_elements, add_comments=self.add_comments)
+
+            if upd_xml_elements:
+                self.mod.update_element(elements, xpath, upd_xml_elements)
+
+            if remove_node:
+                self.mod.remove_nodes(elements, xpath, root)
 
             if text or attributes:
                 self.mod.modify_element(elements, xpath, text, attributes, comment)
